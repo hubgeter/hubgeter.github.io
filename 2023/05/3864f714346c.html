@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>daidai</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="如果一个多线程程序的某个线程调用了fork 函数，那么新创建的子进程是否将自动创建和父进程相同数量的线程 呢？答案是“否”，正如我们期望的那样。子进程只拥有一个执行线程，它是调用fork的那个线程的完整复制。并且子进程将自动继承父进程中互斥锁（条件变量与之类似）的状态。也就是说，父进程中已 经被加锁的互斥锁在子进程中也是被锁住的。这就引起了一个问题： 子进程可能不清楚从父进程继承而来的互斥锁的具体">
+<meta property="og:type" content="article">
+<meta property="og:title" content="daidai">
+<meta property="og:url" content="http://example.com/2023/05/3864f714346c.html">
+<meta property="og:site_name" content="daidai">
+<meta property="og:description" content="如果一个多线程程序的某个线程调用了fork 函数，那么新创建的子进程是否将自动创建和父进程相同数量的线程 呢？答案是“否”，正如我们期望的那样。子进程只拥有一个执行线程，它是调用fork的那个线程的完整复制。并且子进程将自动继承父进程中互斥锁（条件变量与之类似）的状态。也就是说，父进程中已 经被加锁的互斥锁在子进程中也是被锁住的。这就引起了一个问题： 子进程可能不清楚从父进程继承而来的互斥锁的具体">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/images/os/tmp/image-20230502174856759.png">
+<meta property="article:published_time" content="2023-05-03T10:05:17.239Z">
+<meta property="article:modified_time" content="2023-05-03T10:05:17.239Z">
+<meta property="article:author" content="daidai">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/os/tmp/image-20230502174856759.png">
+  
+    <link rel="alternate" href="/atom.xml" title="daidai" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">daidai</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-os/tmp" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/05/3864f714346c.html" class="article-date">
+  <time class="dt-published" datetime="2023-05-03T10:05:17.239Z" itemprop="datePublished">2023-05-03</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/note/">note</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>如果一个多线程程序的某个线程调用了fork 函数，那么新创建的子进程是否将自动创建和父进程相同数量的线程 呢？答案是“否”，正如我们期望的那样。子进程只拥有一个执行线程，它是调用fork的那个线程的完整复制。并且子进程将自动<strong>继承父进程中互斥锁（条件变量与之类似）的状态</strong>。也就是说，父进程中已 经被加锁的互斥锁在子进程中也是被锁住的。这就引起了一个问题： 子进程可能不清楚从父进程继承而来的互斥锁的具体状态（是加锁状态还是解锁状态）。这个互斥锁可能被加锁了，但并不是由调用fork 函数的那个线程锁住的，而是由其他线程锁住的。如果是这种情况， 则子进程若再次对该互斥锁执行加锁操作就会导致死锁 &#x3D;&#x3D; &gt; pthread_atfork</p>
+<p><img src="/../images/os/tmp/image-20230502174856759.png"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/05/3864f714346c.html" data-id="clh7jym3u001jcfai9at16syw" data-title="" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2023/05/471bffdcf7bd.html" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2023/05/3113d9687d61.html" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/note/">note</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/05/">May 2023</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/05/e4241cb5f901.html">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/688307dd2a74.html">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/3100c0d60cf1.html">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/6e0ab8664bab.html">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/1ed1cddfd6c6.html">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 daidai<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
