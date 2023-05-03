@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>daidai</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="move不进行任何移动，而是执行强制型别转换的函数（函数模板）。 无条件的将实参强制转换为右值   针对任意对象实施std::move的结果，唯一可以确定的是，该结果是右值 如果想取得某个对象执行移动操作的能力，则不要将其声明为常量：*const &amp;&amp; *  可以解决非必要拷贝，可以被偷 可以接受右值的右值引用本身却是左值 默认的移动构造函数实际上跟默认的拷贝构造函数一样，只能按位">
+<meta property="og:type" content="article">
+<meta property="og:title" content="daidai">
+<meta property="og:url" content="http://example.com/2023/05/03/note/cpp/c++11/move/index.html">
+<meta property="og:site_name" content="daidai">
+<meta property="og:description" content="move不进行任何移动，而是执行强制型别转换的函数（函数模板）。 无条件的将实参强制转换为右值   针对任意对象实施std::move的结果，唯一可以确定的是，该结果是右值 如果想取得某个对象执行移动操作的能力，则不要将其声明为常量：*const &amp;&amp; *  可以解决非必要拷贝，可以被偷 可以接受右值的右值引用本身却是左值 默认的移动构造函数实际上跟默认的拷贝构造函数一样，只能按位">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-05-03T10:05:17.231Z">
+<meta property="article:modified_time" content="2023-05-03T10:05:17.231Z">
+<meta property="article:author" content="daidai">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="daidai" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">daidai</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-note/cpp/c++11/move" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/05/03/note/cpp/c++11/move/" class="article-date">
+  <time class="dt-published" datetime="2023-05-03T10:05:17.231Z" itemprop="datePublished">2023-05-03</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>move不进行任何移动，而是执行强制型别转换的函数（函数模板）。</p>
+<p>无条件的将实参强制转换为右值 </p>
+<ol>
+<li>针对任意对象实施std::move的结果，唯一可以确定的是，该结果是右值</li>
+<li>如果想取得某个对象执行移动操作的能力，则不要将其声明为常量：*const &amp;&amp; *</li>
+</ol>
+<p>可以解决非必要拷贝，可以被<strong>偷</strong></p>
+<p>可以接受右值的右值引用本身却是左值</p>
+<p>默认的移动构造函数实际上跟默认的拷贝构造函数一样，只能按位拷贝</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">tmp</span>&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="built_in">tmp</span>()&#123;</span><br><span class="line">		cout&lt;&lt;<span class="string">&quot;tmp()&quot;</span>&lt;&lt;endl;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">tmp</span>( tmp <span class="type">const</span> &amp; )&#123;</span><br><span class="line">		cout&lt;&lt;<span class="string">&quot;tmp( tmp const &amp; )&quot;</span>&lt;&lt;endl;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">tmp</span>(tmp &amp;&amp; x)&#123;</span><br><span class="line">		cout&lt;&lt;<span class="string">&quot;tmp(tmp &amp;&amp; x)&quot;</span>&lt;&lt;endl;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">do_tmp</span><span class="params">(tmp&amp;&amp; x_)</span></span></span><br><span class="line"><span class="function"><span class="comment">// 尽管右值引用的形参与传入的右值实参绑定,但参数进入函数内部后即被当作左值处理</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="function">tmp <span class="title">t1</span><span class="params">(x_)</span></span>;</span><br><span class="line">	<span class="function">tmp <span class="title">t2</span><span class="params">(move(x_))</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="built_in">do_tmp</span>(<span class="built_in">tmp</span>());</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="move实现"><a href="#move实现" class="headerlink" title="move实现"></a>move实现</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span></span><br><span class="line"><span class="function"><span class="keyword">decltype</span>(<span class="keyword">auto</span>) <span class="title">move</span><span class="params">(T &amp;&amp;param)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">using</span> ReturnType = std::<span class="type">remove_reference_t</span>&lt;T&gt;&amp;&amp;;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">static_cast</span>&lt;ReturnType&gt;(param);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">A</span>&#123;</span><br><span class="line">    <span class="built_in">A</span>()&#123;std::cout&lt;&lt;<span class="string">&quot;A()&quot;</span>&lt;&lt;<span class="string">&quot;\n&quot;</span>;&#125;</span><br><span class="line">    <span class="built_in">A</span>(<span class="type">const</span> A&amp;)&#123;std::cout&lt;&lt;<span class="string">&quot;A(const A&amp;)&quot;</span>&lt;&lt;<span class="string">&quot;\n&quot;</span>;&#125;</span><br><span class="line">    <span class="built_in">A</span>(A&amp;&amp;)  &#123;std::cout&lt;&lt;<span class="string">&quot;A(A&amp;&amp;)&quot;</span>&lt;&lt;<span class="string">&quot;\n&quot;</span>;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    A a&#123;&#125;;<span class="built_in">A</span> (<span class="built_in">move</span>(a));</span><br><span class="line">    <span class="type">const</span> A b&#123;&#125;;<span class="built_in">A</span>(<span class="built_in">move</span>(b));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/05/03/note/cpp/c++11/move/" data-id="clh7j8wpy00282waiauqbb1xl" data-title="" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2023/05/03/note/cpp/c++11/lambda/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2023/05/03/note/cpp/c++11/%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/05/">May 2023</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/05/03/note/linux/awk/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/03/note/linux/fork/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/03/note/linux/free/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/03/note/linux/gdb/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/03/note/linux/%E7%B3%BB%E7%BB%9F%E6%97%A5%E5%BF%97/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 daidai<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

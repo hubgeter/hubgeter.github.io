@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>daidai</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="GOROOT：Go 语言安装根目录的路径，也就是 GO 语言的安装路径。 GOPATH：若干工作区目录的路径。是我们自己定义的工作空间。    放置源代码  .a  可执行文件 GOBIN：GO 程序生成的可执行文件（executable file）的路径。 构建使用命令go build，安装使用命令go install。 一个代码包中可以包含任意个以.go 为扩展名的源码文件，这些源码文件都需要">
+<meta property="og:type" content="article">
+<meta property="og:title" content="daidai">
+<meta property="og:url" content="http://example.com/2023/05/03/note/go/%E5%9F%BA%E7%A1%80/index.html">
+<meta property="og:site_name" content="daidai">
+<meta property="og:description" content="GOROOT：Go 语言安装根目录的路径，也就是 GO 语言的安装路径。 GOPATH：若干工作区目录的路径。是我们自己定义的工作空间。    放置源代码  .a  可执行文件 GOBIN：GO 程序生成的可执行文件（executable file）的路径。 构建使用命令go build，安装使用命令go install。 一个代码包中可以包含任意个以.go 为扩展名的源码文件，这些源码文件都需要">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/images/go/%E5%9F%BA%E7%A1%80/image-20230423082941604.png">
+<meta property="article:published_time" content="2023-05-03T10:05:17.231Z">
+<meta property="article:modified_time" content="2023-05-03T10:05:17.231Z">
+<meta property="article:author" content="daidai">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/go/%E5%9F%BA%E7%A1%80/image-20230423082941604.png">
+  
+    <link rel="alternate" href="/atom.xml" title="daidai" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">daidai</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-note/go/基础" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/05/03/note/go/%E5%9F%BA%E7%A1%80/" class="article-date">
+  <time class="dt-published" datetime="2023-05-03T10:05:17.231Z" itemprop="datePublished">2023-05-03</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>GOROOT：Go 语言安装根目录的路径，也就是 GO 语言的安装路径。</p>
+<p>GOPATH：若干工作区目录的路径。是我们自己定义的工作空间。<br>    放置源代码  .a  可执行文件</p>
+<p>GOBIN：GO 程序生成的可执行文件（executable file）的路径。</p>
+<p>构建使用命令go build，安装使用命令go install。</p>
+<p>一个代码包中可以包含任意个以.go 为扩展名的源码文件，这些源码文件都需要被声明属于<em>同一个代码包。</em></p>
+<h3 id="命令参数"><a href="#命令参数" class="headerlink" title="命令参数"></a>命令参数</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;flag&quot;</span></span><br><span class="line">)</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> name <span class="type">string</span>;</span><br><span class="line"></span><br><span class="line">	flag.StringVar(&amp;name,<span class="string">&quot;name&quot;</span>,<span class="string">&quot;root&quot;</span>,<span class="string">&quot;user name : &quot;</span>)</span><br><span class="line">	flag.Parse()<span class="comment">//真正解析命令参数，并把它们的值赋给相应的变量</span></span><br><span class="line"></span><br><span class="line">	fmt.Println(<span class="string">&quot;-&gt;&quot;</span>,name)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>go run main.go –help<br>usege of …   -&gt; go run命令构建上述命令源码文件时临时生成的可执行文件的完整路径。<br>            go build main.go     .main –help </p>
+<p>如果我们在当前源码文件中导入了其他代码包，那么引用其中的程序实体时，是需要以限定符为前缀的。所以程序在找代表变量未加限定符的名字（即标识符）的时候，是不会去被导入的代码包中查找的。</p>
+<h3 id="数组和切片"><a href="#数组和切片" class="headerlink" title="数组和切片"></a>数组和切片</h3><p>数组类型的值（以下简称数组）的长度是固定的，而切片类型的值（以下简称切片）是可变长的。</p>
+<p>数组的长度在声明它的时候就必须给定，并且之后不会再改变。可以说，数组的长度是其<em>类型</em>的一部分。比如，[1]string和[2]string就是两个不同的数组类型。<br>而切片的类型字面量中只有元素的类型，而没有长度。切片的长度可以自动地随着其中元素数量的增长而增长，但不会随着元素数量的减少而减小</p>
+<blockquote>
+<p>Go 语言的切片类型属于引用类型，同属引用类型的还有字典类型、通道类型、函数类型等<br>而 Go 语言的数组类型则属于值类型，同属值类型的有基础数据类型以及结构体类型。</p>
+</blockquote>
+<p>len    cap</p>
+<p>在每个切片的底层数据结构中，一定会包含一个数组,切片的容量代表了它的底层数组的长度<br>一个切片的容量可以被看作是透过这个窗口最多可以看到的底层数组中元素的个数。</p>
+<p><em>在底层数组不变的情况下，切片代表的窗口可以向右扩展，直至其底层数组的末尾</em></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"> </span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">var</span> arr = [<span class="number">9</span>]<span class="type">int</span>&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>&#125;</span><br><span class="line">	</span><br><span class="line">	fmt.Println(arr,<span class="built_in">len</span>(arr),<span class="built_in">cap</span>(arr))</span><br><span class="line">	x := arr[<span class="number">2</span>:<span class="number">5</span>]</span><br><span class="line">	fmt.Println(x,<span class="built_in">len</span>(x),<span class="built_in">cap</span>(x))</span><br><span class="line"></span><br><span class="line">	x = x[:<span class="built_in">cap</span>(x)]</span><br><span class="line">	fmt.Println(x,<span class="built_in">len</span>(x),<span class="built_in">cap</span>(x))</span><br><span class="line"></span><br><span class="line">	x = <span class="built_in">append</span>(x, <span class="number">1</span>)</span><br><span class="line">	fmt.Println(x,<span class="built_in">len</span>(x),<span class="built_in">cap</span>(x))</span><br><span class="line"></span><br><span class="line">	fmt.Println(arr,<span class="built_in">len</span>(arr),<span class="built_in">cap</span>(arr))</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>切片扩容：2 倍   1024后1.25倍<br>如果我们一次追加的元素过多，以至于使新长度比原容量的 2 倍还要大，那么新容量就会以新长度为基准</p>
+<p>编译 Go 程序时，编译器只会关注那些直接被引用的库，而不是像 Java、C 和 C++那样，要遍历<br>依赖链中所有依赖的库。</p>
+<p>在 Go 语言中会使用同一个线程来执行多个 goroutine。<br>goroutine 使用的内存比线程更少，Go 语言运行时会自动在配置的一组逻辑处理器上调度执行 goroutine。每个逻辑处理器绑定到一个操作系统线程上（见图 1-2）。这让用户的应用程序执行效率更高，而开发工作量显著减少。</p>
+<p><img src="/../images/go/%E5%9F%BA%E7%A1%80/image-20230423082941604.png"></p>
+<p>通道这一模式保证同一时刻只会有一个 goroutine 修改数据。</p>
+<p>Go 开发者使用组合（composition）设计模式，只需简单地将一个类型嵌入到另一个类型，就能复用所有的功能</p>
+<p>Go 语言还具有独特的接口实现机制，允许用户对行为进行建模，而不是对类型进行建模。在 Go 语言中，不需要声明某个类型实现了某个接口，编译器会判断一个类型的实例是否符合正在使用的接口。</p>
+<p>接口用于描述类型的行为。如果一个类型的实例实现了一个接口，意味着这个实例可以执行一组特定的行为。你甚至不需要去声明这个实例实现某个接口，只需要实现这组行为就好。其他的语言把这个特性叫作鸭子类型——如果它叫起来像鸭子，那它就可能是只鸭子。Go 语言的接口也是这么做的。在 Go 语言中，如果一个类型实现了一个接口的所有方法，那么这个类型的实例就可以存储在这个接口类型的实例中，不需要额外声明。</p>
+<p>Go 语言的接口更小，只倾向于定义一个单一的动作。</p>
+<p>程序中每个代码文件里的 init 函数都会在 main 函数执行前调用</p>
+<p>在 Go 语言中，所有变量都被初始化为其零值。对于数值类型，零值是 0；对于字符串类型，<br>零值是空字符串；对于布尔类型，零值是 false；对于指针，零值是 nil。对于引用类型来说，<br>所引用的底层数据结构会被初始化为对应的零值。但是被声明为其零值的引用类型的变量，会返<br>回 nil 作为其值。</p>
+<p>在 Go 语言中，通道（channel）和映射（map）与切片（slice）一样，也是引用类型，不过<br>通道本身实现的是一组带类型的值，这组值用于在 goroutine 之间传递数据。通道内置同步机制，<br>从而保证通信安全。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/05/03/note/go/%E5%9F%BA%E7%A1%80/" data-id="clh7j8wo400092wai9bp9h7jy" data-title="" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2023/05/03/note/go/variadic%20function/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2023/05/03/note/go/%E6%9C%AA%E5%91%BD%E5%90%8D/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/05/">May 2023</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/05/03/note/linux/awk/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/03/note/linux/fork/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/03/note/linux/free/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/03/note/linux/gdb/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/03/note/linux/%E7%B3%BB%E7%BB%9F%E6%97%A5%E5%BF%97/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 daidai<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

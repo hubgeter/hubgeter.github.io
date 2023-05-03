@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>daidai</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="daidai">
+<meta property="og:url" content="http://example.com/page/12/index.html">
+<meta property="og:site_name" content="daidai">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="daidai">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="daidai" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">daidai</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-note/cpp/语言相关/static" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/05/03/note/cpp/%E8%AF%AD%E8%A8%80%E7%9B%B8%E5%85%B3/static/" class="article-date">
+  <time class="dt-published" datetime="2023-05-03T10:05:17.231Z" itemprop="datePublished">2023-05-03</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/05/03/note/cpp/%E8%AF%AD%E8%A8%80%E7%9B%B8%E5%85%B3/static/" data-id="clh7j8wqq00302wai0f1305cs" data-title="" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-note/cpp/语言相关/内存对齐" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/05/03/note/cpp/%E8%AF%AD%E8%A8%80%E7%9B%B8%E5%85%B3/%E5%86%85%E5%AD%98%E5%AF%B9%E9%BD%90/" class="article-date">
+  <time class="dt-published" datetime="2023-05-03T10:05:17.231Z" itemprop="datePublished">2023-05-03</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>C++内存对齐是指按照一定的规则将数据结构中的数据成员排列在内存中的过程，其目的是为了优化内存访问速度</p>
+<h3 id="好处"><a href="#好处" class="headerlink" title="好处"></a>好处</h3><ol>
+<li>减少内存碎片：对齐可以保证结构体或类中的数据成员按照规则排列，避免因为数据成员的大小不一致而导致的<strong>内存碎片</strong>。</li>
+<li>提高数据<strong>访问速度</strong>：由于现代计算机的内存访问是按照一定的块大小进行的，对齐可以保证数据成员按照块的大小进行存储，从而提高内存访问速度。当CPU从内存中读取数据时，如果数据没有按照规定的对齐方式进行存储，那么CPU需要分两次或更多次读取内存，这会增加CPU访问内存的时间和系统的开销。因此，内存对齐可以减少CPU访问内存的时间和系统开销，提高系统的效率。</li>
+<li><strong>保证跨平台兼容性</strong>：不同的平台可能对内存对齐有不同的要求，使用内存对齐可以保证程序在不同平台上的运行效果一致。</li>
+<li>对于结构体等复合类型数据的内存存储，内存对齐还可以保证数据存储的安全性。如果数据没有按照规定的对齐方式存储，可能会导致数据被拆分存储在两个内存块中，这样会增加访问内存的复杂度，并且在<strong>多线程环境下</strong>可能会发生数据竞争的问题，导致数据的不一致性。而通过内存对齐，可以避免这些问题的发生，提高数据存储的安全性。</li>
+</ol>
+<h3 id="需要遵循的原则"><a href="#需要遵循的原则" class="headerlink" title="需要遵循的原则"></a>需要遵循的原则</h3><p>有效对其值：是给定值#pragma pack(n)和<strong>结构体中最长数据类型长度</strong>中较小的那个。有效对齐值也叫<strong>对齐单位</strong>。 </p>
+<p>(1)  结构体第一个成员的<strong>偏移量（offset）</strong> 为0，以后每个成员相对于结构体首地址的 offset 都是<strong>该成员大小与有效对齐值中较小那个</strong>的<strong>整数倍</strong>，如有需要编译器会在成员之间加上填充字节。</p>
+<p>(2)  <strong>结构体的总大小</strong>为 有效对齐值 的<strong>整数倍</strong>，如有需要编译器会在最末一个成员之后加上填充字节。</p>
+<blockquote>
+<p>C&#x2F;C++内存对齐详解  <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/30007037">https://zhuanlan.zhihu.com/p/30007037</a></p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;ratio&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> pack(4)<span class="comment">// 不开则对齐数为 8 </span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">A</span> &#123;</span><br><span class="line">    		<span class="comment">//offset </span></span><br><span class="line">    <span class="type">char</span> a; <span class="comment">//min(1,4)</span></span><br><span class="line">    <span class="type">double</span> b;<span class="comment">//min(8,4)</span></span><br><span class="line">    <span class="type">int</span> c;<span class="comment">//min(4,4)</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">//有效对齐为4 = min(对齐数,8)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">B</span> &#123;</span><br><span class="line">    <span class="type">double</span> a;</span><br><span class="line">    <span class="type">char</span> b;</span><br><span class="line">    <span class="type">int</span> c;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">C</span> &#123;</span><br><span class="line">    <span class="type">double</span> a;</span><br><span class="line">    <span class="type">int</span> b;</span><br><span class="line">    <span class="type">char</span> c;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    cout&lt;&lt;<span class="built_in">sizeof</span>(<span class="type">int</span>*) &lt;&lt; endl;</span><br><span class="line">    cout&lt;&lt;<span class="string">&quot;----&quot;</span>&lt;&lt;endl;</span><br><span class="line"></span><br><span class="line">    cout&lt;&lt;<span class="built_in">sizeof</span>(A)&lt;&lt;endl;  </span><br><span class="line">    A * pa = <span class="keyword">new</span> A; </span><br><span class="line">    cout&lt;&lt;pa&lt;&lt;endl;</span><br><span class="line">    cout&lt;&lt; &amp;(pa -&gt; a)&lt;&lt;endl;</span><br><span class="line">    cout&lt;&lt; &amp;(pa -&gt; b)&lt;&lt;endl;</span><br><span class="line">    cout&lt;&lt; &amp;(pa -&gt; c)&lt;&lt;endl;</span><br><span class="line">    cout&lt;&lt;<span class="string">&quot;----&quot;</span>&lt;&lt;endl;</span><br><span class="line">    </span><br><span class="line">    cout&lt;&lt;<span class="built_in">sizeof</span>(B)&lt;&lt;endl;  </span><br><span class="line">    B* pb = <span class="keyword">new</span> B;</span><br><span class="line">    cout&lt;&lt; &amp;(pb -&gt; a)&lt;&lt;endl;</span><br><span class="line">    cout&lt;&lt; &amp;(pb -&gt; b)&lt;&lt;endl;</span><br><span class="line">    cout&lt;&lt; &amp;(pb -&gt; c)&lt;&lt;endl;</span><br><span class="line">    cout&lt;&lt;<span class="string">&quot;----&quot;</span>&lt;&lt;endl;</span><br><span class="line"></span><br><span class="line">    cout&lt;&lt;<span class="built_in">sizeof</span>(C)&lt;&lt;endl;  </span><br><span class="line">    C* pc = <span class="keyword">new</span> C;</span><br><span class="line">    cout&lt;&lt; &amp;(pc -&gt; a)&lt;&lt;endl;</span><br><span class="line">    cout&lt;&lt; &amp;(pc -&gt; b)&lt;&lt;endl;</span><br><span class="line">    cout&lt;&lt; &amp;(pc -&gt; c)&lt;&lt;endl;</span><br><span class="line">    cout&lt;&lt;<span class="string">&quot;----&quot;</span>&lt;&lt;endl;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">A</span>&#123;</span><br><span class="line">    <span class="type">char</span> a;</span><br><span class="line">    <span class="type">int</span> b;</span><br><span class="line">    <span class="type">char</span> c[<span class="number">10</span>];</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">B</span>&#123;</span><br><span class="line">    <span class="type">char</span> a;</span><br><span class="line">    <span class="type">int</span> b;</span><br><span class="line">    <span class="type">char</span> c[<span class="number">9</span>];</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">C</span>&#123;</span><br><span class="line">    <span class="type">char</span> a;</span><br><span class="line">    <span class="type">int</span> b;</span><br><span class="line">    <span class="type">char</span> c[<span class="number">8</span>];</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">D</span>&#123;</span><br><span class="line">    <span class="comment">// double t;</span></span><br><span class="line">    <span class="type">int16_t</span> x;</span><br><span class="line">    <span class="type">char</span> a;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    cout&lt;&lt;<span class="built_in">sizeof</span>(A)&lt;&lt;endl;</span><br><span class="line">    cout&lt;&lt;<span class="built_in">sizeof</span>(B)&lt;&lt;endl;</span><br><span class="line">    cout&lt;&lt;<span class="built_in">sizeof</span>(C)&lt;&lt;endl;</span><br><span class="line">    cout&lt;&lt;<span class="built_in">sizeof</span>(D)&lt;&lt;endl;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="如何关闭内存对齐"><a href="#如何关闭内存对齐" class="headerlink" title="如何关闭内存对齐"></a>如何关闭内存对齐</h3><p>有两种方式：添加预处理指令 <code>#pragma pack(1)</code>  或者 <code><strong>attribute</strong> ((packed))</code></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/05/03/note/cpp/%E8%AF%AD%E8%A8%80%E7%9B%B8%E5%85%B3/%E5%86%85%E5%AD%98%E5%AF%B9%E9%BD%90/" data-id="clh7j8wqr00312waiagl1cly8" data-title="" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-note/cpp/语言相关/指针与引用" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/05/03/note/cpp/%E8%AF%AD%E8%A8%80%E7%9B%B8%E5%85%B3/%E6%8C%87%E9%92%88%E4%B8%8E%E5%BC%95%E7%94%A8/" class="article-date">
+  <time class="dt-published" datetime="2023-05-03T10:05:17.231Z" itemprop="datePublished">2023-05-03</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <ol>
+<li>指针是一个新的变量，指向另一个变量的地址，我们可以通过访问这个地址来修改另一个变量；而引用是一个别名，对引用的操作就是对变量的本身进行操作</li>
+<li>指针可以有多级，引用只有一级</li>
+<li>传参的时候，使用指针的话需要解引用才能对参数进行修改，而使用引用可以直接对参数进行修改</li>
+<li>指针的大小一般是4个字节，引用的大小取决于被引用对象的大小</li>
+<li>指针可以为空，引用不可以。就函数参数传递而言，<strong>当你有可能需要传入一个空的概念（尚未创立的对象，空指针可以表示，而引用无法表示空的概念）的时候，指针才有必要</strong>。</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/05/03/note/cpp/%E8%AF%AD%E8%A8%80%E7%9B%B8%E5%85%B3/%E6%8C%87%E9%92%88%E4%B8%8E%E5%BC%95%E7%94%A8/" data-id="clh7j8wqr00322waibmw790bk" data-title="" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-note/cpp/语言相关/编译指令" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/05/03/note/cpp/%E8%AF%AD%E8%A8%80%E7%9B%B8%E5%85%B3/%E7%BC%96%E8%AF%91%E6%8C%87%E4%BB%A4/" class="article-date">
+  <time class="dt-published" datetime="2023-05-03T10:05:17.231Z" itemprop="datePublished">2023-05-03</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>控制编译器的指令</p>
+<p>__ attribute __<br>“属性”。你可以把它理解为给变量、函数、类等“贴”上一个<em>编译阶段的“标签”</em>，方便编译器识别处理。</p>
+<ul>
+<li>deprecated”，用来标记不推荐使用的变量、函数或者类，也就是被“废弃”。</li>
+<li>unused：用于变量、类型、函数等，表示虽然暂时不用，但最好保留着，因为将来可能会用。</li>
+<li>constructor：函数会在 main() 函数之前执行，效果有点像是全局对象的构造函数。</li>
+<li>destructor：函数会在 main() 函数结束之后执行，有点像是全局对象的析构函数。</li>
+<li>always_inline：要求编译器强制内联函数，作用比 inline 关键字更强。</li>
+<li>hot：标记“热点”函数，要求编译器更积极地优化。</li>
+</ul>
+<p>静态断言 static_assert ，运行在编译阶段</p>
+<p>assert 是宏，在运行阶段才起作用</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/05/03/note/cpp/%E8%AF%AD%E8%A8%80%E7%9B%B8%E5%85%B3/%E7%BC%96%E8%AF%91%E6%8C%87%E4%BB%A4/" data-id="clh7j8wqt00332wai7ncp1ypt" data-title="" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-note/cpp/语言相关/预处理" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/05/03/note/cpp/%E8%AF%AD%E8%A8%80%E7%9B%B8%E5%85%B3/%E9%A2%84%E5%A4%84%E7%90%86/" class="article-date">
+  <time class="dt-published" datetime="2023-05-03T10:05:17.231Z" itemprop="datePublished">2023-05-03</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="头文件保护"><a href="#头文件保护" class="headerlink" title="头文件保护"></a>头文件保护</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//complex.h 防止多次、重复引入</span></span><br><span class="line"><span class="meta">#<span class="keyword">ifndef</span> __COMPLEX__</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> __COMPLEX__</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span> </span></span><br></pre></td></tr></table></figure>
+<p>缺点就是如果不同头文件的宏名不小心“撞车”，可能就会导致头文件明明存在，编译器却硬说<em>找不到声明的状况</em>。</p>
+<h2 id="pragma-once"><a href="#pragma-once" class="headerlink" title="pragma once"></a>pragma once</h2><p>pragma once 一般由编译器提供保证：同一个文件不会被包含多次。</p>
+<p>作用和经典的头文件保护宏定义方式相同，但是更加简洁，<em>不用担心宏名冲突</em>，不过有的编译器不支持。</p>
+<p>对应的缺点就是如果某个<em>头文件有多份拷贝</em>，本方法不能保证他们不被重复包含。当然，相比宏名冲突引发的“找不到声明”的问题，这种重复包含很容易被发现并修正。</p>
+<h2 id="inlcude"><a href="#inlcude" class="headerlink" title="inlcude"></a>inlcude</h2><p>使用尖括号&lt;&gt;的头文件的查找路径：编译器设置的头文件路径–&gt;系统变量<br>使用双引号””的头文件的查找路径：当前头文件目录–&gt;编译器设置的头文件路径–&gt;系统变量<br><strong>include  做的就是一个复制粘贴  就是单纯的复制粘贴</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#incldue  .h   =&gt;  引入函数...的声明; ld的时候,将定义链接起来</span></span><br><span class="line"></span><br><span class="line">a.cpp: </span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">func</span><span class="params">(<span class="type">int</span> x)</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> x*x;</span><br><span class="line">&#125;</span><br><span class="line">    </span><br><span class="line">tmp.cpp ：</span><br><span class="line"><span class="meta">#incldue<span class="string">&lt;a.cpp&gt;</span></span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="built_in">func</span>(<span class="number">10</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">g++ tmp.cpp -o tmp     </span><br><span class="line">g++ tmp.cpp a.cpp -o tmp <span class="comment">// multiple definition of `func(int)&#x27;;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span>txt:</span><br><span class="line"><span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span></span><br><span class="line">    </span><br><span class="line">tmp.cpp:   </span><br><span class="line"><span class="type">int</span> arr[]&#123;</span><br><span class="line">    <span class="meta">#incldue <span class="string">&quot;1.txt&quot;</span></span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">auto</span> i:arr)cout&lt;&lt; i&lt;&lt;<span class="string">&quot; &quot;</span>; </span><br><span class="line"></span><br><span class="line">g++ tmp.cpp -o tmp<span class="comment">//1 2 3 4 5</span></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/05/03/note/cpp/%E8%AF%AD%E8%A8%80%E7%9B%B8%E5%85%B3/%E9%A2%84%E5%A4%84%E7%90%86/" data-id="clh7j8wqu00342wai7ouc7dal" data-title="" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/page/11/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><span class="page-number current">12</span>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/05/">May 2023</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/05/03/note/linux/awk/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/03/note/linux/fork/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/03/note/linux/free/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/03/note/linux/gdb/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/03/note/linux/%E7%B3%BB%E7%BB%9F%E6%97%A5%E5%BF%97/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 daidai<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

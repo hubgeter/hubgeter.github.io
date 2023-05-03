@@ -71,10 +71,10 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-NOCopy class" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-note/linux/awk" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2023/05/03/NOCopy%20class/" class="article-date">
-  <time class="dt-published" datetime="2023-05-03T10:02:08.255Z" itemprop="datePublished">2023-05-03</time>
+    <a href="/2023/05/03/note/linux/awk/" class="article-date">
+  <time class="dt-published" datetime="2023-05-03T10:05:17.239Z" itemprop="datePublished">2023-05-03</time>
 </a>
     
   </div>
@@ -83,13 +83,16 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">NoCopy</span>&#123;</span><br><span class="line"><span class="keyword">public</span>: </span><br><span class="line">    <span class="built_in">NoCopy</span>() = <span class="keyword">default</span>;</span><br><span class="line">    <span class="built_in">NoCopy</span>(<span class="type">const</span> NoCopy&amp;) = <span class="keyword">delete</span>;</span><br><span class="line">    NoCopy&amp; <span class="keyword">operator</span>=(<span class="type">const</span> NoCopy&amp;) = <span class="keyword">delete</span>;</span><br><span class="line">    ~<span class="built_in">NoCopy</span>() = <span class="keyword">default</span>;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">PrivateCopy</span>&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">PrivateCopy</span>() = <span class="keyword">default</span>;</span><br><span class="line">    ~<span class="built_in">PrivateCopy</span>() = <span class="keyword">default</span>;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="built_in">PrivateCopy</span>(<span class="type">const</span> PrivateCopy&amp;);</span><br><span class="line">    PrivateCopy&amp; <span class="keyword">operator</span>=(<span class="type">const</span> PrivateCopy&amp;);</span><br><span class="line">    <span class="comment">//class 不能被ordinary user code copy,但可以被friend 和 member copy  </span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">NoDtor</span>&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">NoDtor</span>() = <span class="keyword">default</span>;</span><br><span class="line">    ~<span class="built_in">NoDtor</span>() = <span class="keyword">delete</span>;</span><br><span class="line">    <span class="comment">//NoDtor* p = new NoDtor() 但不能delete </span></span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+        <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">awk &#x27;&#123;print $1,$4&#125;&#x27;</span><br><span class="line">awk &#x27;&#123;printf &quot;%-8s %-20s&quot;,$1,$4&#125;&#x27;#格式化输出</span><br><span class="line">awk  &#x27;$3==0 &amp;&amp; $6 == &quot;LISTEN&quot; &#x27;#过滤</span><br><span class="line">awk &#x27;$3 &gt; 0 &#123;print $0&#125;&#x27;</span><br><span class="line">awk -F: &#x27;&#123;print $1,$3,$6&#125;&#x27; #指定分隔符为:</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
+
+<p>内建变量</p>
+<p>$ 0	当前记录（这个变量中存放着整个行的内容）<br>$ 1 ~ $ n	当前记录的第n个字段，字段间由FS分隔<br>FS	输入字段分隔符 默认是空格或Tab<br>NF	当前记录中的字段个数，就是有多少列<br>NR	已经读出的记录数，就是行号，从1开始，如果有多个文件话，这个值也是不断累加中。<br>FNR	当前记录数，与NR不同的是，这个值会是各个文件自己的行号<br>RS	输入的记录分隔符， 默认为换行符<br>OFS	输出字段分隔符， 默认也是空格<br>ORS	输出的记录分隔符，默认为换行符<br>FILENAME	当前输入文件的名字</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/05/03/NOCopy%20class/" data-id="clh7j579y0000yhai4ul1a000" data-title="" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2023/05/03/note/linux/awk/" data-id="clh7j8wo6000b2wai7fox05q7" data-title="" class="article-share-link">Share</a>
       
       
       
@@ -101,10 +104,10 @@
 
 
   
-    <article id="post-big three" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-note/linux/fork" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2023/05/03/big%20three/" class="article-date">
-  <time class="dt-published" datetime="2023-05-03T10:02:08.255Z" itemprop="datePublished">2023-05-03</time>
+    <a href="/2023/05/03/note/linux/fork/" class="article-date">
+  <time class="dt-published" datetime="2023-05-03T10:05:17.239Z" itemprop="datePublished">2023-05-03</time>
 </a>
     
   </div>
@@ -113,19 +116,14 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <p><strong>class with pointer</strong>  必须写 big three : 拷贝构造，拷贝赋值，析构函数</p>
-<p>浅拷贝 编译器默认 :  一个位 一个位的进行赋值 </p>
-<p>深拷贝  (拷贝构造 拷贝赋值) </p>
-<p><img src="/../../images/cpp/class/big%20three/image-20230426204357057.png"></p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">string <span class="title">s1</span><span class="params">(<span class="string">&quot;hello&quot;</span>)</span></span>;</span><br><span class="line"><span class="function">string <span class="title">s2</span><span class="params">(s1)</span></span>;</span><br><span class="line">string s3 = s1;</span><br><span class="line"><span class="comment">//意思完全相同  写法不同 因为都是新创建的对象 调用的都是同一个函数 String(const String&amp;)</span></span><br></pre></td></tr></table></figure>
-
-
-<p><img src="/../../images/cpp/class/big%20three/image-20230426204441647.png"><br><img src="/../../images/cpp/class/big%20three/image-20230426204511887.png"></p>
+        <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">   <span class="type">int</span> i;</span><br><span class="line">   <span class="keyword">for</span>(i=<span class="number">0</span>; i&lt;<span class="number">2</span>; i++)&#123;</span><br><span class="line">      fork();</span><br><span class="line">      <span class="built_in">printf</span>(<span class="string">&quot;1&quot;</span>);</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   wait(<span class="literal">NULL</span>);</span><br><span class="line">   wait(<span class="literal">NULL</span>);</span><br><span class="line"></span><br><span class="line">   <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line">#输出<span class="number">8</span>个<span class="number">1</span>,理论上是六个</span><br></pre></td></tr></table></figure>
+<p>这是因为printf(“-“);语句有buffer，printf(“-“);把“-”放到了缓存中，在fork的时候，缓存被复制到了子进程空间，所以，就多了两个，就成了8个，而不是6个。</p>
+<p>程序遇到“\n”，或是EOF，或是缓中区满，或是文件描述符关闭，或是主动flush，或是程序退出，就会把数据刷出缓冲区。需要注意的是，标准输出是行缓冲，所以遇到“\n”的时候会刷出缓冲区，但对于磁盘这个块设备来说，“\n”并不会引起缓冲区刷出的动作，那是全缓冲，你可以使用setvbuf来设置缓冲区大小，或是用fflush刷缓存。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/05/03/big%20three/" data-id="clh7j57a20001yhaia66243p3" data-title="" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2023/05/03/note/linux/fork/" data-id="clh7j8wo7000c2waiecurgrji" data-title="" class="article-share-link">Share</a>
       
       
       
@@ -137,10 +135,10 @@
 
 
   
-    <article id="post-empty class" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-note/linux/free" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2023/05/03/empty%20class/" class="article-date">
-  <time class="dt-published" datetime="2023-05-03T10:02:08.255Z" itemprop="datePublished">2023-05-03</time>
+    <a href="/2023/05/03/note/linux/free/" class="article-date">
+  <time class="dt-published" datetime="2023-05-03T10:05:17.239Z" itemprop="datePublished">2023-05-03</time>
 </a>
     
   </div>
@@ -149,32 +147,90 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <p>对于空类，编译器不会生成任何的成员函数，只会生成1个字节的占位符。</p>
-<p>使用空类定义对象或者调用成员函数时，编译器会自动为你生成以下个成员函数（仅在需要时生成）：</p>
+        <p>free 命令显示系统<em>内存</em>的使用情况，包括物理内存、交换内存(swap)和内核缓冲区内存</p>
+<p>-h  输出友好<br>-s  持续的观察内存的状况<br>-t 　显示内存总和列</p>
+<p>free 列是真正尚未被使用的物理内存数量。<br>available 列从应用程序的角度看到的可用内存数量。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/05/03/note/linux/free/" data-id="clh7j8wo7000d2wai7cipcapo" data-title="" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-note/linux/gdb" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/05/03/note/linux/gdb/" class="article-date">
+  <time class="dt-published" datetime="2023-05-03T10:05:17.239Z" itemprop="datePublished">2023-05-03</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>gdb can only use debugging symbols that are generated by g++.<br>g++ -g &#x2F; -ggdb</p>
+<p>So you now have an <strong>executable file</strong> (in this case main) and you want to debug it</p>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">1. r run : restart the program</span><br><span class="line">  - gdb --args program arg1 arg2 ... argN </span><br><span class="line">    (gdb) r</span><br><span class="line">  -  gdb program  </span><br><span class="line"> (gdb) r arg1 arg2 ... argN</span><br><span class="line">  </span><br><span class="line">2. l list  (a line number / function name)  : print source code </span><br><span class="line"></span><br><span class="line">3. backtrace : who called this method and we would like to be able to examine values in the calling methods</span><br><span class="line">Info  stack</span><br><span class="line"></span><br><span class="line">4. x :see the value at the address   </span><br><span class="line"></span><br><span class="line">5. break </span><br><span class="line">  - b function</span><br><span class="line">  - b +linenum</span><br><span class="line">  - b filename:function</span><br><span class="line">  - b filename:linenum</span><br><span class="line">  - b *(memory address)</span><br><span class="line">  - b &lt;...&gt;  if condiion </span><br><span class="line">  condition 1  item_to_remove==1 : 条件break </span><br><span class="line">6. step : one line at a time </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://www.techbeamers.com/how-to-use-gdb-top-debugging-tips/">https://www.techbeamers.com/how-to-use-gdb-top-debugging-tips/</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/05/03/note/linux/gdb/" data-id="clh7j8woa000e2waidy9f3lr7" data-title="" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-note/linux/系统日志" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/05/03/note/linux/%E7%B3%BB%E7%BB%9F%E6%97%A5%E5%BF%97/" class="article-date">
+  <time class="dt-published" datetime="2023-05-03T10:05:17.239Z" itemprop="datePublished">2023-05-03</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>systemctl status rsyslog.service  </p>
+<p>syslog linux内核提供的日志文件设计指引  man 3 syslog<br>rsyslogd 守护程序 进行信息的分类<br>rsyslog.service  启动脚本设置 </p>
+<p>etc&#x2F;rsyslog.conf<br>什么服务 [.&#x3D;!] 信息等级      信息记录的文件名&#x2F;主机<br>&#x2F;var&#x2F;log</p>
+<p><img src="/../images/linux/%E7%B3%BB%E7%BB%9F%E6%97%A5%E5%BF%97/image-20230418110740408.png"></p>
+<p>rsyslog的日志只要被”编辑过”就无法继续记录：</p>
 <ul>
-<li>一个默认构造函数</li>
-<li>一个复制构造函数</li>
-<li>一个复制赋值运算符<br>  copy ctor 和 copy assignment operator  编译器只是单纯的的将source object 的每一个non-static data members 拷贝到 destination object </li>
-<li>一个析构函数 （编译器产出的dtor 是<em>non-virtual</em> 除非class 的base class 本身带有virtual  dtor） </li>
-<li>移动构造函数</li>
-<li>移动赋值函数</li>
-<li>两个取址运算符（常量和非常量）</li>
+<li>不用 : wq</li>
+<li>重启rsyslog.service </li>
+<li>chattr +a</li>
 </ul>
-<p>这些成员函数都是<strong>公有的、内联的、无参数</strong>的。<br>用处：<strong>主要是给编译器一个地方用来放置   幕后的code</strong> , 例如 base class ,non-static members 的ctors 、dtors</p>
-<p><strong>可以使用delete 或者private 来阻止编译器生成</strong></p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">A</span>&#123;</span><br><span class="line">    <span class="type">void</span>* <span class="keyword">operator</span>&amp;() <span class="type">const</span> &#123;</span><br><span class="line">        cout&lt;&lt;<span class="string">&quot;operator*&quot;</span>&lt;&lt;endl;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">const</span> A a;</span><br><span class="line">    cout&lt;&lt;&amp;a&lt;&lt;endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;syslog.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="built_in">openlog</span>(<span class="string">&quot;info&quot;</span>,LOG_PID|LOG_CONS,LOG_LOCAL0);</span><br><span class="line">        <span class="built_in">syslog</span>(LOG_INFO,<span class="string">&quot;hello world&quot;</span>);</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;end\n&quot;</span>);</span><br><span class="line">        <span class="built_in">closelog</span>();</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta"># tmp.conf</span></span><br><span class="line">local0.*                         -/var/log/tmp.log</span><br><span class="line"># - 表示产生的信息先放到内存buffer中，数据量大了再写入磁盘 </span><br><span class="line"></span><br><span class="line">logger -p local0.info <span class="string">&quot;tmp&quot;</span></span><br><span class="line">cat /var/log/tmp.log</span><br></pre></td></tr></table></figure>
 
 
-<p>声明复制操作 ，不会生成移动操作</p>
-<p>声明移动操作 ，不会生成复制操作</p>
-<p>析构函数 阻止移动操作的生成 ，针对移动操作的请求仍然可以被编译和执行，但触发的是复制操作</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">base</span>&#123;</span><br><span class="line">    <span class="built_in">base</span>() = <span class="keyword">default</span>;</span><br><span class="line">    <span class="built_in">base</span>(<span class="type">const</span> base&amp;)&#123;</span><br><span class="line">        cout&lt;&lt;<span class="string">&quot;base(const base&amp;)&quot;</span>&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">base</span>(<span class="type">const</span> base&amp;&amp;)&#123;</span><br><span class="line">        cout&lt;&lt;<span class="string">&quot;base(const base&amp;&amp;)&quot;</span>&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">A</span>&#123;</span><br><span class="line">    <span class="comment">// A() = default;</span></span><br><span class="line">    <span class="comment">// A(const A&amp; )</span></span><br><span class="line">    <span class="comment">// &#123;</span></span><br><span class="line">    <span class="comment">//     cout&lt;&lt;&quot;A&quot;&lt;&lt;endl;</span></span><br><span class="line">    <span class="comment">// &#125;</span></span><br><span class="line">    ~<span class="built_in">A</span>()&#123;</span><br><span class="line">    &#125;</span><br><span class="line">    base b;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    A a;</span><br><span class="line">    <span class="function">A <span class="title">b</span><span class="params">(move(a))</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+<p>journald ： 开机启动过程中的所有信息，包括启动服务与服务启动失败<br>  使用的是内存的日志文件记录方式<br>  用来管理这次启动的登录信息，这些信息不会被放到下次开机启动后的<br>Rsyslogd 可以记到磁盘上，方便未来查询 </p>
+<p>日志文件的轮回 logrotate<br>&#x2F;etc&#x2F;logrotate.conf</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/05/03/empty%20class/" data-id="clh7j57a40002yhai5covgczt" data-title="" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2023/05/03/note/linux/%E7%B3%BB%E7%BB%9F%E6%97%A5%E5%BF%97/" data-id="clh7j8wob000f2wai1om95opm" data-title="" class="article-share-link">Share</a>
       
       
       
@@ -186,10 +242,10 @@
 
 
   
-    <article id="post-overload" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-note/linux/计划任务" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2023/05/03/overload/" class="article-date">
-  <time class="dt-published" datetime="2023-05-03T10:02:08.255Z" itemprop="datePublished">2023-05-03</time>
+    <a href="/2023/05/03/note/linux/%E8%AE%A1%E5%88%92%E4%BB%BB%E5%8A%A1/" class="article-date">
+  <time class="dt-published" datetime="2023-05-03T10:05:17.239Z" itemprop="datePublished">2023-05-03</time>
 </a>
     
   </div>
@@ -198,13 +254,16 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">A</span>&#123;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">func</span><span class="params">()</span></span>&#123;</span><br><span class="line">        cout&lt;&lt;<span class="string">&quot;func&quot;</span>&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// void func() const &#123;</span></span><br><span class="line">    <span class="comment">//     cout&lt;&lt;&quot;const func&quot;&lt;&lt;endl;</span></span><br><span class="line">    <span class="comment">// &#125;    </span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    A a;a.<span class="built_in">func</span>();</span><br><span class="line">    <span class="comment">// const A b;b.func();</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        <p>crontab 定时任务的设置<br>&#x2F;etc&#x2F;crontab</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">crontab -e  编辑  -l 查询  -r 删除当前用户所有任务 </span><br></pre></td></tr></table></figure>
 
+
+<p>at  一次性定时计划任务  &#x3D;&gt; atd守护线程</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/05/03/overload/" data-id="clh7j57a50003yhaib97015es" data-title="" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2023/05/03/note/linux/%E8%AE%A1%E5%88%92%E4%BB%BB%E5%8A%A1/" data-id="clh7j8wob000g2wai2d5nfnri" data-title="" class="article-share-link">Share</a>
       
       
       
@@ -216,10 +275,10 @@
 
 
   
-    <article id="post-string" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-note/mysql/binlog" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2023/05/03/string/" class="article-date">
-  <time class="dt-published" datetime="2023-05-03T10:02:08.255Z" itemprop="datePublished">2023-05-03</time>
+    <a href="/2023/05/03/note/mysql/binlog/" class="article-date">
+  <time class="dt-published" datetime="2023-05-03T10:05:17.239Z" itemprop="datePublished">2023-05-03</time>
 </a>
     
   </div>
@@ -228,12 +287,21 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">ifndef</span> __STRING__</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> __STRING__</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">String</span> </span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">String</span>(<span class="type">const</span> <span class="type">char</span> * = <span class="number">0</span>);<span class="comment">//默认参数仅需在声明处定义即可。</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//class with pointer  必须写 big three 三个特殊函数 </span></span><br><span class="line">    <span class="built_in">String</span>(<span class="type">const</span> String&amp; );<span class="comment">//拷贝构造 </span></span><br><span class="line">    String&amp; <span class="keyword">operator</span> = (<span class="type">const</span> String&amp;);<span class="comment">//拷贝赋值</span></span><br><span class="line">    ~<span class="built_in">String</span>();<span class="comment">//析构函数</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">char</span> * <span class="title">get_c_str</span><span class="params">()</span> <span class="type">const</span> </span>&#123; <span class="keyword">return</span> data;&#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="type">char</span> * data;</span><br><span class="line">     <span class="comment">//依动态分配的形式 而不是直接开一个数组 由于不知道数组大小</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// inline String::String(const char* cstr  = 0 )</span></span><br><span class="line"><span class="comment">//默认参数仅需在声明处定义即可。</span></span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="title">String::String</span><span class="params">(<span class="type">const</span> <span class="type">char</span> * cstr)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (cstr)&#123;</span><br><span class="line">        data = <span class="keyword">new</span> <span class="type">char</span>[ <span class="built_in">strlen</span>(cstr)+<span class="number">1</span> ];</span><br><span class="line">        <span class="built_in">strcpy</span>(data,cstr);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        data = <span class="keyword">new</span> <span class="type">char</span> [<span class="number">1</span>];</span><br><span class="line">        *data = <span class="string">&#x27;\0&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="title">String::String</span><span class="params">(<span class="type">const</span> String &amp; str)</span></span>&#123;</span><br><span class="line">    data = <span class="keyword">new</span> <span class="type">char</span>[<span class="built_in">strlen</span>(str.data) + <span class="number">1</span>];</span><br><span class="line">    <span class="built_in">strcpy</span>(data,str.data);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//要先清空  --&gt; 分配空间  --&gt; 拷贝</span></span><br><span class="line"><span class="comment">//delete[]      new       strcpy</span></span><br><span class="line"><span class="keyword">inline</span> String&amp; String::<span class="keyword">operator</span>= (<span class="type">const</span> String&amp; str)&#123;</span><br><span class="line">    <span class="comment">//要自我检测  不仅仅是效率的问题 更关系到正确性</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span> == &amp;str) <span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">delete</span> [] data;</span><br><span class="line">    data = <span class="keyword">new</span> <span class="type">char</span>[<span class="built_in">strlen</span>(str.data) + <span class="number">1</span>];</span><br><span class="line">    <span class="built_in">strcpy</span>(data,str.data);</span><br><span class="line">    <span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">inline</span> String::~<span class="built_in">String</span>()&#123;</span><br><span class="line">    <span class="keyword">delete</span> [] data;<span class="comment">//释放动态内存 否则会内存泄漏</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">inline</span> std::ostream&amp; <span class="keyword">operator</span>&lt;&lt; (std::ostream&amp; os,<span class="type">const</span> String&amp; str) &#123;</span><br><span class="line">    os&lt;&lt;str.<span class="built_in">get_c_str</span>();</span><br><span class="line">    <span class="keyword">return</span> os;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span> </span></span><br></pre></td></tr></table></figure>
+        <p>归档日志</p>
+<p>Server 层有自己的日志 &#x3D;&gt; binlog </p>
+<p>Binlog有两种模式，statement 格式的话是记sql语句， row格式会记录行的内容，记两条，更新前和更新后都有。</p>
+<p>redo log &amp;&amp; binlog区别 </p>
+<ol>
+<li>redo log 是 InnoDB 引擎特有的；binlog 是 MySQL 的 Server 层实现的，所有引擎都可以使用。</li>
+<li>redo log 是物理日志，记录的是“在某个数据页上做了什么修改”；binlog 是逻辑日志，记录的是这个语句的原始逻辑，比如“给 ID&#x3D;2 这一行的 c 字段加 1 ”。</li>
+<li>redo log 是<em>循环写</em>的，空间固定会用完；binlog 是可以<em>追加写</em>入的。“追加写”是指 binlog 文件写到一定大小后会切换到下一个，并不会覆盖以前的日志。</li>
+<li>redolog是循环写的，不持久保存，binlog的“归档”这个功能，redolog是不具备的。</li>
+</ol>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/05/03/string/" data-id="clh7j57a60004yhai9ymu26mb" data-title="" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2023/05/03/note/mysql/binlog/" data-id="clh7j8woc000h2wai6fzohwvw" data-title="" class="article-share-link">Share</a>
       
       
       
@@ -245,10 +313,10 @@
 
 
   
-    <article id="post-多态" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-note/mysql/change buffer" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2023/05/03/%E5%A4%9A%E6%80%81/" class="article-date">
-  <time class="dt-published" datetime="2023-05-03T10:02:08.255Z" itemprop="datePublished">2023-05-03</time>
+    <a href="/2023/05/03/note/mysql/change%20buffer/" class="article-date">
+  <time class="dt-published" datetime="2023-05-03T10:05:17.239Z" itemprop="datePublished">2023-05-03</time>
 </a>
     
   </div>
@@ -257,27 +325,25 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h2 id="编译时多态体现在函数重载和模板"><a href="#编译时多态体现在函数重载和模板" class="headerlink" title="编译时多态体现在函数重载和模板"></a>编译时多态体现在函数重载和模板</h2><h2 id="运行时多态体现在虚函数上"><a href="#运行时多态体现在虚函数上" class="headerlink" title="运行时多态体现在虚函数上"></a>运行时多态体现在虚函数上</h2><p><strong>动态绑定</strong>  1. 指针&#x2F;引用 ； 2. 向上转型 up-case ; 3. 调用虚函数  </p>
-<p><em>多重继承</em>下会有多个vfptr，看继承了几个有虚函数的类</p>
-<p>父类中有virtual 函数 ， 父类就有vfptr 指向父类的vftable,子类继承父类，会更改继承字自父类的vfptr，来指向自己的vftable </p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span>  std;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">point2</span> &#123;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">pfunc</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">    <span class="type">int</span> a, b;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">1&gt;	+---</span></span><br><span class="line"><span class="comment">1&gt;class point2	size(12):</span></span><br><span class="line"><span class="comment">1&gt;	+---</span></span><br><span class="line"><span class="comment">1&gt; 0	| &#123;vfptr&#125;</span></span><br><span class="line"><span class="comment">1&gt; 4	| a</span></span><br><span class="line"><span class="comment">1&gt; 8	| b</span></span><br><span class="line"><span class="comment">1&gt;	+---</span></span><br><span class="line"><span class="comment">1&gt;point2::$vftable@:</span></span><br><span class="line"><span class="comment">1&gt;	| &amp;point2_meta</span></span><br><span class="line"><span class="comment">1&gt;	|  0</span></span><br><span class="line"><span class="comment">1&gt; 0	| &amp;point2::pfunc</span></span><br><span class="line"><span class="comment">1&gt;point2::pfunc this adjustor: 0</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">point3</span> : <span class="keyword">public</span> point2</span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">pfunc</span><span class="params">()</span> <span class="keyword">override</span> </span>&#123;&#125;</span><br><span class="line">    <span class="type">int</span> c;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">1&gt;class point3	size(16):</span></span><br><span class="line"><span class="comment">1&gt;	+---</span></span><br><span class="line"><span class="comment">1&gt; 0	| +--- (base class point2)</span></span><br><span class="line"><span class="comment">1&gt; 0	| | &#123;vfptr&#125;</span></span><br><span class="line"><span class="comment">1&gt; 4	| | a</span></span><br><span class="line"><span class="comment">1&gt; 8	| | b</span></span><br><span class="line"><span class="comment">1&gt;	| +---</span></span><br><span class="line"><span class="comment">1&gt;12	| c</span></span><br><span class="line"><span class="comment">1&gt;	+---</span></span><br><span class="line"><span class="comment">1&gt;point3::$vftable@:</span></span><br><span class="line"><span class="comment">1&gt;	| &amp;point3_meta</span></span><br><span class="line"><span class="comment">1&gt;	|  0</span></span><br><span class="line"><span class="comment">1&gt; 0	| &amp;point3::pfunc</span></span><br><span class="line"><span class="comment">1&gt;point3::pfunc this adjustor: 0</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">vertex</span> &#123;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">vfunc</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">1&gt;class vertex	size(4):</span></span><br><span class="line"><span class="comment">1&gt;	+---</span></span><br><span class="line"><span class="comment">1&gt; 0	| &#123;vfptr&#125;</span></span><br><span class="line"><span class="comment">1&gt;	+---</span></span><br><span class="line"><span class="comment">1&gt;vertex::$vftable@:</span></span><br><span class="line"><span class="comment">1&gt;	| &amp;vertex_meta</span></span><br><span class="line"><span class="comment">1&gt;	|  0</span></span><br><span class="line"><span class="comment">1&gt; 0	| &amp;vertex::vfunc</span></span><br><span class="line"><span class="comment">1&gt;vertex::vfunc this adjustor: 0</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">v3d</span> : <span class="keyword">public</span> point3, <span class="keyword">public</span> vertex &#123;</span><br><span class="line">    <span class="type">int</span> d, f;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">1&gt;class v3d	size(28):</span></span><br><span class="line"><span class="comment">1&gt;	+---</span></span><br><span class="line"><span class="comment">1&gt; 0	| +--- (base class point3)</span></span><br><span class="line"><span class="comment">1&gt; 0	| | +--- (base class point2)</span></span><br><span class="line"><span class="comment">1&gt; 0	| | | &#123;vfptr&#125;</span></span><br><span class="line"><span class="comment">1&gt; 4	| | | a</span></span><br><span class="line"><span class="comment">1&gt; 8	| | | b</span></span><br><span class="line"><span class="comment">1&gt;	| | +---</span></span><br><span class="line"><span class="comment">1&gt;12	| | c</span></span><br><span class="line"><span class="comment">1&gt;	| +---</span></span><br><span class="line"><span class="comment">1&gt;16	| +--- (base class vertex)</span></span><br><span class="line"><span class="comment">1&gt;16	| | &#123;vfptr&#125;</span></span><br><span class="line"><span class="comment">1&gt;	| +---</span></span><br><span class="line"><span class="comment">1&gt;20	| d</span></span><br><span class="line"><span class="comment">1&gt;24	| f</span></span><br><span class="line"><span class="comment">1&gt;	+---</span></span><br><span class="line"><span class="comment">1&gt;v3d::$vftable@point3@:</span></span><br><span class="line"><span class="comment">1&gt;	| &amp;v3d_meta</span></span><br><span class="line"><span class="comment">1&gt;	|  0</span></span><br><span class="line"><span class="comment">1&gt; 0	| &amp;point3::pfunc</span></span><br><span class="line"><span class="comment">1&gt;v3d::$vftable@vertex@:</span></span><br><span class="line"><span class="comment">1&gt;	| -16</span></span><br><span class="line"><span class="comment">1&gt; 0	| &amp;vertex::vfunc</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-<h2 id="虚析构函数"><a href="#虚析构函数" class="headerlink" title="虚析构函数"></a>虚析构函数</h2><p>虚析构函数的主要作用是防止内存泄露。</p>
-<p>定义一个<em>基类的指针p</em>，在delete p时，如果基类的析构函数是虚函数，这时只会看p所赋值的对象，如果p赋值的对象是派生类的对象，就会调用派生类的析构函数（毫无疑问，在这之前也会先调用基类的构造函数，在调用派生类的构造函数，然后调用派生类的析构函数，基类的析构函数，所谓先构造的后释放）；如果p赋值的对象是基类的对象，就会调用基类的析构函数，这样就不会造成内存泄露。</p>
-<p>如果基类的析构函数不是虚函数，在delete p时，调用析构函数时，会进行静态绑定，<em>只会看指针的数据类型</em>，而不会去看赋值的对象，这样就会造成内存泄露。</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">base</span>&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">// virtual </span></span><br><span class="line">    ~<span class="built_in">base</span>()&#123;</span><br><span class="line">        cout&lt;&lt;<span class="string">&quot;base&quot;</span>&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">derived</span> : <span class="keyword">public</span> base &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    ~<span class="built_in">derived</span>()&#123;</span><br><span class="line">        cout&lt;&lt;<span class="string">&quot;derived&quot;</span>&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    base * p = <span class="keyword">new</span> derived;</span><br><span class="line">    <span class="keyword">delete</span> p;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="没有多态，则静态绑定-x3D-gt-call-xxx"><a href="#没有多态，则静态绑定-x3D-gt-call-xxx" class="headerlink" title="没有多态，则静态绑定 &#x3D;&gt; call xxx"></a>没有多态，则静态绑定 &#x3D;&gt; call xxx</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">A</span>&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">func</span><span class="params">()</span></span>&#123;</span><br><span class="line">        cout&lt;&lt;<span class="string">&quot;func&quot;</span>&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">func2</span><span class="params">()</span></span>&#123;</span><br><span class="line">        cout&lt;&lt;<span class="string">&quot;func2&quot;</span>&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    A *a = <span class="literal">nullptr</span>;</span><br><span class="line">    a-&gt;<span class="built_in">func</span>();</span><br><span class="line">    <span class="comment">// a-&gt;func2();</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-<h2 id="构造与析构的多态"><a href="#构造与析构的多态" class="headerlink" title="构造与析构的多态"></a>构造与析构的多态</h2><p>关于构造函数可以是虚函数的问题，虚函数是通过虚函数表来实现的，而虚函数表是在对象的构造函数中初始化的。也就是说，在对象构造过程中，<em>虚函数表还没有被初始化</em>，因此虚函数的调用不能按照多态的方式进行。</p>
-<p>其次，对于析构函数中调用虚函数的问题，虚函数机制在析构函数中依然可以正常工作。由于在对象析构时，其<em>派生类的部分已经被销毁，因此派生类的虚函数将无法被调用</em>。但是基类中的虚函数依然可以被正确地调用。</p>
+        <p>change buffer：当需要更新一个数据页时，如果数据页在内存中就直接更新，而如果这个数据页还<em>没有在内存中</em>的话，在不影响数据一致性的前提下，InooDB 会将这些更新操作缓存在 change buffer 中，这样就不需要从磁盘中读入这个数据页了。<br>将 change buffer 中的操作应用到原数据页，得到最新结果的过程称为 merge。<br>访问这个数据页会触发 merge 外，系统有后台线程会定期 merge。在数据库正常关闭（shutdown）的过程中，也会执行 merge 操作。</p>
+<p>change buffer（在 MySQL 5.6 之前叫 insert buffer，简称 ibuf ）是 InnoDB 5.5 引入的一种优化策略，若<em>二级索引页</em>不在 buffer pool 中，则将针对二级索引页的操作暂时缓存起来，等到该页从磁盘读到 buffer pool 中时再批量的（batch）apply 这些操作，从而达到减少磁盘 I&#x2F;O 的目的。具体一点就是：<br>    事务 1 执行写操作（e.g update），但针对的 P1 并不在 buffer pool 中<br>    于是 client 1 将这个操作缓存到 change buffer 里，即添加一个 entry（ibuf insert）<br>    事务 2 需要读操作，将 P1 读到 buffer pool 中<br>    将 change buffer 里相关的缓存的操作全部合并（merge）至 P1（ibuf merge）<br>    将 P1 返回给用户线程</p>
+<p>为什么必须是二级索引页，不能是主键&#x2F;唯一索引页？很简单，因为主键索引要保证唯一性的约束，如果把 insert id&#x3D;1 缓存起来，再次有要 insert id&#x3D;1 时再缓存起来，则等 batch apply 时就会出错</p>
+<p>因为 merge 的时候是真正进行数据更新的时刻，而 change buffer 的主要目的就是将记录的变更动作缓存下来，所以在一个数据页做 merge 之前，change buffer 记录的变更越多（也就是这个页面上要更新的次数越多），收益就越大。</p>
+<p>对于写多读少的业务来说，页面在写完以后马上被访问到的概率比较小，此时 change buffer 的使用效果最好。</p>
+<blockquote>
+<p><strong>redo log 主要节省的是随机写磁盘的 IO 消耗（转成顺序写），而 change buffer 主要节省的则是随机读磁盘的 IO 消耗。</strong></p>
+</blockquote>
+<p>然是只更新内存，但是在事务提交的时候，我们把 change buffer 的操作也记录到 redo log 里了，所以崩溃恢复的时候，change buffer 也能找回来。</p>
+<h4 id="merge-流程"><a href="#merge-流程" class="headerlink" title="merge 流程"></a>merge 流程</h4><ol>
+<li>从磁盘读入数据页到内存（老版本的数据页）；</li>
+<li>从 change buffer 里找出这个数据页的 change buffer 记录 (可能有多个），依次应用，得到新版数据页；</li>
+<li>写 redo log。这个 redo log 包含了数据的变更和 change buffer 的变更。</li>
+</ol>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/05/03/%E5%A4%9A%E6%80%81/" data-id="clh7j57a80005yhai0gex9oqs" data-title="" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2023/05/03/note/mysql/change%20buffer/" data-id="clh7j8woc000i2wai30bp8v4k" data-title="" class="article-share-link">Share</a>
       
       
       
@@ -289,10 +355,10 @@
 
 
   
-    <article id="post-封装" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-note/mysql/count" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2023/05/03/%E5%B0%81%E8%A3%85/" class="article-date">
-  <time class="dt-published" datetime="2023-05-03T10:02:08.255Z" itemprop="datePublished">2023-05-03</time>
+    <a href="/2023/05/03/note/mysql/count/" class="article-date">
+  <time class="dt-published" datetime="2023-05-03T10:05:17.239Z" itemprop="datePublished">2023-05-03</time>
 </a>
     
   </div>
@@ -301,13 +367,15 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <p>c++ 自己的数据用自己的函数来处理 &#x3D;&gt; 数据和函数包在一起。<br>数据可以有很多份 ，函数只有一份，所有成员函数都带一个隐藏的参数 –&gt;  this指针 。</p>
-<p>封装<em>non-static 成员变量</em></p>
+        <p>count <strong>统计符合查询条件的记录中，函数指定的参数不为 NULL 的记录有多少个</strong>。</p>
+<p>myisam : count * 很快但不支持事务<br>show table status  快 但是不准确<br>inodn :  count *  遍历全表，太慢<br>    为什么通过遍历的方式来计数：InnoDB 存储引擎是支持事务的，同一个时刻的多个查询，由于多版本并发控制（MVCC）的原因，InnoDB 表“应该返回多少行”也是不确定的，所以无法像 MyISAM一样，只维护一个 row_count 变量。</p>
+<p>mysql解决方案 ：<br>    1.  缓存<br>    2.  数据库中保存计数 </p>
+<p>对于 count(id) 来说，InnoDB 引擎会遍历整张表，把每一行的 <em>id 值都取出来，返回给 server 层。server 层拿到 id 后，判断是不可能为空的，就按行累加</em>。<br>对于 count(1) 来说，InnoDB 引擎遍历整张表，但<em>不取值</em>。server 层对于返回的每一行，放一个数字“1”进去，判断是不可能为空的，按行累加。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/05/03/%E5%B0%81%E8%A3%85/" data-id="clh7j57a90006yhaiequjhq52" data-title="" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2023/05/03/note/mysql/count/" data-id="clh7j8wod000j2wai0rfed5j8" data-title="" class="article-share-link">Share</a>
       
       
       
@@ -319,10 +387,10 @@
 
 
   
-    <article id="post-虚继承" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-note/mysql/redo log" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2023/05/03/%E8%99%9A%E7%BB%A7%E6%89%BF/" class="article-date">
-  <time class="dt-published" datetime="2023-05-03T10:02:08.255Z" itemprop="datePublished">2023-05-03</time>
+    <a href="/2023/05/03/note/mysql/redo%20log/" class="article-date">
+  <time class="dt-published" datetime="2023-05-03T10:05:17.239Z" itemprop="datePublished">2023-05-03</time>
 </a>
     
   </div>
@@ -331,100 +399,29 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <p>虚拟继承状态下，base  class 不管在继承串联中被派生多少次，永远只会存在一个实例</p>
-<p>virtual base class 运用形式 ： 一个抽象的virtual base class 没有任何data member用作接口</p>
-<p><em>类中有vbptr ,指向 vbtable , vbtable 中存放对应的偏移量</em></p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span>  std;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">point2</span> &#123;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">pfunc</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">    <span class="type">int</span> a, b;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">1&gt;class point2	size(12):</span></span><br><span class="line"><span class="comment">1&gt;	+---</span></span><br><span class="line"><span class="comment">1&gt; 0	| &#123;vfptr&#125;</span></span><br><span class="line"><span class="comment">1&gt; 4	| a</span></span><br><span class="line"><span class="comment">1&gt; 8	| b</span></span><br><span class="line"><span class="comment">1&gt;	+---</span></span><br><span class="line"><span class="comment">1&gt;point2::$vftable@:</span></span><br><span class="line"><span class="comment">1&gt;	| &amp;point2_meta</span></span><br><span class="line"><span class="comment">1&gt;	|  0</span></span><br><span class="line"><span class="comment">1&gt; 0	| &amp;point2::pfunc</span></span><br><span class="line"><span class="comment">1&gt;point2::pfunc this adjustor: 0</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">point3</span> : <span class="keyword">virtual</span> <span class="keyword">public</span> point2</span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">pfunc</span><span class="params">()</span> <span class="keyword">override</span> </span>&#123;&#125;</span><br><span class="line">    <span class="type">int</span> c;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">1&gt;class point3	size(20):</span></span><br><span class="line"><span class="comment">1&gt;	+---</span></span><br><span class="line"><span class="comment">1&gt; 0	| &#123;vbptr&#125;</span></span><br><span class="line"><span class="comment">1&gt; 4	| c</span></span><br><span class="line"><span class="comment">1&gt;	+---</span></span><br><span class="line"><span class="comment">1&gt;	+--- (virtual base point2)</span></span><br><span class="line"><span class="comment">1&gt; 8	| &#123;vfptr&#125;</span></span><br><span class="line"><span class="comment">1&gt;12	| a</span></span><br><span class="line"><span class="comment">1&gt;16	| b</span></span><br><span class="line"><span class="comment">1&gt;	+---</span></span><br><span class="line"><span class="comment">1&gt;point3::$vbtable@:</span></span><br><span class="line"><span class="comment">1&gt; 0	| 0</span></span><br><span class="line"><span class="comment">1&gt; 1	| 8 (point3d(point3+0)point2)</span></span><br><span class="line"><span class="comment">1&gt;point3::$vftable@:</span></span><br><span class="line"><span class="comment">1&gt;	| -8</span></span><br><span class="line"><span class="comment">1&gt; 0	| &amp;point3::pfunc</span></span><br><span class="line"><span class="comment">1&gt;point3::pfunc this adjustor: 8</span></span><br><span class="line"><span class="comment">1&gt;vbi:	   class  offset o.vbptr  o.vbte fVtorDisp</span></span><br><span class="line"><span class="comment">1&gt;          point2       8       0       4 0</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">vertex</span> &#123;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">vfunc</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">1&gt;class vertex	size(4):</span></span><br><span class="line"><span class="comment">1&gt;	+---</span></span><br><span class="line"><span class="comment">1&gt; 0	| &#123;vfptr&#125;</span></span><br><span class="line"><span class="comment">1&gt;	+---</span></span><br><span class="line"><span class="comment">1&gt;vertex::$vftable@:</span></span><br><span class="line"><span class="comment">1&gt;	| &amp;vertex_meta</span></span><br><span class="line"><span class="comment">1&gt;	|  0</span></span><br><span class="line"><span class="comment">1&gt; 0	| &amp;vertex::vfunc</span></span><br><span class="line"><span class="comment">1&gt;vertex::vfunc this adjustor: 0</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">v3d</span> : <span class="keyword">public</span> point3, <span class="keyword">public</span> vertex &#123;</span><br><span class="line">    <span class="type">int</span> d, f;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">1&gt;class v3d	size(32):</span></span><br><span class="line"><span class="comment">1&gt;	+---</span></span><br><span class="line"><span class="comment">1&gt; 0	| +--- (base class vertex)</span></span><br><span class="line"><span class="comment">1&gt; 0	| | &#123;vfptr&#125;</span></span><br><span class="line"><span class="comment">1&gt;	| +---</span></span><br><span class="line"><span class="comment">1&gt; 4	| +--- (base class point3)</span></span><br><span class="line"><span class="comment">1&gt; 4	| | &#123;vbptr&#125;</span></span><br><span class="line"><span class="comment">1&gt; 8	| | c</span></span><br><span class="line"><span class="comment">1&gt;	| +---</span></span><br><span class="line"><span class="comment">1&gt;12	| d</span></span><br><span class="line"><span class="comment">1&gt;16	| f</span></span><br><span class="line"><span class="comment">1&gt;	+---</span></span><br><span class="line"><span class="comment">1&gt;	+--- (virtual base point2)</span></span><br><span class="line"><span class="comment">1&gt;20	| &#123;vfptr&#125;</span></span><br><span class="line"><span class="comment">1&gt;24	| a</span></span><br><span class="line"><span class="comment">1&gt;28	| b</span></span><br><span class="line"><span class="comment">1&gt;	+---</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">1&gt;v3d::$vftable@vertex@:</span></span><br><span class="line"><span class="comment">1&gt;	| &amp;v3d_meta</span></span><br><span class="line"><span class="comment">1&gt;	|  0</span></span><br><span class="line"><span class="comment">1&gt; 0	| &amp;vertex::vfunc</span></span><br><span class="line"><span class="comment">1&gt;v3d::$vbtable@:</span></span><br><span class="line"><span class="comment">1&gt; 0	| 0</span></span><br><span class="line"><span class="comment">1&gt; 1	| 16 (v3dd(point3+0)point2)</span></span><br><span class="line"><span class="comment">1&gt;v3d::$vftable@point3@:</span></span><br><span class="line"><span class="comment">1&gt;	| -20</span></span><br><span class="line"><span class="comment">1&gt; 0	| &amp;thunk: this-=8; goto point3::pfunc</span></span><br><span class="line"><span class="comment">1&gt;vbi:	   class  offset o.vbptr  o.vbte fVtorDisp</span></span><br><span class="line"><span class="comment">1&gt;          point2      20       4       4 0</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
-
-
-<h2 id="vbtable"><a href="#vbtable" class="headerlink" title="vbtable"></a>vbtable</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">A</span> &#123;</span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">funca</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line">	<span class="type">int</span> a;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">B</span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">funcb</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">	<span class="type">int</span> b;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">C</span>: <span class="keyword">virtual</span> A ,<span class="keyword">virtual</span> B </span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">int</span> c;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line"></span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">1&gt;class A	size(8):</span></span><br><span class="line"><span class="comment">1&gt;	+---</span></span><br><span class="line"><span class="comment">1&gt; 0	| &#123;vfptr&#125;</span></span><br><span class="line"><span class="comment">1&gt; 4	| a</span></span><br><span class="line"><span class="comment">1&gt;	+---</span></span><br><span class="line"><span class="comment">1&gt;A::$vftable@:</span></span><br><span class="line"><span class="comment">1&gt;	| &amp;A_meta</span></span><br><span class="line"><span class="comment">1&gt;	|  0</span></span><br><span class="line"><span class="comment">1&gt; 0	| &amp;A::funca</span></span><br><span class="line"><span class="comment">1&gt;A::funca this adjustor: 0</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">1&gt;class B	size(8):</span></span><br><span class="line"><span class="comment">1&gt;	+---</span></span><br><span class="line"><span class="comment">1&gt; 0	| &#123;vfptr&#125;</span></span><br><span class="line"><span class="comment">1&gt; 4	| b</span></span><br><span class="line"><span class="comment">1&gt;	+---</span></span><br><span class="line"><span class="comment">1&gt;B::$vftable@:</span></span><br><span class="line"><span class="comment">1&gt;	| &amp;B_meta</span></span><br><span class="line"><span class="comment">1&gt;	|  0</span></span><br><span class="line"><span class="comment">1&gt; 0	| &amp;B::funcb</span></span><br><span class="line"><span class="comment">1&gt;B::funcb this adjustor: 0</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">1&gt;class C	size(24):</span></span><br><span class="line"><span class="comment">1&gt;	+---</span></span><br><span class="line"><span class="comment">1&gt; 0	| &#123;vbptr&#125;</span></span><br><span class="line"><span class="comment">1&gt; 4	| c</span></span><br><span class="line"><span class="comment">1&gt;	+---</span></span><br><span class="line"><span class="comment">1&gt;	+--- (virtual base A)</span></span><br><span class="line"><span class="comment">1&gt; 8	| &#123;vfptr&#125;</span></span><br><span class="line"><span class="comment">1&gt;12	| a</span></span><br><span class="line"><span class="comment">1&gt;	+---</span></span><br><span class="line"><span class="comment">1&gt;	+--- (virtual base B)</span></span><br><span class="line"><span class="comment">1&gt;16	| &#123;vfptr&#125;</span></span><br><span class="line"><span class="comment">1&gt;20	| b</span></span><br><span class="line"><span class="comment">1&gt;	+---</span></span><br><span class="line"><span class="comment">1&gt;C::$vbtable@:</span></span><br><span class="line"><span class="comment">1&gt; 0	| 0</span></span><br><span class="line"><span class="comment">1&gt; 1	| 8 (Cd(C+0)A)</span></span><br><span class="line"><span class="comment">1&gt; 2	| 16 (Cd(C+0)B)</span></span><br><span class="line"><span class="comment">1&gt;C::$vftable@A@:</span></span><br><span class="line"><span class="comment">1&gt;	| -8</span></span><br><span class="line"><span class="comment">1&gt; 0	| &amp;A::funca</span></span><br><span class="line"><span class="comment">1&gt;C::$vftable@B@:</span></span><br><span class="line"><span class="comment">1&gt;	| -16</span></span><br><span class="line"><span class="comment">1&gt; 0	| &amp;B::funcb</span></span><br><span class="line"><span class="comment">1&gt;vbi:	   class  offset o.vbptr  o.vbte fVtorDisp</span></span><br><span class="line"><span class="comment">1&gt;               A       8       0       4 0</span></span><br><span class="line"><span class="comment">1&gt;               B      16       0       8 0</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="菱形继承"><a href="#菱形继承" class="headerlink" title="菱形继承"></a>菱形继承</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">a</span> &#123;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">b</span> : <span class="keyword">public</span> a &#123;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">c</span> : <span class="keyword">public</span> a &#123;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">d</span> :<span class="keyword">public</span> c, <span class="keyword">public</span> b &#123;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">1&gt;class a	size(1):</span></span><br><span class="line"><span class="comment">1&gt;	+---</span></span><br><span class="line"><span class="comment">1&gt;	+---</span></span><br><span class="line"><span class="comment">1&gt;class b	size(1):</span></span><br><span class="line"><span class="comment">1&gt;	+---</span></span><br><span class="line"><span class="comment">1&gt; 0	| +--- (base class a)</span></span><br><span class="line"><span class="comment">1&gt;	| +---</span></span><br><span class="line"><span class="comment">1&gt;	+---</span></span><br><span class="line"><span class="comment">1&gt;class c	size(1):</span></span><br><span class="line"><span class="comment">1&gt;	+---</span></span><br><span class="line"><span class="comment">1&gt; 0	| +--- (base class a)</span></span><br><span class="line"><span class="comment">1&gt;	| +---</span></span><br><span class="line"><span class="comment">1&gt;	+---</span></span><br><span class="line"><span class="comment">1&gt;class d	size(1):</span></span><br><span class="line"><span class="comment">1&gt;	+---</span></span><br><span class="line"><span class="comment">1&gt; 0	| +--- (base class c)</span></span><br><span class="line"><span class="comment">1&gt; 0	| | +--- (base class a)</span></span><br><span class="line"><span class="comment">1&gt;	| | +---</span></span><br><span class="line"><span class="comment">1&gt;	| +---</span></span><br><span class="line"><span class="comment">1&gt; 1	| +--- (base class b)</span></span><br><span class="line"><span class="comment">1&gt; 1	| | +--- (base class a)</span></span><br><span class="line"><span class="comment">1&gt;	| | +---</span></span><br><span class="line"><span class="comment">1&gt;	| +---</span></span><br><span class="line"><span class="comment">1&gt;	+---</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">a</span> &#123;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">b</span> : <span class="keyword">virtual</span> <span class="keyword">public</span> a &#123;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">c</span> : <span class="keyword">virtual</span> <span class="keyword">public</span> a &#123;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">d</span> :<span class="keyword">public</span> c, <span class="keyword">public</span> b &#123;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">1&gt;class a	size(1):</span></span><br><span class="line"><span class="comment">1&gt;	+---</span></span><br><span class="line"><span class="comment">1&gt;	+---</span></span><br><span class="line"><span class="comment">1&gt;class b	size(4):</span></span><br><span class="line"><span class="comment">1&gt;	+---</span></span><br><span class="line"><span class="comment">1&gt; 0	| &#123;vbptr&#125;</span></span><br><span class="line"><span class="comment">1&gt;	+---</span></span><br><span class="line"><span class="comment">1&gt;	+--- (virtual base a)</span></span><br><span class="line"><span class="comment">1&gt;	+---</span></span><br><span class="line"><span class="comment">1&gt;b::$vbtable@:</span></span><br><span class="line"><span class="comment">1&gt; 0	| 0</span></span><br><span class="line"><span class="comment">1&gt; 1	| 4 (bd(b+0)a)</span></span><br><span class="line"><span class="comment">1&gt;vbi:	   class  offset o.vbptr  o.vbte fVtorDisp</span></span><br><span class="line"><span class="comment">1&gt;               a       4       0       4 0</span></span><br><span class="line"><span class="comment">1&gt;class c	size(4):</span></span><br><span class="line"><span class="comment">1&gt;	+---</span></span><br><span class="line"><span class="comment">1&gt; 0	| &#123;vbptr&#125;</span></span><br><span class="line"><span class="comment">1&gt;	+---</span></span><br><span class="line"><span class="comment">1&gt;	+--- (virtual base a)</span></span><br><span class="line"><span class="comment">1&gt;	+---</span></span><br><span class="line"><span class="comment">1&gt;c::$vbtable@:</span></span><br><span class="line"><span class="comment">1&gt; 0	| 0</span></span><br><span class="line"><span class="comment">1&gt; 1	| 4 (cd(c+0)a)</span></span><br><span class="line"><span class="comment">1&gt;vbi:	   class  offset o.vbptr  o.vbte fVtorDisp</span></span><br><span class="line"><span class="comment">1&gt;               a       4       0       4 0</span></span><br><span class="line"><span class="comment">1&gt;class d	size(8):</span></span><br><span class="line"><span class="comment">1&gt;	+---</span></span><br><span class="line"><span class="comment">1&gt; 0	| +--- (base class c)</span></span><br><span class="line"><span class="comment">1&gt; 0	| | &#123;vbptr&#125;</span></span><br><span class="line"><span class="comment">1&gt;	| +---</span></span><br><span class="line"><span class="comment">1&gt; 4	| +--- (base class b)</span></span><br><span class="line"><span class="comment">1&gt; 4	| | &#123;vbptr&#125;</span></span><br><span class="line"><span class="comment">1&gt;	| +---</span></span><br><span class="line"><span class="comment">1&gt;	+---</span></span><br><span class="line"><span class="comment">1&gt;	+--- (virtual base a)</span></span><br><span class="line"><span class="comment">1&gt;	+---</span></span><br><span class="line"><span class="comment">1&gt;d::$vbtable@c@:</span></span><br><span class="line"><span class="comment">1&gt; 0	| 0</span></span><br><span class="line"><span class="comment">1&gt; 1	| 8 (dd(c+0)a)</span></span><br><span class="line"><span class="comment">1&gt;d::$vbtable@b@:</span></span><br><span class="line"><span class="comment">1&gt; 0	| 0</span></span><br><span class="line"><span class="comment">1&gt; 1	| 4 (dd(b+0)a)</span></span><br><span class="line"><span class="comment">1&gt;vbi:	   class  offset o.vbptr  o.vbte fVtorDisp</span></span><br><span class="line"><span class="comment">1&gt;               a       8       0       4 0</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2023/05/03/%E8%99%9A%E7%BB%A7%E6%89%BF/" data-id="clh7j57aa0007yhai024w9njl" data-title="" class="article-share-link">Share</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-test" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2023/05/02/test/" class="article-date">
-  <time class="dt-published" datetime="2023-05-02T13:15:06.367Z" itemprop="datePublished">2023-05-02</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h2 id="test"><a href="#test" class="headerlink" title="test"></a>test</h2><p>cyw </p>
+        <p>重做日志<br>redo log 是 InnoDB 引擎特有的日志</p>
+<p>记录这个页 “做了什么改动“</p>
+<p>有了 redo log，InnoDB 就可以保证即使数据库发生异常重启，之前提交的记录都不会丢失，这个能力称为crash-safe。</p>
+<p>WAL 的全称是 Write-Ahead Logging，它的关键点就是<strong>先写日志</strong>，再写磁盘，</p>
+<p>当有一条记录需要更新的时候，InnoDB 引擎就会先把记录写到 redo log里面，并更新内存，这个时候更新就算完成了。同时，InnoDB 引擎会在适当的时候，将这个操作记录更新到磁盘里面，而这个更新往往是在系统比较空闲的时候做。</p>
+<p><img src="/../images/mysql/redo%20log/image-20230415115523504.png"></p>
+<p>浅色框表示是在 InnoDB 内部执行的，深色框表示是在执行器中执行的。</p>
+<ol>
+<li>执行器先找引擎取 ID&#x3D;2 这一行。ID 是主键，引擎直接用树搜索找到这一行。如果 ID&#x3D;2 这一行所在的数据页本来就在内存中，就直接返回给执行器；否则，需要先从磁盘读入内存，然后再返回。</li>
+<li>执行器拿到引擎给的行数据，把这个值加上 1，比如原来是 N，现在就是 N+1，得到新的一行数据，再调用引擎接口写入这行新数据。</li>
+<li>引擎将这行新数据更新到内存中，同时将这个更新操作记录到 redo log 里面，此时 redo log 处于 prepare 状态。然后告知执行器执行完成了，随时可以提交事务。</li>
+<li>执行器生成这个操作的 binlog，并把 binlog 写入磁盘。</li>
+<li>执行器调用引擎的提交事务接口，引擎把刚刚写入的 redo log 改成提交（commit）状态，更新完成。</li>
+</ol>
+<p>数据恢复<br>binlog 会记录所有的逻辑操作，并且是采用“追加写”的形式。如果你的 DBA 承诺说半个月内可以恢复，那么备份系统中一定会保存最近半个月的所有 binlog，同时系统会定期做整库备份。</p>
+<blockquote>
+<p>两阶段提交<br>    为了让两份日志之间的逻辑一致<br>    跨系统维持数据逻辑<em>一致性</em>时常用的一个方案</p>
+</blockquote>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/05/02/test/" data-id="clh6cqmhu00004aai53d2brs3" data-title="" class="article-share-link">Share</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-hello-world" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2023/05/02/hello-world/" class="article-date">
-  <time class="dt-published" datetime="2023-05-02T13:01:48.966Z" itemprop="datePublished">2023-05-02</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2023/05/02/hello-world/">Hello World</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2023/05/02/hello-world/" data-id="clh6c0uqf0003upaiascce02h" data-title="Hello World" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2023/05/03/note/mysql/redo%20log/" data-id="clh7j8wod000k2waidloueqw3" data-title="" class="article-share-link">Share</a>
       
       
       
@@ -437,6 +434,11 @@
 
   
 
+
+  <nav id="page-nav">
+    
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+  </nav>
 
 </section>
         
@@ -467,23 +469,23 @@
       <ul>
         
           <li>
-            <a href="/2023/05/03/NOCopy%20class/">(no title)</a>
+            <a href="/2023/05/03/note/linux/awk/">(no title)</a>
           </li>
         
           <li>
-            <a href="/2023/05/03/big%20three/">(no title)</a>
+            <a href="/2023/05/03/note/linux/fork/">(no title)</a>
           </li>
         
           <li>
-            <a href="/2023/05/03/empty%20class/">(no title)</a>
+            <a href="/2023/05/03/note/linux/free/">(no title)</a>
           </li>
         
           <li>
-            <a href="/2023/05/03/overload/">(no title)</a>
+            <a href="/2023/05/03/note/linux/gdb/">(no title)</a>
           </li>
         
           <li>
-            <a href="/2023/05/03/string/">(no title)</a>
+            <a href="/2023/05/03/note/linux/%E7%B3%BB%E7%BB%9F%E6%97%A5%E5%BF%97/">(no title)</a>
           </li>
         
       </ul>
