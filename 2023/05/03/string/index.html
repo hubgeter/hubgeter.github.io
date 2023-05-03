@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>daidai</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657#ifndef __STRING__#define __STRING__#include &lt;iostream&gt;#include &lt;cstring&gt;class Stri">
+<meta property="og:type" content="article">
+<meta property="og:title" content="daidai">
+<meta property="og:url" content="http://example.com/2023/05/03/string/index.html">
+<meta property="og:site_name" content="daidai">
+<meta property="og:description" content="123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657#ifndef __STRING__#define __STRING__#include &lt;iostream&gt;#include &lt;cstring&gt;class Stri">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-05-03T10:02:08.255Z">
+<meta property="article:modified_time" content="2023-05-03T10:02:08.255Z">
+<meta property="article:author" content="daidai">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="daidai" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">daidai</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-string" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/05/03/string/" class="article-date">
+  <time class="dt-published" datetime="2023-05-03T10:02:08.255Z" itemprop="datePublished">2023-05-03</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">ifndef</span> __STRING__</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> __STRING__</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">String</span> </span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">String</span>(<span class="type">const</span> <span class="type">char</span> * = <span class="number">0</span>);<span class="comment">//默认参数仅需在声明处定义即可。</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//class with pointer  必须写 big three 三个特殊函数 </span></span><br><span class="line">    <span class="built_in">String</span>(<span class="type">const</span> String&amp; );<span class="comment">//拷贝构造 </span></span><br><span class="line">    String&amp; <span class="keyword">operator</span> = (<span class="type">const</span> String&amp;);<span class="comment">//拷贝赋值</span></span><br><span class="line">    ~<span class="built_in">String</span>();<span class="comment">//析构函数</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">char</span> * <span class="title">get_c_str</span><span class="params">()</span> <span class="type">const</span> </span>&#123; <span class="keyword">return</span> data;&#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="type">char</span> * data;</span><br><span class="line">     <span class="comment">//依动态分配的形式 而不是直接开一个数组 由于不知道数组大小</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// inline String::String(const char* cstr  = 0 )</span></span><br><span class="line"><span class="comment">//默认参数仅需在声明处定义即可。</span></span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="title">String::String</span><span class="params">(<span class="type">const</span> <span class="type">char</span> * cstr)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (cstr)&#123;</span><br><span class="line">        data = <span class="keyword">new</span> <span class="type">char</span>[ <span class="built_in">strlen</span>(cstr)+<span class="number">1</span> ];</span><br><span class="line">        <span class="built_in">strcpy</span>(data,cstr);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        data = <span class="keyword">new</span> <span class="type">char</span> [<span class="number">1</span>];</span><br><span class="line">        *data = <span class="string">&#x27;\0&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="title">String::String</span><span class="params">(<span class="type">const</span> String &amp; str)</span></span>&#123;</span><br><span class="line">    data = <span class="keyword">new</span> <span class="type">char</span>[<span class="built_in">strlen</span>(str.data) + <span class="number">1</span>];</span><br><span class="line">    <span class="built_in">strcpy</span>(data,str.data);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//要先清空  --&gt; 分配空间  --&gt; 拷贝</span></span><br><span class="line"><span class="comment">//delete[]      new       strcpy</span></span><br><span class="line"><span class="keyword">inline</span> String&amp; String::<span class="keyword">operator</span>= (<span class="type">const</span> String&amp; str)&#123;</span><br><span class="line">    <span class="comment">//要自我检测  不仅仅是效率的问题 更关系到正确性</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span> == &amp;str) <span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">delete</span> [] data;</span><br><span class="line">    data = <span class="keyword">new</span> <span class="type">char</span>[<span class="built_in">strlen</span>(str.data) + <span class="number">1</span>];</span><br><span class="line">    <span class="built_in">strcpy</span>(data,str.data);</span><br><span class="line">    <span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">inline</span> String::~<span class="built_in">String</span>()&#123;</span><br><span class="line">    <span class="keyword">delete</span> [] data;<span class="comment">//释放动态内存 否则会内存泄漏</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">inline</span> std::ostream&amp; <span class="keyword">operator</span>&lt;&lt; (std::ostream&amp; os,<span class="type">const</span> String&amp; str) &#123;</span><br><span class="line">    os&lt;&lt;str.<span class="built_in">get_c_str</span>();</span><br><span class="line">    <span class="keyword">return</span> os;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span> </span></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/05/03/string/" data-id="clh7j57a60004yhai9ymu26mb" data-title="" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2023/05/03/overload/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2023/05/03/%E5%A4%9A%E6%80%81/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/05/">May 2023</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/05/03/NOCopy%20class/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/03/big%20three/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/03/empty%20class/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/03/overload/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/03/string/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 daidai<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
