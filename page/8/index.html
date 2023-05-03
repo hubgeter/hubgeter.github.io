@@ -71,6 +71,41 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-go/channel" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/05/ccd62023b79a.html" class="article-date">
+  <time class="dt-published" datetime="2023-05-03T10:05:17.231Z" itemprop="datePublished">2023-05-03</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/note/">note</a>►<a class="article-category-link" href="/categories/note/go/">go</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;time&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">var</span> cnt <span class="type">int</span> = <span class="number">6</span></span><br><span class="line">	li := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="type">int</span>)</span><br><span class="line">	<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; cnt; i++ &#123;</span><br><span class="line">			time.Sleep(time.Second)</span><br><span class="line">			li &lt;- i</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="built_in">close</span>(li) </span><br><span class="line">	&#125;()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> i:= <span class="keyword">range</span> li &#123;</span><br><span class="line">		fmt.Println(i) </span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/05/ccd62023b79a.html" data-id="clh7k3uwp0001eqai61slb8hn" data-title="" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-go/interface" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2023/05/b24f3ec87fff.html" class="article-date">
@@ -450,39 +485,6 @@
 
 
   
-    <article id="post-cpp/c++11/bind" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2023/05/9d05ac83db0c.html" class="article-date">
-  <time class="dt-published" datetime="2023-05-03T10:05:17.231Z" itemprop="datePublished">2023-05-03</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/note/">note</a>►<a class="article-category-link" href="/categories/note/cpp/">cpp</a>►<a class="article-category-link" href="/categories/note/cpp/c-11/">c++11</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//p.223</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;functional&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;memory&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">func</span><span class="params">(<span class="type">int</span> a)</span></span>&#123;</span><br><span class="line">    cout&lt;&lt;<span class="string">&quot;void(a)&quot;</span>&lt;&lt;endl;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">func</span><span class="params">(<span class="type">int</span> a,<span class="type">int</span> b)</span></span>&#123;</span><br><span class="line">    cout&lt;&lt;<span class="string">&quot;func(a,b)&quot;</span>&lt;&lt;endl;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">auto</span> f = std::<span class="built_in">bind</span>(</span><br><span class="line">        <span class="comment">// func,std::placeholders::_1</span></span><br><span class="line">        (<span class="built_in">void</span>(*)(<span class="type">int</span>))func,std::placeholders::_1                               </span><br><span class="line">        <span class="comment">// func,std::placeholders::_1,std::placeholders::_2</span></span><br><span class="line">        <span class="comment">// (void(*)(int,int))func,std::placeholders::_1,std::placeholders::_2</span></span><br><span class="line">        );</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2023/05/9d05ac83db0c.html" data-id="clh7k3uzk0045eqaid3kv6qgb" data-title="" class="article-share-link">Share</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
     <article id="post-cpp/c++11/forward" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2023/05/c38f29f39a27.html" class="article-date">
@@ -562,6 +564,10 @@
       <ul>
         
           <li>
+            <a href="/2023/05/4aedcc0a740f.html">bind</a>
+          </li>
+        
+          <li>
             <a href="/2023/05/e4241cb5f901.html">(no title)</a>
           </li>
         
@@ -575,10 +581,6 @@
         
           <li>
             <a href="/2023/05/6e0ab8664bab.html">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2023/05/1ed1cddfd6c6.html">(no title)</a>
           </li>
         
       </ul>

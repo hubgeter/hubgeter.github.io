@@ -71,6 +71,49 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-cpp/c++11/bind" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/05/4aedcc0a740f.html" class="article-date">
+  <time class="dt-published" datetime="2023-05-03T10:38:53.367Z" itemprop="datePublished">2023-05-03</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/note/">note</a>►<a class="article-category-link" href="/categories/note/cpp/">cpp</a>►<a class="article-category-link" href="/categories/note/cpp/c-11/">c++11</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/05/4aedcc0a740f.html">bind</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//p.223</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;functional&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;memory&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">func</span><span class="params">(<span class="type">int</span> a)</span></span>&#123;</span><br><span class="line">    cout&lt;&lt;<span class="string">&quot;void(a)&quot;</span>&lt;&lt;endl;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">func</span><span class="params">(<span class="type">int</span> a,<span class="type">int</span> b)</span></span>&#123;</span><br><span class="line">    cout&lt;&lt;<span class="string">&quot;func(a,b)&quot;</span>&lt;&lt;endl;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">auto</span> f = std::<span class="built_in">bind</span>(</span><br><span class="line">        <span class="comment">// func,std::placeholders::_1</span></span><br><span class="line">        (<span class="built_in">void</span>(*)(<span class="type">int</span>))func,std::placeholders::_1                               </span><br><span class="line">        <span class="comment">// func,std::placeholders::_1,std::placeholders::_2</span></span><br><span class="line">        <span class="comment">// (void(*)(int,int))func,std::placeholders::_1,std::placeholders::_2</span></span><br><span class="line">        );</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/05/4aedcc0a740f.html" data-id="clh7k3uzk0045eqaid3kv6qgb" data-title="bind" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-linux/awk" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2023/05/e4241cb5f901.html" class="article-date">
@@ -423,56 +466,6 @@
 
 
   
-    <article id="post-mysql/redo log" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2023/05/cef6ff0c7b33.html" class="article-date">
-  <time class="dt-published" datetime="2023-05-03T10:05:17.239Z" itemprop="datePublished">2023-05-03</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/note/">note</a>►<a class="article-category-link" href="/categories/note/mysql/">mysql</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>重做日志<br>redo log 是 InnoDB 引擎特有的日志</p>
-<p>记录这个页 “做了什么改动“</p>
-<p>有了 redo log，InnoDB 就可以保证即使数据库发生异常重启，之前提交的记录都不会丢失，这个能力称为crash-safe。</p>
-<p>WAL 的全称是 Write-Ahead Logging，它的关键点就是<strong>先写日志</strong>，再写磁盘，</p>
-<p>当有一条记录需要更新的时候，InnoDB 引擎就会先把记录写到 redo log里面，并更新内存，这个时候更新就算完成了。同时，InnoDB 引擎会在适当的时候，将这个操作记录更新到磁盘里面，而这个更新往往是在系统比较空闲的时候做。</p>
-<p><img src="/../images/mysql/redo%20log/image-20230415115523504.png"></p>
-<p>浅色框表示是在 InnoDB 内部执行的，深色框表示是在执行器中执行的。</p>
-<ol>
-<li>执行器先找引擎取 ID&#x3D;2 这一行。ID 是主键，引擎直接用树搜索找到这一行。如果 ID&#x3D;2 这一行所在的数据页本来就在内存中，就直接返回给执行器；否则，需要先从磁盘读入内存，然后再返回。</li>
-<li>执行器拿到引擎给的行数据，把这个值加上 1，比如原来是 N，现在就是 N+1，得到新的一行数据，再调用引擎接口写入这行新数据。</li>
-<li>引擎将这行新数据更新到内存中，同时将这个更新操作记录到 redo log 里面，此时 redo log 处于 prepare 状态。然后告知执行器执行完成了，随时可以提交事务。</li>
-<li>执行器生成这个操作的 binlog，并把 binlog 写入磁盘。</li>
-<li>执行器调用引擎的提交事务接口，引擎把刚刚写入的 redo log 改成提交（commit）状态，更新完成。</li>
-</ol>
-<p>数据恢复<br>binlog 会记录所有的逻辑操作，并且是采用“追加写”的形式。如果你的 DBA 承诺说半个月内可以恢复，那么备份系统中一定会保存最近半个月的所有 binlog，同时系统会定期做整库备份。</p>
-<blockquote>
-<p>两阶段提交<br>    为了让两份日志之间的逻辑一致<br>    跨系统维持数据逻辑<em>一致性</em>时常用的一个方案</p>
-</blockquote>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2023/05/cef6ff0c7b33.html" data-id="clh7k3uxk000zeqai02wl017u" data-title="" class="article-share-link">Share</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
   <nav id="page-nav">
@@ -516,6 +509,10 @@
       <ul>
         
           <li>
+            <a href="/2023/05/4aedcc0a740f.html">bind</a>
+          </li>
+        
+          <li>
             <a href="/2023/05/e4241cb5f901.html">(no title)</a>
           </li>
         
@@ -529,10 +526,6 @@
         
           <li>
             <a href="/2023/05/6e0ab8664bab.html">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2023/05/1ed1cddfd6c6.html">(no title)</a>
           </li>
         
       </ul>

@@ -71,6 +71,55 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-网络编程/socket" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/05/8f45486d300e.html" class="article-date">
+  <time class="dt-published" datetime="2023-05-03T10:05:17.239Z" itemprop="datePublished">2023-05-03</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/note/">note</a>►<a class="article-category-link" href="/categories/note/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="connect"><a href="#connect" class="headerlink" title="connect"></a>connect</h2><p>Connect函数一直等到收到对于自己的SYN的ACK才返回，阻塞一个RTT时间</p>
+<h3 id="非阻塞connect"><a href="#非阻塞connect" class="headerlink" title="非阻塞connect"></a>非阻塞connect</h3><p>connect到本地的话，连接通常立刻建立</p>
+<p>当连接成功建立时，描述符变得可写，可以用来判断是否建立连接<br>当连接遇到错误时，描述符变得可读又可写</p>
+<h2 id="TCP数据读写"><a href="#TCP数据读写" class="headerlink" title="TCP数据读写"></a>TCP数据读写</h2><p>在网络编程中，send()函数成功返回并不意味着对端已经成功接收到数据。send()函数返回成功只表示数据已经成功<strong>发送到操作系统的发送缓冲区中，并已经准备好发送给远端</strong>。但是，由于网络中存在各种延迟、拥塞等原因，数据可能会在传输过程中丢失、被损坏或出现其他问题。</p>
+<p>应用层无法直接得知对端收到了哪些数据，可以使用应答机制&#x2F;响应消息。</p>
+<p>对于非阻塞的TCP套接字，如果其发送缓冲区中根本没有空间，返回<strong>EWOULDBLOCk</strong>错误<br>有部分空间，返回内核能复制到该缓冲区中的字节数</p>
+<p>对文件的读写操作read和write同样适用于socket。但是socket编程接 口提供了几个专门用于socket数据读写的系统调用，它们增加了对数据 读写的控制。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;sys/types.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;sys/socket.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="type">ssize_t</span> <span class="title">recv</span><span class="params">(<span class="type">int</span> sockfd,<span class="type">void</span>*buf,<span class="type">size_t</span> len,<span class="type">int</span> flags)</span></span>;</span><br><span class="line"><span class="function"><span class="type">ssize_t</span> <span class="title">send</span><span class="params">(<span class="type">int</span> sockfd,<span class="type">const</span> <span class="type">void</span>*buf,<span class="type">size_t</span> len,<span class="type">int</span> flags)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>recv成功时返回 实际读取到的数据的长度，它可能<strong>小于我们期望的长度len。因此我们 可能要多次调用recv，才能读取到完整的数据</strong>。recv可能返回0，这意味着通信对方已经关闭连接了。recv出错时返回-1并设置errno。</p>
+<p><strong>send成功时返回实际写入的数据的长度</strong>，失败则返回-1并设置 errno</p>
+<p><strong>为什么触发了读事件，缓冲区却没数据？因为数据到来触发了读事件，然后因为效验和出错，被丢弃掉， 导致阻塞io 会一直卡在这里</strong></p>
+<h3 id="关闭连接"><a href="#关闭连接" class="headerlink" title="关闭连接"></a>关闭连接</h3><h5 id="主动关闭"><a href="#主动关闭" class="headerlink" title="主动关闭"></a>主动关闭</h5><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">close</span><span class="params">(<span class="type">int</span> fd)</span></span>;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">shutdown</span><span class="params">(<span class="type">int</span> sockfd,<span class="type">int</span> howto)</span></span>;</span><br><span class="line"><span class="comment">/* SHUT_RD SHUT_WR SHUT_EDWR*/</span></span><br></pre></td></tr></table></figure>
+
+<p>close系统调用并非总是立即关闭 一个连接，而是将<em>fd的引用计数减1</em>。只有当fd的引用计数为0时，才真正关闭连接。多进程程序中，一次fork系统调用默认将使父进程中打开的socket的引用计数加1，因此我们必须在父进程和子进程中都对该 socket执行close调用才能将连接关闭。如果无论如何都要立即终止连接（而不是将socket的引用计数减 1），可以使用如下的shutdown系统调用。</p>
+<h3 id="被动关闭"><a href="#被动关闭" class="headerlink" title="被动关闭"></a>被动关闭</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 有的网络编程需要支持半关闭状态</span></span><br><span class="line"><span class="comment">// 被动：读端关闭</span></span><br><span class="line"><span class="type">int</span> n = <span class="built_in">read</span>(fd, buf, sz);</span><br><span class="line"><span class="keyword">if</span> (n == <span class="number">0</span>) &#123;</span><br><span class="line">	<span class="built_in">close_read</span>(fd);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 被动：写端关闭</span></span><br><span class="line"><span class="type">int</span> n = <span class="built_in">write</span>(fd, buf, sz);</span><br><span class="line"><span class="keyword">if</span> (n == <span class="number">-1</span> &amp;&amp; errno == EPIPE) &#123;</span><br><span class="line">	<span class="built_in">close_write</span>(fd);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/05/8f45486d300e.html" data-id="clh7k3uz9003reqai7dze9lnj" data-title="" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-网络编程/tmp" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2023/05/7b5298a613b9.html" class="article-date">
@@ -445,69 +494,6 @@
 
 
   
-    <article id="post-计网/应用层/http" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2023/05/405cf1a4841d.html" class="article-date">
-  <time class="dt-published" datetime="2023-05-03T10:05:17.239Z" itemprop="datePublished">2023-05-03</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/note/">note</a>►<a class="article-category-link" href="/categories/note/%E8%AE%A1%E7%BD%91/">计网</a>►<a class="article-category-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E5%BA%94%E7%94%A8%E5%B1%82/">应用层</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h2 id="请求"><a href="#请求" class="headerlink" title="请求"></a>请求</h2><p>get 从服务器获取指定的资源，<strong>请求的资源一般写在URL中</strong><br>post 根据请求负载（报文body）来对指定的资源做出处理</p>
-<h2 id="状态码"><a href="#状态码" class="headerlink" title="状态码"></a>状态码</h2><p>1XX 提示信息：101切换到websocket<br>2XX 成功 ： 200<br>3XX重定向： 资源发生变动<br>4XX 客户端错误，请求报文有错误，服务器无法处理： 404 not found 请求的资源在服务器上不存在或未找到<br>5XX 服务端错误 ：503 客户端繁忙</p>
-<h2 id="字段"><a href="#字段" class="headerlink" title="字段"></a>字段</h2><p>​	host 指定服务器的域名 </p>
-<p>​	content-length 长度</p>
-<p>​	connection 常用于客户端要求服务器使用「HTTP 长连接」机制</p>
-<p>​	Content-Type 数据格式</p>
-<p>​	Content-Encoding 压缩格式</p>
-<p><strong>HTTP 协议通过设置回车符、换行符作为 HTTP header 的边界，通过 Content-Length 字段作为 HTTP body 的边界，这两个方式都是为了解决“粘包”的问题</strong>。</p>
-<h2 id="http长连接"><a href="#http长连接" class="headerlink" title="http长连接"></a>http长连接</h2><p>HTTP 的 Keep-Alive，是由<strong>应用层（用户态）</strong> 实现的，称为 HTTP 长连接；</p>
-<p>TCP 的 Keepalive，是由 <strong>TCP 层（内核态）</strong> 实现的，称为 TCP 保活机制；</p>
-<p>HTTP 协议采用的是「请求-应答」的模式，也就是客户端发起了请求，服务端才会返回响应，一来一回这样子。</p>
-<p><strong>HTTP 短连接</strong> ： 建立 TCP -&gt; 请求资源 -&gt; 响应资源 -&gt; 释放连接</p>
-<p>HTTP 的 Keep-Alive 就是实现了这个功能：可以使用同一个 TCP 连接来发送和接收多个 HTTP 请求&#x2F;应答，避免了连接建立和释放的开销</p>
-<p>HTTP 长连接不仅仅减少了 TCP 连接资源的开销，而且这给 <strong>HTTP 流水线</strong>技术提供了可实现的基础。</p>
-<p>所谓的 HTTP 流水线，是<strong>客户端可以先一次性发送多个请求，而在发送过程中不需先等待服务器的回应</strong>，可以减少整体的响应时间。但是<strong>服务器必须按照接收请求的顺序发送对这些管道化请求的响应</strong></p>
-<p>TCP 的 Keepalive 这东西其实就是 <strong>TCP 的保活机制</strong></p>
-<p>如果对端主机宕机（<em>注意不是进程崩溃，进程崩溃后操作系统在回收进程资源的时候，会发送 FIN 报文，而主机宕机则是无法感知的，所以需要 TCP 保活机制来探测对方是不是发生了主机宕机</em>），或对端由于其他原因导致报文不可达。当 TCP 保活的探测报文发送给对端后，石沉大海，没有响应，连续几次，达到保活探测次数后，<strong>TCP 会报告该 TCP 连接已经死亡</strong></p>
-<p>TCP 保活机制可以在双方没有数据交互的情况，通过探测报文，来确定对方的 TCP 连接是否存活，这个工作是在内核完成的</p>
-<h2 id="https-x3D-http-加密-认证-完整性保护"><a href="#https-x3D-http-加密-认证-完整性保护" class="headerlink" title="https &#x3D; http +  加密 +  认证  + 完整性保护"></a>https &#x3D; http +  加密 +  认证  + 完整性保护</h2><p>http 明文传输</p>
-<h3 id="前置知识"><a href="#前置知识" class="headerlink" title="前置知识"></a>前置知识</h3><p>共享密钥加密： 使用同一个密钥 不安全 </p>
-<p>公开密钥加密：公钥+私钥  慢 安全</p>
-<p>​公钥加密，私钥解密。这个目的是为了保证<strong>内容传输的安全</strong>，因为被公钥加密的内容，其他人是无法解密的，只有持有私钥的人，才能解密出实际的内容；</p>
-<p>​私钥加密，公钥解密。这个目的是为了保证消息不会被<strong>冒充</strong>，因为私钥是不可泄露的，如果公钥能正常解密出私钥加密的内容，就能证明这个消息是来源于持有私钥身份的人发送的。</p>
-<h3 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h3><p>https 混合加密 ：把共享密钥用公开密钥加密，之后用共享密钥进行通信 </p>
-<p>如何拿到正确的服务器公钥，而不是伪造的：CA </p>
-<h3 id="RSA四次握手"><a href="#RSA四次握手" class="headerlink" title="RSA四次握手"></a>RSA四次握手</h3><p>client 发送随机数 </p>
-<p>server发送随机数 + 数字证书（ca用自己的私钥对server的公钥进行加密）</p>
-<p>client 用ca的公钥解密，确定是server ，得到服务器的公钥，然后生成随机数，用公钥加密，发给server</p>
-<p>三个随机数生成会话密钥，双方之后用此会话密钥进行通信，然后交换所有握手数据的摘要。</p>
-<p>完整性保护：将消息分割、压缩，加上消息认证码（MAC 值，这个是通过哈希算法生成的），这是为了保证完整性，并进行数据的认证。之后一起经过加密。</p>
-<p>使用 RSA 密钥协商算法的最大问题是不支持前向保密。因为客户端传递随机数（用于生成对称加密密钥的条件之一）给服务端时使用的是公钥加密的，服务端收到后，会用私钥解密得到随机数。所以一旦服务端的私钥泄漏了，过去被第三方截获的所有 TLS 通讯密文都会被破解。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2023/05/405cf1a4841d.html" data-id="clh7k3v0v0070eqaie98xg5k8" data-title="" class="article-share-link">Share</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
   <nav id="page-nav">
@@ -551,6 +537,10 @@
       <ul>
         
           <li>
+            <a href="/2023/05/4aedcc0a740f.html">bind</a>
+          </li>
+        
+          <li>
             <a href="/2023/05/e4241cb5f901.html">(no title)</a>
           </li>
         
@@ -564,10 +554,6 @@
         
           <li>
             <a href="/2023/05/6e0ab8664bab.html">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2023/05/1ed1cddfd6c6.html">(no title)</a>
           </li>
         
       </ul>
