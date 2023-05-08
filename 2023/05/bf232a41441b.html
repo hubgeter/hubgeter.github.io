@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Category: note | daidai</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="systemctl status rsyslog.service   syslog linux内核提供的日志文件设计指引  man 3 syslogrsyslogd 守护程序 进行信息的分类rsyslog.service  启动脚本设置  etc&#x2F;rsyslog.conf什么服务 [.&#x3D;!] 信息等级      信息记录的文件名&#x2F;主机&#x2F;var&#x2F;lo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="系统日志">
+<meta property="og:url" content="http://example.com/2023/05/bf232a41441b.html">
+<meta property="og:site_name" content="daidai">
+<meta property="og:description" content="systemctl status rsyslog.service   syslog linux内核提供的日志文件设计指引  man 3 syslogrsyslogd 守护程序 进行信息的分类rsyslog.service  启动脚本设置  etc&#x2F;rsyslog.conf什么服务 [.&#x3D;!] 信息等级      信息记录的文件名&#x2F;主机&#x2F;var&#x2F;lo">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/images/linux/%E7%B3%BB%E7%BB%9F%E6%97%A5%E5%BF%97/image-20230418110740408.png">
+<meta property="article:published_time" content="2023-05-08T10:11:50.298Z">
+<meta property="article:modified_time" content="2023-05-08T10:12:48.563Z">
+<meta property="article:author" content="daidai">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/linux/%E7%B3%BB%E7%BB%9F%E6%97%A5%E5%BF%97/image-20230418110740408.png">
+  
+    <link rel="alternate" href="/atom.xml" title="daidai" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">daidai</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-linux/系统日志" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/05/bf232a41441b.html" class="article-date">
+  <time class="dt-published" datetime="2023-05-08T10:11:50.298Z" itemprop="datePublished">2023-05-08</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/note/">note</a>►<a class="article-category-link" href="/categories/note/linux/">linux</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      系统日志
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>systemctl status rsyslog.service  </p>
+<p>syslog linux内核提供的日志文件设计指引  man 3 syslog<br>rsyslogd 守护程序 进行信息的分类<br>rsyslog.service  启动脚本设置 </p>
+<p>etc&#x2F;rsyslog.conf<br>什么服务 [.&#x3D;!] 信息等级      信息记录的文件名&#x2F;主机<br>&#x2F;var&#x2F;log</p>
+<p><img src="/../images/linux/%E7%B3%BB%E7%BB%9F%E6%97%A5%E5%BF%97/image-20230418110740408.png"></p>
+<p>rsyslog的日志只要被”编辑过”就无法继续记录：</p>
+<ul>
+<li>不用 : wq</li>
+<li>重启rsyslog.service </li>
+<li>chattr +a</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;syslog.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="built_in">openlog</span>(<span class="string">&quot;info&quot;</span>,LOG_PID|LOG_CONS,LOG_LOCAL0);</span><br><span class="line">        <span class="built_in">syslog</span>(LOG_INFO,<span class="string">&quot;hello world&quot;</span>);</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;end\n&quot;</span>);</span><br><span class="line">        <span class="built_in">closelog</span>();</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta"># tmp.conf</span></span><br><span class="line">local0.*                         -/var/log/tmp.log</span><br><span class="line"># - 表示产生的信息先放到内存buffer中，数据量大了再写入磁盘 </span><br><span class="line"></span><br><span class="line">logger -p local0.info <span class="string">&quot;tmp&quot;</span></span><br><span class="line">cat /var/log/tmp.log</span><br></pre></td></tr></table></figure>
+
+
+<p>journald ： 开机启动过程中的所有信息，包括启动服务与服务启动失败<br>  使用的是内存的日志文件记录方式<br>  用来管理这次启动的登录信息，这些信息不会被放到下次开机启动后的<br>Rsyslogd 可以记到磁盘上，方便未来查询 </p>
+<p>日志文件的轮回 logrotate<br>&#x2F;etc&#x2F;logrotate.conf</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/05/bf232a41441b.html" data-id="clheoqw6x000rjtai4yqshgj0" data-title="系统日志" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2023/05/8f7cbc6c0eff.html" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          vim
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2023/05/50db5105e789.html" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">计划任务</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/note/">note</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/note/backup/">backup</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/">cpp</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/c-11/">c++11</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/class/">class</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/stl/">stl</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/template/">template</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/waining/">waining</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/%E8%AF%AD%E8%A8%80%E7%9B%B8%E5%85%B3/">语言相关</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/go/">go</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/linux/">linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/mysql/">mysql</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/os/">os</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/redis/">redis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/">计网</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E4%BC%A0%E8%BE%93%E5%B1%82/">传输层</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E4%BC%A0%E8%BE%93%E5%B1%82/TCP/">TCP</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E5%BA%94%E7%94%A8%E5%B1%82/">应用层</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E7%BD%91%E7%BB%9C%E5%B1%82/">网络层</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/05/">May 2023</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/05/46b6b168fc09.html">bind</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/81ef9e228620.html">中断</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/77622c3fa639.html">信号</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/33d3473c6e1d.html">动态链接</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/28037448ba59.html">堆</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 daidai<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

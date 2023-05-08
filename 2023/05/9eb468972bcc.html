@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Category: note | daidai</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="客户端连接在收到服务器的结束报文段之后，并没有直接进入CLOSED状态而是转移到TIME_WAIT 状态。在这个状态，客户端连接要等待一段长为2MSL（Maximum Segment Life，报文段最大生存时间）的时间，才能完全关闭。MSL是 TCP报文段在网络中的最大生存时间，标准文档RFC 1122的建议值是2 min。  TIME_WAIT状态存在的原因有两点： 1. 可靠地终止TCP连接">
+<meta property="og:type" content="article">
+<meta property="og:title" content="time_wait">
+<meta property="og:url" content="http://example.com/2023/05/9eb468972bcc.html">
+<meta property="og:site_name" content="daidai">
+<meta property="og:description" content="客户端连接在收到服务器的结束报文段之后，并没有直接进入CLOSED状态而是转移到TIME_WAIT 状态。在这个状态，客户端连接要等待一段长为2MSL（Maximum Segment Life，报文段最大生存时间）的时间，才能完全关闭。MSL是 TCP报文段在网络中的最大生存时间，标准文档RFC 1122的建议值是2 min。  TIME_WAIT状态存在的原因有两点： 1. 可靠地终止TCP连接">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-05-08T10:11:50.302Z">
+<meta property="article:modified_time" content="2023-05-08T10:12:48.575Z">
+<meta property="article:author" content="daidai">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="daidai" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">daidai</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-计网/传输层/TCP/time_wait" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/05/9eb468972bcc.html" class="article-date">
+  <time class="dt-published" datetime="2023-05-08T10:11:50.302Z" itemprop="datePublished">2023-05-08</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/note/">note</a>►<a class="article-category-link" href="/categories/note/%E8%AE%A1%E7%BD%91/">计网</a>►<a class="article-category-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E4%BC%A0%E8%BE%93%E5%B1%82/">传输层</a>►<a class="article-category-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E4%BC%A0%E8%BE%93%E5%B1%82/TCP/">TCP</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      time_wait
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>客户端连接在收到服务器的结束报文段之后，并没有直接进入CLOSED状态而是转移到TIME_WAIT 状态。在这个状态，客户端连接要等待一段长为2MSL（Maximum Segment Life，报文段最大生存时间）的时间，才能完全关闭。MSL是 TCP报文段在网络中的最大生存时间，标准文档RFC 1122的建议值是2 min。 </p>
+<p>TIME_WAIT状态存在的原因有两点： 1. <em>可靠地终止TCP连接</em>。 假设用于确认服务器结束报文段的 TCP报文段丢失，那么服务器将重发结束报文段。因此客户端需要停留在某个状态以处理重复收到的结束报文段（即向服务器发送确认报文段）。否则，客户端将以<em>复位</em>报文段来回应服务器，服务器则认为这是一个错误，因为它期望的是一个像TCP报文段那样的确认报文段。 2.<em>保证让迟来的TCP报文段有足够的时间被识别并丢弃</em>。在Linux系统上，一个TCP端口不能被同时打开多次（两次及以 上）。当一个TCP连接处于TIME_WAIT状态时，我们将无法立即使用 该连接占用着的端口来建立一个新连接。反过来思考，如果不存在 TIME_WAIT状态，则应用程序能够立即建立一个和刚关闭的连接相似的连接（这里说的相似，是指它们具有相同的IP地址和端口号）。这个新的、和原来相似的连接被称为原来的连接的化身（incarnation）。 新的化身可能接收到属于原来的连接的、携带应用程序数据的TCP报文段（迟到的报文段），这显然是不应该发生的。 </p>
+<p>另外，因为TCP报文段的最大生存时间是MSL，所以坚持2MSL时间的TIME_WAIT状态<em>能够确保网络上两个传输方向上尚未被接收到 的、迟到的TCP报文段都已经消失 （被中转路由器丢弃）</em>。因此，一个连接的新的化身可以在2MSL时间之后安全地建立，而绝对不会接收到 属于原来连接的应用程序数据，这就是TIME_WAIT状态要持续2MSL时间的原因。 有时候我们希望避免TIME_WAIT状态，因为当程序退出后，我们 希望能够立即重启它。但由于处在TIME_WAIT状态的连接还占用着端 口，程序将无法启动（直到2MSL超时时间结束）。我们可以通过socket选项SO_REUSEADDR来强制进程立 即使用处于TIME_WAIT状态的连接占用的端口。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/05/9eb468972bcc.html" data-id="clheoqwb1007hjtai1mvrcl3s" data-title="time_wait" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2023/05/4602f8c23cf4.html" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          ip
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2023/05/c2050c3e330a.html" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">tmp</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/note/">note</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/note/backup/">backup</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/">cpp</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/c-11/">c++11</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/class/">class</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/stl/">stl</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/template/">template</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/waining/">waining</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/%E8%AF%AD%E8%A8%80%E7%9B%B8%E5%85%B3/">语言相关</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/go/">go</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/linux/">linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/mysql/">mysql</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/os/">os</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/redis/">redis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/">计网</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E4%BC%A0%E8%BE%93%E5%B1%82/">传输层</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E4%BC%A0%E8%BE%93%E5%B1%82/TCP/">TCP</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E5%BA%94%E7%94%A8%E5%B1%82/">应用层</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E7%BD%91%E7%BB%9C%E5%B1%82/">网络层</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/05/">May 2023</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/05/46b6b168fc09.html">bind</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/81ef9e228620.html">中断</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/77622c3fa639.html">信号</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/33d3473c6e1d.html">动态链接</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/28037448ba59.html">堆</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 daidai<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

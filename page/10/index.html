@@ -71,10 +71,10 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-cpp/class/overload" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-cpp/class/big three" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2023/05/1b0cfa352a3a.html" class="article-date">
-  <time class="dt-published" datetime="2023-05-03T10:05:17.231Z" itemprop="datePublished">2023-05-03</time>
+    <a href="/2023/05/aff89086da9d.html" class="article-date">
+  <time class="dt-published" datetime="2023-05-08T10:11:50.298Z" itemprop="datePublished">2023-05-08</time>
 </a>
     
   <div class="article-category">
@@ -85,6 +85,129 @@
   <div class="article-inner">
     
     
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/05/aff89086da9d.html">big three</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><strong>class with pointer</strong>  必须写 big three : 拷贝构造，拷贝赋值，析构函数</p>
+<p>浅拷贝 编译器默认 :  一个位 一个位的进行赋值 </p>
+<p>深拷贝  (拷贝构造 拷贝赋值) </p>
+<p><img src="/../../images/cpp/class/big%20three/image-20230426204357057.png"></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">string <span class="title">s1</span><span class="params">(<span class="string">&quot;hello&quot;</span>)</span></span>;</span><br><span class="line"><span class="function">string <span class="title">s2</span><span class="params">(s1)</span></span>;</span><br><span class="line">string s3 = s1;</span><br><span class="line"><span class="comment">//意思完全相同  写法不同 因为都是新创建的对象 调用的都是同一个函数 String(const String&amp;)</span></span><br></pre></td></tr></table></figure>
+
+
+<p><img src="/../../images/cpp/class/big%20three/image-20230426204441647.png"><br><img src="/../../images/cpp/class/big%20three/image-20230426204511887.png"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/05/aff89086da9d.html" data-id="clheoqw9y004zjtaiacnx0ma8" data-title="big three" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-cpp/class/empty class" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/05/9e7b2112ade1.html" class="article-date">
+  <time class="dt-published" datetime="2023-05-08T10:11:50.298Z" itemprop="datePublished">2023-05-08</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/note/">note</a>►<a class="article-category-link" href="/categories/note/cpp/">cpp</a>►<a class="article-category-link" href="/categories/note/cpp/class/">class</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/05/9e7b2112ade1.html">empty class</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>对于空类，编译器不会生成任何的成员函数，只会生成1个字节的占位符。</p>
+<p>使用空类定义对象或者调用成员函数时，编译器会自动为你生成以下个成员函数（仅在需要时生成）：</p>
+<ul>
+<li>一个默认构造函数</li>
+<li>一个复制构造函数</li>
+<li>一个复制赋值运算符<br>  copy ctor 和 copy assignment operator  编译器只是单纯的的将source object 的每一个non-static data members 拷贝到 destination object </li>
+<li>一个析构函数 （编译器产出的dtor 是<em>non-virtual</em> 除非class 的base class 本身带有virtual  dtor） </li>
+<li>移动构造函数</li>
+<li>移动赋值函数</li>
+<li>两个取址运算符（常量和非常量）</li>
+</ul>
+<p>这些成员函数都是<strong>公有的、内联的、无参数</strong>的。<br>用处：<strong>主要是给编译器一个地方用来放置   幕后的code</strong> , 例如 base class ,non-static members 的ctors 、dtors</p>
+<p><strong>可以使用delete 或者private 来阻止编译器生成</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">A</span>&#123;</span><br><span class="line">    <span class="type">void</span>* <span class="keyword">operator</span>&amp;() <span class="type">const</span> &#123;</span><br><span class="line">        cout&lt;&lt;<span class="string">&quot;operator*&quot;</span>&lt;&lt;endl;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">const</span> A a;</span><br><span class="line">    cout&lt;&lt;&amp;a&lt;&lt;endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>声明复制操作 ，不会生成移动操作</p>
+<p>声明移动操作 ，不会生成复制操作</p>
+<p>析构函数 阻止移动操作的生成 ，针对移动操作的请求仍然可以被编译和执行，但触发的是复制操作</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">base</span>&#123;</span><br><span class="line">    <span class="built_in">base</span>() = <span class="keyword">default</span>;</span><br><span class="line">    <span class="built_in">base</span>(<span class="type">const</span> base&amp;)&#123;</span><br><span class="line">        cout&lt;&lt;<span class="string">&quot;base(const base&amp;)&quot;</span>&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">base</span>(<span class="type">const</span> base&amp;&amp;)&#123;</span><br><span class="line">        cout&lt;&lt;<span class="string">&quot;base(const base&amp;&amp;)&quot;</span>&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">A</span>&#123;</span><br><span class="line">    <span class="comment">// A() = default;</span></span><br><span class="line">    <span class="comment">// A(const A&amp; )</span></span><br><span class="line">    <span class="comment">// &#123;</span></span><br><span class="line">    <span class="comment">//     cout&lt;&lt;&quot;A&quot;&lt;&lt;endl;</span></span><br><span class="line">    <span class="comment">// &#125;</span></span><br><span class="line">    ~<span class="built_in">A</span>()&#123;</span><br><span class="line">    &#125;</span><br><span class="line">    base b;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    A a;</span><br><span class="line">    <span class="function">A <span class="title">b</span><span class="params">(move(a))</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/05/9e7b2112ade1.html" data-id="clheoqw9z0052jtaihkoz0wc1" data-title="empty class" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-cpp/class/overload" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/05/d3fe580cb319.html" class="article-date">
+  <time class="dt-published" datetime="2023-05-08T10:11:50.298Z" itemprop="datePublished">2023-05-08</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/note/">note</a>►<a class="article-category-link" href="/categories/note/cpp/">cpp</a>►<a class="article-category-link" href="/categories/note/cpp/class/">class</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/05/d3fe580cb319.html">overload</a>
+    </h1>
+  
+
+      </header>
+    
     <div class="e-content article-entry" itemprop="articleBody">
       
         <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">A</span>&#123;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">func</span><span class="params">()</span></span>&#123;</span><br><span class="line">        cout&lt;&lt;<span class="string">&quot;func&quot;</span>&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// void func() const &#123;</span></span><br><span class="line">    <span class="comment">//     cout&lt;&lt;&quot;const func&quot;&lt;&lt;endl;</span></span><br><span class="line">    <span class="comment">// &#125;    </span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    A a;a.<span class="built_in">func</span>();</span><br><span class="line">    <span class="comment">// const A b;b.func();</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -93,7 +216,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/05/1b0cfa352a3a.html" data-id="clhbkgs4w004zvfaihrhd0fro" data-title="" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2023/05/d3fe580cb319.html" data-id="clheoqwa00054jtaicje8672d" data-title="overload" class="article-share-link">Share</a>
       
       
       
@@ -107,8 +230,8 @@
   
     <article id="post-cpp/class/string" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2023/05/b8785bbbf254.html" class="article-date">
-  <time class="dt-published" datetime="2023-05-03T10:05:17.231Z" itemprop="datePublished">2023-05-03</time>
+    <a href="/2023/05/87cebf3364d9.html" class="article-date">
+  <time class="dt-published" datetime="2023-05-08T10:11:50.298Z" itemprop="datePublished">2023-05-08</time>
 </a>
     
   <div class="article-category">
@@ -119,6 +242,16 @@
   <div class="article-inner">
     
     
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/05/87cebf3364d9.html">string</a>
+    </h1>
+  
+
+      </header>
+    
     <div class="e-content article-entry" itemprop="articleBody">
       
         <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">ifndef</span> __STRING__</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> __STRING__</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">String</span> </span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">String</span>(<span class="type">const</span> <span class="type">char</span> * = <span class="number">0</span>);<span class="comment">//默认参数仅需在声明处定义即可。</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//class with pointer  必须写 big three 三个特殊函数 </span></span><br><span class="line">    <span class="built_in">String</span>(<span class="type">const</span> String&amp; );<span class="comment">//拷贝构造 </span></span><br><span class="line">    String&amp; <span class="keyword">operator</span> = (<span class="type">const</span> String&amp;);<span class="comment">//拷贝赋值</span></span><br><span class="line">    ~<span class="built_in">String</span>();<span class="comment">//析构函数</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">char</span> * <span class="title">get_c_str</span><span class="params">()</span> <span class="type">const</span> </span>&#123; <span class="keyword">return</span> data;&#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="type">char</span> * data;</span><br><span class="line">     <span class="comment">//依动态分配的形式 而不是直接开一个数组 由于不知道数组大小</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// inline String::String(const char* cstr  = 0 )</span></span><br><span class="line"><span class="comment">//默认参数仅需在声明处定义即可。</span></span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="title">String::String</span><span class="params">(<span class="type">const</span> <span class="type">char</span> * cstr)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (cstr)&#123;</span><br><span class="line">        data = <span class="keyword">new</span> <span class="type">char</span>[ <span class="built_in">strlen</span>(cstr)+<span class="number">1</span> ];</span><br><span class="line">        <span class="built_in">strcpy</span>(data,cstr);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        data = <span class="keyword">new</span> <span class="type">char</span> [<span class="number">1</span>];</span><br><span class="line">        *data = <span class="string">&#x27;\0&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="title">String::String</span><span class="params">(<span class="type">const</span> String &amp; str)</span></span>&#123;</span><br><span class="line">    data = <span class="keyword">new</span> <span class="type">char</span>[<span class="built_in">strlen</span>(str.data) + <span class="number">1</span>];</span><br><span class="line">    <span class="built_in">strcpy</span>(data,str.data);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//要先清空  --&gt; 分配空间  --&gt; 拷贝</span></span><br><span class="line"><span class="comment">//delete[]      new       strcpy</span></span><br><span class="line"><span class="keyword">inline</span> String&amp; String::<span class="keyword">operator</span>= (<span class="type">const</span> String&amp; str)&#123;</span><br><span class="line">    <span class="comment">//要自我检测  不仅仅是效率的问题 更关系到正确性</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span> == &amp;str) <span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">delete</span> [] data;</span><br><span class="line">    data = <span class="keyword">new</span> <span class="type">char</span>[<span class="built_in">strlen</span>(str.data) + <span class="number">1</span>];</span><br><span class="line">    <span class="built_in">strcpy</span>(data,str.data);</span><br><span class="line">    <span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">inline</span> String::~<span class="built_in">String</span>()&#123;</span><br><span class="line">    <span class="keyword">delete</span> [] data;<span class="comment">//释放动态内存 否则会内存泄漏</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">inline</span> std::ostream&amp; <span class="keyword">operator</span>&lt;&lt; (std::ostream&amp; os,<span class="type">const</span> String&amp; str) &#123;</span><br><span class="line">    os&lt;&lt;str.<span class="built_in">get_c_str</span>();</span><br><span class="line">    <span class="keyword">return</span> os;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span> </span></span><br></pre></td></tr></table></figure>
@@ -126,7 +259,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/05/b8785bbbf254.html" data-id="clhbkgs4x0052vfaiekvqa3mu" data-title="" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2023/05/87cebf3364d9.html" data-id="clheoqwa10057jtaibwp4hw27" data-title="string" class="article-share-link">Share</a>
       
       
       
@@ -140,8 +273,8 @@
   
     <article id="post-cpp/class/多态" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2023/05/2d2d1daa2387.html" class="article-date">
-  <time class="dt-published" datetime="2023-05-03T10:05:17.231Z" itemprop="datePublished">2023-05-03</time>
+    <a href="/2023/05/46d7ed35849b.html" class="article-date">
+  <time class="dt-published" datetime="2023-05-08T10:11:50.298Z" itemprop="datePublished">2023-05-08</time>
 </a>
     
   <div class="article-category">
@@ -151,6 +284,16 @@
   </div>
   <div class="article-inner">
     
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/05/46d7ed35849b.html">多态</a>
+    </h1>
+  
+
+      </header>
     
     <div class="e-content article-entry" itemprop="articleBody">
       
@@ -174,7 +317,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/05/2d2d1daa2387.html" data-id="clhbkgs520054vfai4vxwdleo" data-title="" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2023/05/46d7ed35849b.html" data-id="clheoqwa40059jtai8buz1n5o" data-title="多态" class="article-share-link">Share</a>
       
       
       
@@ -188,8 +331,8 @@
   
     <article id="post-cpp/class/封装" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2023/05/5d4d3f08462e.html" class="article-date">
-  <time class="dt-published" datetime="2023-05-03T10:05:17.231Z" itemprop="datePublished">2023-05-03</time>
+    <a href="/2023/05/6f9a0b94c0c1.html" class="article-date">
+  <time class="dt-published" datetime="2023-05-08T10:11:50.298Z" itemprop="datePublished">2023-05-08</time>
 </a>
     
   <div class="article-category">
@@ -200,6 +343,16 @@
   <div class="article-inner">
     
     
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/05/6f9a0b94c0c1.html">封装</a>
+    </h1>
+  
+
+      </header>
+    
     <div class="e-content article-entry" itemprop="articleBody">
       
         <p>c++ 自己的数据用自己的函数来处理 &#x3D;&gt; 数据和函数包在一起。<br>数据可以有很多份 ，函数只有一份，所有成员函数都带一个隐藏的参数 –&gt;  this指针 。</p>
@@ -208,7 +361,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/05/5d4d3f08462e.html" data-id="clhbkgs530057vfaihane6hrn" data-title="" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2023/05/6f9a0b94c0c1.html" data-id="clheoqwa5005cjtaif1ygd53w" data-title="封装" class="article-share-link">Share</a>
       
       
       
@@ -222,8 +375,8 @@
   
     <article id="post-cpp/class/虚继承" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2023/05/c068a3212937.html" class="article-date">
-  <time class="dt-published" datetime="2023-05-03T10:05:17.231Z" itemprop="datePublished">2023-05-03</time>
+    <a href="/2023/05/b9f28d6dc3b7.html" class="article-date">
+  <time class="dt-published" datetime="2023-05-08T10:11:50.298Z" itemprop="datePublished">2023-05-08</time>
 </a>
     
   <div class="article-category">
@@ -233,6 +386,16 @@
   </div>
   <div class="article-inner">
     
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/05/b9f28d6dc3b7.html">虚继承</a>
+    </h1>
+  
+
+      </header>
     
     <div class="e-content article-entry" itemprop="articleBody">
       
@@ -249,7 +412,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/05/c068a3212937.html" data-id="clhbkgs530059vfaihbcmcv2w" data-title="" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2023/05/b9f28d6dc3b7.html" data-id="clheoqwa6005ejtai0em9d8v9" data-title="虚继承" class="article-share-link">Share</a>
       
       
       
@@ -263,8 +426,8 @@
   
     <article id="post-cpp/stl/other" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2023/05/2be7b7b5a1a7.html" class="article-date">
-  <time class="dt-published" datetime="2023-05-03T10:05:17.231Z" itemprop="datePublished">2023-05-03</time>
+    <a href="/2023/05/c4a7c0edb06f.html" class="article-date">
+  <time class="dt-published" datetime="2023-05-08T10:11:50.298Z" itemprop="datePublished">2023-05-08</time>
 </a>
     
   <div class="article-category">
@@ -274,6 +437,16 @@
   </div>
   <div class="article-inner">
     
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/05/c4a7c0edb06f.html">other</a>
+    </h1>
+  
+
+      </header>
     
     <div class="e-content article-entry" itemprop="articleBody">
       
@@ -288,7 +461,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/05/2be7b7b5a1a7.html" data-id="clhbkgs54005cvfai8r17bb9j" data-title="" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2023/05/c4a7c0edb06f.html" data-id="clheoqwab005hjtai6jdea6ob" data-title="other" class="article-share-link">Share</a>
       
       
       
@@ -302,8 +475,8 @@
   
     <article id="post-cpp/stl/vector" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2023/05/0c5e5d2be12d.html" class="article-date">
-  <time class="dt-published" datetime="2023-05-03T10:05:17.231Z" itemprop="datePublished">2023-05-03</time>
+    <a href="/2023/05/51d2a203269c.html" class="article-date">
+  <time class="dt-published" datetime="2023-05-08T10:11:50.298Z" itemprop="datePublished">2023-05-08</time>
 </a>
     
   <div class="article-category">
@@ -313,6 +486,16 @@
   </div>
   <div class="article-inner">
     
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/05/51d2a203269c.html">vector</a>
+    </h1>
+  
+
+      </header>
     
     <div class="e-content article-entry" itemprop="articleBody">
       
@@ -355,7 +538,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/05/0c5e5d2be12d.html" data-id="clhbkgs56005evfai9h5s4ts4" data-title="" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2023/05/51d2a203269c.html" data-id="clheoqwab005jjtai1t2fdaup" data-title="vector" class="article-share-link">Share</a>
       
       
       
@@ -369,8 +552,8 @@
   
     <article id="post-cpp/template/variadic template" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2023/05/7d73f0a340cb.html" class="article-date">
-  <time class="dt-published" datetime="2023-05-03T10:05:17.231Z" itemprop="datePublished">2023-05-03</time>
+    <a href="/2023/05/2e5026adcecb.html" class="article-date">
+  <time class="dt-published" datetime="2023-05-08T10:11:50.298Z" itemprop="datePublished">2023-05-08</time>
 </a>
     
   <div class="article-category">
@@ -380,6 +563,16 @@
   </div>
   <div class="article-inner">
     
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/05/2e5026adcecb.html">variadic template</a>
+    </h1>
+  
+
+      </header>
     
     <div class="e-content article-entry" itemprop="articleBody">
       
@@ -397,93 +590,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/05/7d73f0a340cb.html" data-id="clhbkgs57005hvfaihzcee18i" data-title="" class="article-share-link">Share</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-cpp/template/模板类型推导" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2023/05/29be30a820ac.html" class="article-date">
-  <time class="dt-published" datetime="2023-05-03T10:05:17.231Z" itemprop="datePublished">2023-05-03</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/note/">note</a>►<a class="article-category-link" href="/categories/note/cpp/">cpp</a>►<a class="article-category-link" href="/categories/note/cpp/template/">template</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">f</span><span class="params">(ParamType param)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="built_in">f</span>(expr);</span><br></pre></td></tr></table></figure>
-<p>expr &#x3D;&gt; T , paramType<br>paramType 通常会加一些修饰词  例如 const T&amp; , 所以两者通常不一样。</p>
-<p>paramType , expr &#x3D;&gt;  T</p>
-<h2 id="一、paramType-指针-x2F-引用，但不是万能引用"><a href="#一、paramType-指针-x2F-引用，但不是万能引用" class="headerlink" title="一、paramType 指针&#x2F;引用，但不是万能引用"></a>一、paramType 指针&#x2F;引用，但不是万能引用</h2><ol>
-<li>expr如果有 引用&#x2F;指针&#x2F;对指针的修饰如const ，先忽略</li>
-<li>expr 和 paramType 模式匹配  &#x3D;&gt;  T</li>
-</ol>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//T = (expr  -  &amp;/*/* const   ) 并集 (paramType - &amp;/*/*const) </span></span><br><span class="line"><span class="comment">//paramType + &amp;/*/ * const  </span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">f</span><span class="params">(  T * <span class="type">const</span>  x )</span></span>&#123;</span><br><span class="line">    cout&lt;&lt;*x&lt;&lt;endl;</span><br><span class="line"><span class="comment">//    *x = new int(1);</span></span><br><span class="line">    *x = <span class="number">20</span>;</span><br><span class="line">    cout&lt;&lt;*x&lt;&lt;endl;</span><br><span class="line"></span><br><span class="line">    T y = <span class="built_in">int</span>(<span class="number">3</span>);</span><br><span class="line">    y = <span class="number">2</span>;</span><br><span class="line">    cout&lt;&lt;y &lt;&lt;endl;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line"><span class="comment">//    const  int* p = new int(3);f(p);</span></span><br><span class="line">    <span class="type">int</span>* p = <span class="keyword">new</span> <span class="built_in">int</span>(<span class="number">3</span>);<span class="built_in">f</span>(p);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="二、ParamType是万能引用"><a href="#二、ParamType是万能引用" class="headerlink" title="二、ParamType是万能引用"></a>二、ParamType是万能引用</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">f</span><span class="params">( T&amp;&amp; x)</span></span>&#123;&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li><p>expr是左值：T &#x3D; expr + &amp;</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">f</span><span class="params">( T&amp;&amp; x)</span></span>&#123;</span><br><span class="line">    x  = <span class="number">10</span>;</span><br><span class="line">    <span class="type">int</span> g = <span class="number">10</span>; T y = g; <span class="comment">// T y = 10;</span></span><br><span class="line">    y = <span class="number">22</span>;</span><br><span class="line">    cout&lt;&lt;y&lt;&lt;endl;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">   <span class="type">int</span> x = <span class="number">20</span>;<span class="built_in">f</span>(x);cout&lt;&lt;x&lt;&lt;endl;</span><br><span class="line"><span class="comment">//   const int cx = x;f(cx);cout&lt;&lt;cx&lt;&lt;endl;</span></span><br><span class="line"><span class="comment">//   const int&amp; cx = x;f(cx);cout&lt;&lt;cx&lt;&lt;endl;</span></span><br><span class="line">  </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>expr是右值：与情况一类似</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">f</span><span class="params">( T&amp;&amp; x)</span></span>&#123;    </span><br><span class="line">    T t = <span class="number">20</span>;</span><br><span class="line">    t = <span class="number">10</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="built_in">f</span>(<span class="number">10</span>);</span><br><span class="line"><span class="comment">//    const int  x= 10;f(move(x));</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-</ul>
-<h2 id="三、ParamType非指针也非引用：按值传递"><a href="#三、ParamType非指针也非引用：按值传递" class="headerlink" title="三、ParamType非指针也非引用：按值传递"></a>三、ParamType非指针也非引用：按值传递</h2><p>忽略expr的引用性，const性，volatitle性，来推导T</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">f</span><span class="params">(T x)</span></span>&#123;</span><br><span class="line">    x = <span class="number">0</span>;cout&lt;&lt;x&lt;&lt;<span class="string">&quot; &quot;</span>;</span><br><span class="line">    T y = <span class="number">10</span>;cout&lt;&lt;y&lt;&lt;<span class="string">&quot; &quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="type">int</span> x = <span class="number">10</span>;<span class="built_in">f</span>(x);cout&lt;&lt;x&lt;&lt;endl;</span><br><span class="line">    <span class="type">const</span> <span class="type">int</span> y = <span class="number">10</span>;<span class="built_in">f</span>(y);cout&lt;&lt;y&lt;&lt;endl;</span><br><span class="line">    <span class="type">const</span> <span class="type">int</span>&amp; z = x;<span class="built_in">f</span>(z);cout&lt;&lt;z&lt;&lt;endl;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">f</span><span class="params">(T x)</span></span>&#123;</span><br><span class="line"><span class="comment">//    *x = 0;</span></span><br><span class="line">    x = <span class="keyword">new</span> <span class="built_in">int</span>(<span class="number">1</span>);cout&lt;&lt;*x&lt;&lt;<span class="string">&quot; &quot;</span>;</span><br><span class="line">    T y = <span class="keyword">new</span> <span class="built_in">int</span>(<span class="number">1</span>);y= <span class="keyword">new</span> <span class="built_in">int</span>(<span class="number">2</span>);<span class="comment">//*y = 0;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="type">int</span> x = <span class="number">10</span>;</span><br><span class="line">    <span class="type">const</span> <span class="type">int</span>* p = &amp;x;<span class="built_in">f</span>(p);cout&lt;&lt;*p&lt;&lt;endl;</span><br><span class="line">    <span class="type">const</span> <span class="type">int</span>* <span class="type">const</span> np =&amp;x;<span class="built_in">f</span>(np);cout&lt;&lt;*np &lt;&lt; endl;</span><br><span class="line">    <span class="comment">//指涉对象的常量性会保留，但自身的常量性被忽略</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2023/05/29be30a820ac.html" data-id="clhbkgs58005jvfai2rfa4f25" data-title="" class="article-share-link">Share</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-cpp/waining/stdout stderr" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2023/05/409adaa61e43.html" class="article-date">
-  <time class="dt-published" datetime="2023-05-03T10:05:17.231Z" itemprop="datePublished">2023-05-03</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/note/">note</a>►<a class="article-category-link" href="/categories/note/cpp/">cpp</a>►<a class="article-category-link" href="/categories/note/cpp/waining/">waining</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;signal.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">func</span><span class="params">()</span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="built_in">fprintf</span>(<span class="built_in">stdout</span>,<span class="string">&quot;GG\n&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">        signal(SIGINT,func);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">fprintf</span>(<span class="built_in">stdout</span>,<span class="string">&quot;hello-std-out&quot;</span>);</span><br><span class="line">        <span class="comment">//fflush(stdout);</span></span><br><span class="line">        <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>,<span class="string">&quot;hello-std-err&quot;</span>);</span><br><span class="line">        sleep(<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>stdout和stderr是不是同设备描述符。stdout是块设备，stderr则不是。对于块设备，只有当下面几种情况下才会被输入，1）遇到回车，2）缓冲区满，3）flush被调用。而stderr则不会</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2023/05/409adaa61e43.html" data-id="clhbkgs59005mvfaie4zv2xan" data-title="" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2023/05/2e5026adcecb.html" data-id="clheoqwac005mjtai91rxb93j" data-title="variadic template" class="article-share-link">Share</a>
       
       
       
@@ -510,7 +617,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/note/">note</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/">cpp</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/c-11/">c++11</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/class/">class</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/stl/">stl</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/template/">template</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/waining/">waining</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/%E8%AF%AD%E8%A8%80%E7%9B%B8%E5%85%B3/">语言相关</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/go/">go</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/linux/">linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/mysql/">mysql</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/os/">os</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/redis/">redis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/">计网</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E4%BC%A0%E8%BE%93%E5%B1%82/">传输层</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E4%BC%A0%E8%BE%93%E5%B1%82/TCP/">TCP</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E5%BA%94%E7%94%A8%E5%B1%82/">应用层</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E7%BD%91%E7%BB%9C%E5%B1%82/">网络层</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/note/">note</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/note/backup/">backup</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/">cpp</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/c-11/">c++11</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/class/">class</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/stl/">stl</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/template/">template</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/waining/">waining</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/%E8%AF%AD%E8%A8%80%E7%9B%B8%E5%85%B3/">语言相关</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/go/">go</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/linux/">linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/mysql/">mysql</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/os/">os</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/redis/">redis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/">计网</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E4%BC%A0%E8%BE%93%E5%B1%82/">传输层</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E4%BC%A0%E8%BE%93%E5%B1%82/TCP/">TCP</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E5%BA%94%E7%94%A8%E5%B1%82/">应用层</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E7%BD%91%E7%BB%9C%E5%B1%82/">网络层</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul></li></ul>
     </div>
   </div>
 
@@ -538,23 +645,23 @@
       <ul>
         
           <li>
-            <a href="/2023/05/4aedcc0a740f.html">bind</a>
+            <a href="/2023/05/46b6b168fc09.html">bind</a>
           </li>
         
           <li>
-            <a href="/2023/05/e4241cb5f901.html">(no title)</a>
+            <a href="/2023/05/81ef9e228620.html">中断</a>
           </li>
         
           <li>
-            <a href="/2023/05/688307dd2a74.html">(no title)</a>
+            <a href="/2023/05/77622c3fa639.html">信号</a>
           </li>
         
           <li>
-            <a href="/2023/05/3100c0d60cf1.html">(no title)</a>
+            <a href="/2023/05/33d3473c6e1d.html">动态链接</a>
           </li>
         
           <li>
-            <a href="/2023/05/6e0ab8664bab.html">(no title)</a>
+            <a href="/2023/05/28037448ba59.html">堆</a>
           </li>
         
       </ul>

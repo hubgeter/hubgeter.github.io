@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Category: note | daidai</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="闭包（Closure）是指函数对象（函数和其相关的引用环境）组成的实体，它是一种特殊的对象，可以对函数中的自由变量进行封装和存储。 在一个函数内部定义的函数可以访问外部函数的变量，这些变量被称为自由变量。在函数执行完毕之后，这些自由变量通常会被销毁。但是，在某些情况下，我们希望保留这些自由变量的值，以便下次调用函数时可以继续使用。这就需要使用闭包了。 闭包可以将函数和其相关的引用环境打包成一个对象">
+<meta property="og:type" content="article">
+<meta property="og:title" content="闭包">
+<meta property="og:url" content="http://example.com/2023/05/d0fea5282ca3.html">
+<meta property="og:site_name" content="daidai">
+<meta property="og:description" content="闭包（Closure）是指函数对象（函数和其相关的引用环境）组成的实体，它是一种特殊的对象，可以对函数中的自由变量进行封装和存储。 在一个函数内部定义的函数可以访问外部函数的变量，这些变量被称为自由变量。在函数执行完毕之后，这些自由变量通常会被销毁。但是，在某些情况下，我们希望保留这些自由变量的值，以便下次调用函数时可以继续使用。这就需要使用闭包了。 闭包可以将函数和其相关的引用环境打包成一个对象">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-05-08T10:11:50.298Z">
+<meta property="article:modified_time" content="2023-05-08T10:12:48.571Z">
+<meta property="article:author" content="daidai">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="daidai" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">daidai</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-cpp/c++11/闭包" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/05/d0fea5282ca3.html" class="article-date">
+  <time class="dt-published" datetime="2023-05-08T10:11:50.298Z" itemprop="datePublished">2023-05-08</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/note/">note</a>►<a class="article-category-link" href="/categories/note/cpp/">cpp</a>►<a class="article-category-link" href="/categories/note/cpp/c-11/">c++11</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      闭包
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>闭包（Closure）是指函数对象（函数和其相关的引用环境）组成的实体，它是一种特殊的对象，可以对函数中的自由变量进行封装和存储。</p>
+<p>在一个函数内部定义的函数可以访问外部函数的变量，这些变量被称为自由变量。在函数执行完毕之后，这些自由变量通常会被销毁。但是，在某些情况下，我们希望<em>保留这些自由变量的值，以便下次调用函数时可以继续使用</em>。这就需要使用闭包了。</p>
+<p>闭包可以将函数和其相关的引用环境<em>打包成一个对象</em>，该对象可以在函数执行完毕后继续存在，并且可以在以后的调用中访问到函数中的自由变量的值。这就使得函数可以具有记忆性，也就是说，函数可以“记住”之前的状态，从而在后续的调用中使用。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">auto</span> <span class="title">nxt</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> a = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">return</span> [=]() <span class="keyword">mutable</span> -&gt; <span class="type">int</span>&#123;</span><br><span class="line">        a++;</span><br><span class="line">        <span class="keyword">return</span> a;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">auto</span> f = <span class="built_in">nxt</span>();</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>;i&lt;<span class="number">10</span>;i++)&#123;</span><br><span class="line">        cout&lt;&lt; <span class="built_in">f</span>() &lt;&lt;<span class="string">&quot; &quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">auto</span> g = <span class="built_in">nxt</span>();</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>;i&lt;<span class="number">10</span>;i++)&#123;</span><br><span class="line">        cout&lt;&lt; <span class="built_in">g</span>() &lt;&lt;<span class="string">&quot; &quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/05/d0fea5282ca3.html" data-id="clheoqw9u004ujtaihbgn5wtx" data-title="闭包" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2023/05/296738db0b7f.html" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          类型转换
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2023/05/303c5ceffc9d.html" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">NOCopy class</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/note/">note</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/note/backup/">backup</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/">cpp</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/c-11/">c++11</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/class/">class</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/stl/">stl</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/template/">template</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/waining/">waining</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/%E8%AF%AD%E8%A8%80%E7%9B%B8%E5%85%B3/">语言相关</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/go/">go</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/linux/">linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/mysql/">mysql</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/os/">os</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/redis/">redis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/">计网</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E4%BC%A0%E8%BE%93%E5%B1%82/">传输层</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E4%BC%A0%E8%BE%93%E5%B1%82/TCP/">TCP</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E5%BA%94%E7%94%A8%E5%B1%82/">应用层</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E7%BD%91%E7%BB%9C%E5%B1%82/">网络层</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/05/">May 2023</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/05/46b6b168fc09.html">bind</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/81ef9e228620.html">中断</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/77622c3fa639.html">信号</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/33d3473c6e1d.html">动态链接</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/28037448ba59.html">堆</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 daidai<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

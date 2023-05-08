@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Category: note | daidai</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="TCP头格式序列号：在建立连接时由计算机生成的随机数作为其初始值，通过 SYN 包传给接收端主机，每发送一次数据，就「累加」一次该「数据字节数」的大小。用来解决网络包乱序问题。 确认应答号：指下一次「期望」收到的数据的序列号，发送端收到这个确认应答以后可以认为在这个序号以前的数据都已经被正常接收。用来解决丢包的问题。 ACK ： 除了最初建立连接时的 SYN 包之外该位必须设置为 1 。  RST">
+<meta property="og:type" content="article">
+<meta property="og:title" content="tmp">
+<meta property="og:url" content="http://example.com/2023/05/c2050c3e330a.html">
+<meta property="og:site_name" content="daidai">
+<meta property="og:description" content="TCP头格式序列号：在建立连接时由计算机生成的随机数作为其初始值，通过 SYN 包传给接收端主机，每发送一次数据，就「累加」一次该「数据字节数」的大小。用来解决网络包乱序问题。 确认应答号：指下一次「期望」收到的数据的序列号，发送端收到这个确认应答以后可以认为在这个序号以前的数据都已经被正常接收。用来解决丢包的问题。 ACK ： 除了最初建立连接时的 SYN 包之外该位必须设置为 1 。  RST">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-05-08T10:11:50.302Z">
+<meta property="article:modified_time" content="2023-05-08T10:12:48.575Z">
+<meta property="article:author" content="daidai">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="daidai" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">daidai</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-计网/传输层/TCP/tmp" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/05/c2050c3e330a.html" class="article-date">
+  <time class="dt-published" datetime="2023-05-08T10:11:50.302Z" itemprop="datePublished">2023-05-08</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/note/">note</a>►<a class="article-category-link" href="/categories/note/%E8%AE%A1%E7%BD%91/">计网</a>►<a class="article-category-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E4%BC%A0%E8%BE%93%E5%B1%82/">传输层</a>►<a class="article-category-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E4%BC%A0%E8%BE%93%E5%B1%82/TCP/">TCP</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      tmp
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="TCP头格式"><a href="#TCP头格式" class="headerlink" title="TCP头格式"></a>TCP头格式</h2><p><strong>序列号</strong>：在建立连接时由计算机生成的随机数作为其初始值，通过 SYN 包传给接收端主机，每发送一次数据，就「累加」一次该「数据字节数」的大小。<strong>用来解决网络包乱序问题。</strong></p>
+<p><strong>确认应答号</strong>：指下一次「期望」收到的数据的序列号，发送端收到这个确认应答以后可以认为在这个序号以前的数据都已经被正常接收。<strong>用来解决丢包的问题。</strong></p>
+<p><em>ACK</em> ： 除了最初建立连接时的 <code>SYN</code> 包之外该位必须设置为 <code>1</code> 。</p>
+<ul>
+<li><em>RST</em>：该位为 <code>1</code> 时，表示 TCP 连接中出现异常必须强制断开连接。</li>
+<li><em>SYN</em></li>
+<li><em>FIN</em></li>
+<li>URG</li>
+</ul>
+<p>端口号，首部长度，窗口大小，校验和，选项</p>
+<h2 id="IP会分片，为什么需要-MSS-？"><a href="#IP会分片，为什么需要-MSS-？" class="headerlink" title="IP会分片，为什么需要 MSS ？"></a>IP会分片，为什么需要 MSS ？</h2><p><strong>当如果一个 IP 分片丢失，整个 IP 报文的所有分片都得重传</strong></p>
+<p>TCP 协议在<strong>建立连接的时候通常要协商双方的 MSS 值</strong></p>
+<p>如果一个 TCP 分片丢失后，<strong>进行重发时也是以 MSS 为单位</strong></p>
+<h2 id="三次握手"><a href="#三次握手" class="headerlink" title="三次握手"></a>三次握手</h2><p>三次握手才可以阻止重复历史连接的初始化（主要原因） <strong>旧的重复连接初始化</strong> </p>
+<p>​	<strong>在两次握手的情况下，服务端没有中间状态给客户端来阻止历史连接，导致服务端可能建立一个历史连接，造成资源浪费</strong>。</p>
+<p>三次握手才可以同步双方的初始序列号</p>
+<p>三次握手才可以避免资源浪费</p>
+<h2 id="四次挥手"><a href="#四次挥手" class="headerlink" title="四次挥手"></a>四次挥手</h2><p>如果进程退出了，不管是不是正常退出，还是异常退出（如进程崩溃），内核都会发送 FIN 报文，与对方完成四次挥手。</p>
+<h2 id="三次挥手"><a href="#三次挥手" class="headerlink" title="三次挥手"></a>三次挥手</h2><p><strong>没有数据要发送并且「开启了 TCP 延迟确认机制」，那么第二和第三次挥手就会合并传输，这样就出现了三次挥手</strong></p>
+<p><strong>没有数据要发送，同时「关闭了 TCP 延迟确认机制」，那么就会是四次挥手。</strong></p>
+<p>服务器还没有发完数据，需要要平滑的关闭</p>
+<h2 id="延迟确认机制"><a href="#延迟确认机制" class="headerlink" title="延迟确认机制"></a>延迟确认机制</h2><ul>
+<li>当有响应数据要发送时，ACK 会随着响应数据一起立刻发送给对方</li>
+<li>当没有响应数据要发送时，ACK 将会延迟一段时间，以等待是否有响应数据可以一起发送</li>
+<li>如果在延迟等待发送 ACK 期间，对方的第二个数据报文又到达了，这时就会立刻发送 ACK</li>
+</ul>
+<h2 id="RST"><a href="#RST" class="headerlink" title="RST"></a>RST</h2><p>服务端如果只 bind 了 IP 地址和端口，而没有调用 listen 的话，然后客户端对服务端发起了连接建立，服务端会回 RST 报文。</p>
+<ol>
+<li>当TCP连接的一方收到一个不合法的报文时，会发送RST报文给对方，表示连接已经被重置。</li>
+<li>当TCP连接的一方发现对方已经崩溃或者重启时，会发送RST报文给对方，表示连接已经被重置。</li>
+<li>当TCP连接的一方发现对方已经超时或者失效时，会发送RST报文给对方，表示连接已经被重置。</li>
+<li>当TCP连接的一方收到一个SYN报文时，如果该报文的序列号不正确，会发送RST报文给对方，表示连接已经被重置。</li>
+</ol>
+<h2 id="优化TCP"><a href="#优化TCP" class="headerlink" title="优化TCP"></a>优化TCP</h2><p>TCP 三次握手的性能提升</p>
+<p>TCP 四次挥手的性能提升</p>
+<p>TCP 数据传输的性能提升</p>
+<p>绕过三次握手</p>
+<p>TCP Fast Open 功能，这个功能可以减少 TCP 连接建立的时延</p>
+<p>第一次握手顺带上请求cookie</p>
+<h2 id="TCP字节流"><a href="#TCP字节流" class="headerlink" title="TCP字节流"></a>TCP字节流</h2><p>当用户消息通过 TCP 协议传输时，<strong>消息可能会被操作系统分组成多个的 TCP 报文</strong>，也就是一个完整的用户消息被拆分成多个 TCP 报文进行传输。</p>
+<p>这时，接收方的程序如果不知道发送方发送的消息的长度，也就是不知道消息的边界时，是无法读出一个有效的用户消息的，因为用户消息被拆分成多个 TCP 报文后，并不能像 UDP 那样，一个 UDP 报文就能代表一个完整的用户消息。</p>
+<p>解决： </p>
+<ul>
+<li>固定长度的消息；</li>
+<li>特殊字符作为边界；</li>
+<li>自定义消息结构</li>
+</ul>
+<h2 id="收到意外的syn"><a href="#收到意外的syn" class="headerlink" title="收到意外的syn"></a>收到意外的syn</h2><p><strong>处于 Established 状态的服务端，如果收到了客户端的 SYN 报文（注意此时的 SYN 报文其实是乱序的，因为 SYN 报文的初始化序列号其实是一个随机数），会回复一个携带了正确序列号和确认号的 ACK 报文，这个 ACK 被称之为 Challenge ACK。</strong></p>
+<p><strong>接着，客户端收到这个 Challenge ACK，发现确认号（ack num）并不是自己期望收到的，于是就会回 RST 报文，服务端收到后，就会释放掉该连接。</strong></p>
+<h2 id="TCP缺陷"><a href="#TCP缺陷" class="headerlink" title="TCP缺陷"></a>TCP缺陷</h2><ul>
+<li>TCP 建立连接的延迟；</li>
+<li>TCP 存在队头阻塞问题；</li>
+<li>网络迁移需要重新建立 TCP 连接；</li>
+</ul>
+<h2 id="TCP-重传、滑动窗口、流量控制、拥塞控制"><a href="#TCP-重传、滑动窗口、流量控制、拥塞控制" class="headerlink" title="TCP 重传、滑动窗口、流量控制、拥塞控制"></a>TCP 重传、滑动窗口、流量控制、拥塞控制</h2><p><strong>拥塞窗口 cwnd</strong>是发送方维护的一个的状态变量，它会根据<strong>网络的拥塞程度动态变化的</strong>。</p>
+<p>我们在前面提到过发送窗口 <code>swnd</code> 和接收窗口 <code>rwnd</code> 是约等于的关系，那么由于加入了拥塞窗口的概念后，此时发送窗口的值是swnd &#x3D; min(cwnd, rwnd)，也就是拥塞窗口和接收窗口中的最小值。</p>
+<p>流量控制 ： 针对单个连接接受能力的控制</p>
+<p>拥塞控制：针对整个网络环境</p>
+<p>​	慢启动：一个MSS开始，发送速率翻倍</p>
+<p>​	拥塞避免：加一个MSS</p>
+<p>​	快速恢复：</p>
+<h2 id="如何保证数据的可靠性"><a href="#如何保证数据的可靠性" class="headerlink" title="如何保证数据的可靠性"></a>如何保证数据的可靠性</h2><ol>
+<li>序列号和确认应答：TCP 把每个发送的数据包都标记上一个序列号，并且在接收方收到时发送一个确认应答。发送方会不断地重发数据包，直到接收到确认应答，确保数据包被正确接收。</li>
+<li>滑动窗口：TCP 使用滑动窗口技术来控制发送方和接收方之间的数据流量。发送方会根据接收方的窗口大小动态调整发送数据包的数量，确保接收方不会被淹没。</li>
+<li>超时重传：如果发送方在一定时间内没有收到确认应答，则会认为数据包丢失了，并重新发送数据包，确保数据能够被正确传输。</li>
+<li>数据校验和：TCP 在数据包头部添加一个校验和，确保数据在传输过程中没有发生损坏或错误。</li>
+<li>流量控制：TCP 使用流量控制来限制发送方发送数据包的速率，确保网络不会被过度使用，从而避免数据包的丢失和延迟。</li>
+<li>拥塞控制：TCP 使用拥塞控制来限制发送方发送数据包的数量，确保网络不会过度拥塞，从而避免数据包的丢失和延迟。</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/05/c2050c3e330a.html" data-id="clheoqwb2007kjtaic5i275uu" data-title="tmp" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2023/05/9eb468972bcc.html" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          time_wait
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2023/05/21ff826d1b17.html" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">三次握手</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/note/">note</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/note/backup/">backup</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/">cpp</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/c-11/">c++11</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/class/">class</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/stl/">stl</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/template/">template</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/waining/">waining</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/%E8%AF%AD%E8%A8%80%E7%9B%B8%E5%85%B3/">语言相关</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/go/">go</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/linux/">linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/mysql/">mysql</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/os/">os</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/redis/">redis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/">计网</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E4%BC%A0%E8%BE%93%E5%B1%82/">传输层</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E4%BC%A0%E8%BE%93%E5%B1%82/TCP/">TCP</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E5%BA%94%E7%94%A8%E5%B1%82/">应用层</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E7%BD%91%E7%BB%9C%E5%B1%82/">网络层</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/05/">May 2023</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/05/46b6b168fc09.html">bind</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/81ef9e228620.html">中断</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/77622c3fa639.html">信号</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/33d3473c6e1d.html">动态链接</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/28037448ba59.html">堆</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 daidai<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

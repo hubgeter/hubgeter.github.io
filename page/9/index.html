@@ -71,10 +71,59 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-cpp/c++11/initializer list" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-os/wait" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2023/05/6f8e9c95b2a9.html" class="article-date">
-  <time class="dt-published" datetime="2023-05-03T10:05:17.231Z" itemprop="datePublished">2023-05-03</time>
+    <a href="/2023/05/a1c3d83e31e9.html" class="article-date">
+  <time class="dt-published" datetime="2023-05-08T10:11:50.298Z" itemprop="datePublished">2023-05-08</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/note/">note</a>►<a class="article-category-link" href="/categories/note/os/">os</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/05/a1c3d83e31e9.html">wait</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>进程不可运行并处于EXIT_ZOMBIE状态，占有的所有内存就是<strong>内核栈、thread_info 、task_struct</strong>结构</p>
+<p>进程存在的唯一目的是：<strong>向他的父进程提供信息</strong>。</p>
+<h2 id="僵尸进程"><a href="#僵尸进程" class="headerlink" title="僵尸进程"></a>僵尸进程</h2><p>即子进程先于父进程退出后，子进程的PCB需要其父进程释放，但是父进程并没有释放子进程的PCB，这样的子进程就称为僵尸进程，僵尸进程实际上是一个已经死掉的进程。</p>
+<p>仅仅在进程列表中保留一个位置，记载该进程的退出状态等信息供其他进程收集，除此之外，僵尸进程不再占有任何内存空间。</p>
+<p>实际上当子进程终止时，内核就会向它的父进程发送一个<em>SIGCHLD</em>信号，父进程可以选择忽略该信号，也可以提供一个接收到信号以后的处理函数。对于这种信号的系统默认动作是忽略它。我们不希望有过多的僵尸进程产生，所以当父进程接收到SIGCHLD信号后就应该调用 wait 或 waitpid 函数对子进程进行善后处理，释放子进程占用的资源。</p>
+<h2 id="孤儿进程"><a href="#孤儿进程" class="headerlink" title="孤儿进程"></a>孤儿进程</h2><p>一个父进程退出，而它的一个或多个子进程还在运行，那么那些子进程将成为孤儿进程。</p>
+<p>孤儿进程将被在当前进程组中找一个线程作为父亲、如果不行则让<em>init</em>做父进程所收养，并由新的父进程对它们完成状态收集工作。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/05/a1c3d83e31e9.html" data-id="clheoqw7p001vjtai78mv5j3i" data-title="wait" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-cpp/c++11/forward" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/05/7229fd862cfd.html" class="article-date">
+  <time class="dt-published" datetime="2023-05-08T10:11:50.298Z" itemprop="datePublished">2023-05-08</time>
 </a>
     
   <div class="article-category">
@@ -84,6 +133,62 @@
   </div>
   <div class="article-inner">
     
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/05/7229fd862cfd.html">forward</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>forword不进行任何转发。是执行强制型别转换的函数（函数模板）。</p>
+<p><strong>所有函数形参皆为左值</strong></p>
+<p>*当且仅当用来初始化param的实参是右值的条件下，把param强制转换为右值型别 **</p>
+<p>引用折叠：双重引用折叠成单个引用</p>
+<h2 id="forward实现"><a href="#forward实现" class="headerlink" title="forward实现"></a>forward实现</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span></span><br><span class="line"><span class="function">T&amp;&amp; <span class="title">forword</span><span class="params">(std::<span class="type">remove_reference_t</span>&lt;T&gt;&amp; param)</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">static_cast</span>&lt;T&amp;&amp;&gt;(param);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/05/7229fd862cfd.html" data-id="clheoqw97004djtai4y913idk" data-title="forward" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-cpp/c++11/initializer list" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/05/582e20eb5095.html" class="article-date">
+  <time class="dt-published" datetime="2023-05-08T10:11:50.298Z" itemprop="datePublished">2023-05-08</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/note/">note</a>►<a class="article-category-link" href="/categories/note/cpp/">cpp</a>►<a class="article-category-link" href="/categories/note/cpp/c-11/">c++11</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/05/582e20eb5095.html">initializer list</a>
+    </h1>
+  
+
+      </header>
     
     <div class="e-content article-entry" itemprop="articleBody">
       
@@ -107,7 +212,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/05/6f8e9c95b2a9.html" data-id="clhbkgs4a004avfaihxcj9xm6" data-title="" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2023/05/582e20eb5095.html" data-id="clheoqw97004fjtai9gmdh4sh" data-title="initializer list" class="article-share-link">Share</a>
       
       
       
@@ -121,8 +226,8 @@
   
     <article id="post-cpp/c++11/lambda" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2023/05/4aeb14ce9173.html" class="article-date">
-  <time class="dt-published" datetime="2023-05-03T10:05:17.231Z" itemprop="datePublished">2023-05-03</time>
+    <a href="/2023/05/dff2bd416478.html" class="article-date">
+  <time class="dt-published" datetime="2023-05-08T10:11:50.298Z" itemprop="datePublished">2023-05-08</time>
 </a>
     
   <div class="article-category">
@@ -133,6 +238,16 @@
   <div class="article-inner">
     
     
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/05/dff2bd416478.html">lambda</a>
+    </h1>
+  
+
+      </header>
+    
     <div class="e-content article-entry" itemprop="articleBody">
       
         <p>按引用捕获<br>    一旦由lambda 式所创建的闭包越过了该局部变量或形参的生命期，闭包内的<em>引用都会空悬</em>，捕获只能针对在创建lambda式的作用域内可见的非静态局部变量。</p>
@@ -142,7 +257,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/05/4aeb14ce9173.html" data-id="clhbkgs4e004dvfai3ggzglgv" data-title="" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2023/05/dff2bd416478.html" data-id="clheoqw9e004ijtai5bjnb7kj" data-title="lambda" class="article-share-link">Share</a>
       
       
       
@@ -156,8 +271,8 @@
   
     <article id="post-cpp/c++11/move" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2023/05/8444b95debcb.html" class="article-date">
-  <time class="dt-published" datetime="2023-05-03T10:05:17.231Z" itemprop="datePublished">2023-05-03</time>
+    <a href="/2023/05/395e5aa9aa76.html" class="article-date">
+  <time class="dt-published" datetime="2023-05-08T10:11:50.298Z" itemprop="datePublished">2023-05-08</time>
 </a>
     
   <div class="article-category">
@@ -167,6 +282,16 @@
   </div>
   <div class="article-inner">
     
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/05/395e5aa9aa76.html">move</a>
+    </h1>
+  
+
+      </header>
     
     <div class="e-content article-entry" itemprop="articleBody">
       
@@ -189,7 +314,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/05/8444b95debcb.html" data-id="clhbkgs4f004fvfai1kgbcc1o" data-title="" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2023/05/395e5aa9aa76.html" data-id="clheoqw9g004kjtai8j5q3r9p" data-title="move" class="article-share-link">Share</a>
       
       
       
@@ -203,8 +328,8 @@
   
     <article id="post-cpp/c++11/智能指针" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2023/05/6e9307404041.html" class="article-date">
-  <time class="dt-published" datetime="2023-05-03T10:05:17.231Z" itemprop="datePublished">2023-05-03</time>
+    <a href="/2023/05/41d7e38666c1.html" class="article-date">
+  <time class="dt-published" datetime="2023-05-08T10:11:50.298Z" itemprop="datePublished">2023-05-08</time>
 </a>
     
   <div class="article-category">
@@ -214,6 +339,16 @@
   </div>
   <div class="article-inner">
     
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/05/41d7e38666c1.html">智能指针</a>
+    </h1>
+  
+
+      </header>
     
     <div class="e-content article-entry" itemprop="articleBody">
       
@@ -257,7 +392,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/05/6e9307404041.html" data-id="clhbkgs4g004ivfai3gg671ut" data-title="" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2023/05/41d7e38666c1.html" data-id="clheoqw9g004njtai8njhft34" data-title="智能指针" class="article-share-link">Share</a>
       
       
       
@@ -271,8 +406,8 @@
   
     <article id="post-cpp/c++11/用户自定义字面量" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2023/05/3ba47e089a03.html" class="article-date">
-  <time class="dt-published" datetime="2023-05-03T10:05:17.231Z" itemprop="datePublished">2023-05-03</time>
+    <a href="/2023/05/91219987a454.html" class="article-date">
+  <time class="dt-published" datetime="2023-05-08T10:11:50.298Z" itemprop="datePublished">2023-05-08</time>
 </a>
     
   <div class="article-category">
@@ -283,6 +418,16 @@
   <div class="article-inner">
     
     
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/05/91219987a454.html">用户自定义字面量</a>
+    </h1>
+  
+
+      </header>
+    
     <div class="e-content article-entry" itemprop="articleBody">
       
         <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;vector&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 长度为 sz 的字符串 c  </span></span><br><span class="line"><span class="type">char</span> <span class="keyword">operator</span> <span class="string">&quot;&quot;</span>_C(<span class="type">const</span> <span class="type">char</span> *c,<span class="type">size_t</span> sz)&#123;   </span><br><span class="line">    cout&lt;&lt;c&lt;&lt; <span class="string">&quot; &quot;</span>;</span><br><span class="line">    cout&lt;&lt;sz&lt;&lt; endl;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&#x27;c&#x27;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">char</span> <span class="keyword">operator</span> <span class="string">&quot;&quot;</span>__D(<span class="type">size_t</span> sz)&#123;</span><br><span class="line">    cout&lt;&lt;sz&lt;&lt; <span class="string">&quot; &quot;</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&#x27;d&#x27;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    cout&lt;&lt;<span class="string">&quot;hello world&quot;</span>_C &lt;&lt; endl;</span><br><span class="line">    cout&lt;&lt; <span class="number">1024</span>__D &lt;&lt; endl;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -291,7 +436,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/05/3ba47e089a03.html" data-id="clhbkgs4m004kvfaic2jwejv1" data-title="" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2023/05/91219987a454.html" data-id="clheoqw9j004pjtai03cy017r" data-title="用户自定义字面量" class="article-share-link">Share</a>
       
       
       
@@ -305,8 +450,8 @@
   
     <article id="post-cpp/c++11/类型转换" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2023/05/952d9de184dd.html" class="article-date">
-  <time class="dt-published" datetime="2023-05-03T10:05:17.231Z" itemprop="datePublished">2023-05-03</time>
+    <a href="/2023/05/296738db0b7f.html" class="article-date">
+  <time class="dt-published" datetime="2023-05-08T10:11:50.298Z" itemprop="datePublished">2023-05-08</time>
 </a>
     
   <div class="article-category">
@@ -316,6 +461,16 @@
   </div>
   <div class="article-inner">
     
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/05/296738db0b7f.html">类型转换</a>
+    </h1>
+  
+
+      </header>
     
     <div class="e-content article-entry" itemprop="articleBody">
       
@@ -356,7 +511,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/05/952d9de184dd.html" data-id="clhbkgs4p004nvfaig9gvg7n3" data-title="" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2023/05/296738db0b7f.html" data-id="clheoqw9k004sjtaibcn11cn5" data-title="类型转换" class="article-share-link">Share</a>
       
       
       
@@ -370,8 +525,8 @@
   
     <article id="post-cpp/c++11/闭包" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2023/05/a8c2bc9d4100.html" class="article-date">
-  <time class="dt-published" datetime="2023-05-03T10:05:17.231Z" itemprop="datePublished">2023-05-03</time>
+    <a href="/2023/05/d0fea5282ca3.html" class="article-date">
+  <time class="dt-published" datetime="2023-05-08T10:11:50.298Z" itemprop="datePublished">2023-05-08</time>
 </a>
     
   <div class="article-category">
@@ -381,6 +536,16 @@
   </div>
   <div class="article-inner">
     
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/05/d0fea5282ca3.html">闭包</a>
+    </h1>
+  
+
+      </header>
     
     <div class="e-content article-entry" itemprop="articleBody">
       
@@ -396,7 +561,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/05/a8c2bc9d4100.html" data-id="clhbkgs4p004pvfai7u9ig4v0" data-title="" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2023/05/d0fea5282ca3.html" data-id="clheoqw9u004ujtaihbgn5wtx" data-title="闭包" class="article-share-link">Share</a>
       
       
       
@@ -410,8 +575,8 @@
   
     <article id="post-cpp/class/NOCopy class" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2023/05/48166ec76d6e.html" class="article-date">
-  <time class="dt-published" datetime="2023-05-03T10:05:17.231Z" itemprop="datePublished">2023-05-03</time>
+    <a href="/2023/05/303c5ceffc9d.html" class="article-date">
+  <time class="dt-published" datetime="2023-05-08T10:11:50.298Z" itemprop="datePublished">2023-05-08</time>
 </a>
     
   <div class="article-category">
@@ -421,6 +586,16 @@
   </div>
   <div class="article-inner">
     
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/05/303c5ceffc9d.html">NOCopy class</a>
+    </h1>
+  
+
+      </header>
     
     <div class="e-content article-entry" itemprop="articleBody">
       
@@ -430,100 +605,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/05/48166ec76d6e.html" data-id="clhbkgs4u004svfai6t9p6d6q" data-title="" class="article-share-link">Share</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-cpp/class/big three" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2023/05/2b1fbe81f957.html" class="article-date">
-  <time class="dt-published" datetime="2023-05-03T10:05:17.231Z" itemprop="datePublished">2023-05-03</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/note/">note</a>►<a class="article-category-link" href="/categories/note/cpp/">cpp</a>►<a class="article-category-link" href="/categories/note/cpp/class/">class</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p><strong>class with pointer</strong>  必须写 big three : 拷贝构造，拷贝赋值，析构函数</p>
-<p>浅拷贝 编译器默认 :  一个位 一个位的进行赋值 </p>
-<p>深拷贝  (拷贝构造 拷贝赋值) </p>
-<p><img src="/../../images/cpp/class/big%20three/image-20230426204357057.png"></p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">string <span class="title">s1</span><span class="params">(<span class="string">&quot;hello&quot;</span>)</span></span>;</span><br><span class="line"><span class="function">string <span class="title">s2</span><span class="params">(s1)</span></span>;</span><br><span class="line">string s3 = s1;</span><br><span class="line"><span class="comment">//意思完全相同  写法不同 因为都是新创建的对象 调用的都是同一个函数 String(const String&amp;)</span></span><br></pre></td></tr></table></figure>
-
-
-<p><img src="/../../images/cpp/class/big%20three/image-20230426204441647.png"><br><img src="/../../images/cpp/class/big%20three/image-20230426204511887.png"></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2023/05/2b1fbe81f957.html" data-id="clhbkgs4v004uvfai3xsp42mm" data-title="" class="article-share-link">Share</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-cpp/class/empty class" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2023/05/7019380f24dd.html" class="article-date">
-  <time class="dt-published" datetime="2023-05-03T10:05:17.231Z" itemprop="datePublished">2023-05-03</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/note/">note</a>►<a class="article-category-link" href="/categories/note/cpp/">cpp</a>►<a class="article-category-link" href="/categories/note/cpp/class/">class</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>对于空类，编译器不会生成任何的成员函数，只会生成1个字节的占位符。</p>
-<p>使用空类定义对象或者调用成员函数时，编译器会自动为你生成以下个成员函数（仅在需要时生成）：</p>
-<ul>
-<li>一个默认构造函数</li>
-<li>一个复制构造函数</li>
-<li>一个复制赋值运算符<br>  copy ctor 和 copy assignment operator  编译器只是单纯的的将source object 的每一个non-static data members 拷贝到 destination object </li>
-<li>一个析构函数 （编译器产出的dtor 是<em>non-virtual</em> 除非class 的base class 本身带有virtual  dtor） </li>
-<li>移动构造函数</li>
-<li>移动赋值函数</li>
-<li>两个取址运算符（常量和非常量）</li>
-</ul>
-<p>这些成员函数都是<strong>公有的、内联的、无参数</strong>的。<br>用处：<strong>主要是给编译器一个地方用来放置   幕后的code</strong> , 例如 base class ,non-static members 的ctors 、dtors</p>
-<p><strong>可以使用delete 或者private 来阻止编译器生成</strong></p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">A</span>&#123;</span><br><span class="line">    <span class="type">void</span>* <span class="keyword">operator</span>&amp;() <span class="type">const</span> &#123;</span><br><span class="line">        cout&lt;&lt;<span class="string">&quot;operator*&quot;</span>&lt;&lt;endl;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">const</span> A a;</span><br><span class="line">    cout&lt;&lt;&amp;a&lt;&lt;endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-<p>声明复制操作 ，不会生成移动操作</p>
-<p>声明移动操作 ，不会生成复制操作</p>
-<p>析构函数 阻止移动操作的生成 ，针对移动操作的请求仍然可以被编译和执行，但触发的是复制操作</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">base</span>&#123;</span><br><span class="line">    <span class="built_in">base</span>() = <span class="keyword">default</span>;</span><br><span class="line">    <span class="built_in">base</span>(<span class="type">const</span> base&amp;)&#123;</span><br><span class="line">        cout&lt;&lt;<span class="string">&quot;base(const base&amp;)&quot;</span>&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">base</span>(<span class="type">const</span> base&amp;&amp;)&#123;</span><br><span class="line">        cout&lt;&lt;<span class="string">&quot;base(const base&amp;&amp;)&quot;</span>&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">A</span>&#123;</span><br><span class="line">    <span class="comment">// A() = default;</span></span><br><span class="line">    <span class="comment">// A(const A&amp; )</span></span><br><span class="line">    <span class="comment">// &#123;</span></span><br><span class="line">    <span class="comment">//     cout&lt;&lt;&quot;A&quot;&lt;&lt;endl;</span></span><br><span class="line">    <span class="comment">// &#125;</span></span><br><span class="line">    ~<span class="built_in">A</span>()&#123;</span><br><span class="line">    &#125;</span><br><span class="line">    base b;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    A a;</span><br><span class="line">    <span class="function">A <span class="title">b</span><span class="params">(move(a))</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2023/05/7019380f24dd.html" data-id="clhbkgs4v004xvfaic3tk4uqm" data-title="" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2023/05/303c5ceffc9d.html" data-id="clheoqw9v004xjtaifyi29248" data-title="NOCopy class" class="article-share-link">Share</a>
       
       
       
@@ -550,7 +632,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/note/">note</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/">cpp</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/c-11/">c++11</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/class/">class</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/stl/">stl</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/template/">template</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/waining/">waining</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/%E8%AF%AD%E8%A8%80%E7%9B%B8%E5%85%B3/">语言相关</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/go/">go</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/linux/">linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/mysql/">mysql</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/os/">os</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/redis/">redis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/">计网</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E4%BC%A0%E8%BE%93%E5%B1%82/">传输层</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E4%BC%A0%E8%BE%93%E5%B1%82/TCP/">TCP</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E5%BA%94%E7%94%A8%E5%B1%82/">应用层</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E7%BD%91%E7%BB%9C%E5%B1%82/">网络层</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/note/">note</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/note/backup/">backup</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/">cpp</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/c-11/">c++11</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/class/">class</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/stl/">stl</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/template/">template</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/waining/">waining</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/%E8%AF%AD%E8%A8%80%E7%9B%B8%E5%85%B3/">语言相关</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/go/">go</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/linux/">linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/mysql/">mysql</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/os/">os</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/redis/">redis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/">计网</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E4%BC%A0%E8%BE%93%E5%B1%82/">传输层</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E4%BC%A0%E8%BE%93%E5%B1%82/TCP/">TCP</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E5%BA%94%E7%94%A8%E5%B1%82/">应用层</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E7%BD%91%E7%BB%9C%E5%B1%82/">网络层</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul></li></ul>
     </div>
   </div>
 
@@ -578,23 +660,23 @@
       <ul>
         
           <li>
-            <a href="/2023/05/4aedcc0a740f.html">bind</a>
+            <a href="/2023/05/46b6b168fc09.html">bind</a>
           </li>
         
           <li>
-            <a href="/2023/05/e4241cb5f901.html">(no title)</a>
+            <a href="/2023/05/81ef9e228620.html">中断</a>
           </li>
         
           <li>
-            <a href="/2023/05/688307dd2a74.html">(no title)</a>
+            <a href="/2023/05/77622c3fa639.html">信号</a>
           </li>
         
           <li>
-            <a href="/2023/05/3100c0d60cf1.html">(no title)</a>
+            <a href="/2023/05/33d3473c6e1d.html">动态链接</a>
           </li>
         
           <li>
-            <a href="/2023/05/6e0ab8664bab.html">(no title)</a>
+            <a href="/2023/05/28037448ba59.html">堆</a>
           </li>
         
       </ul>
