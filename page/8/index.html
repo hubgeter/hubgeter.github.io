@@ -71,6 +71,488 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-网络编程/tmp" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/05/837da214adeb.html" class="article-date">
+  <time class="dt-published" datetime="2023-05-08T02:33:55.000Z" itemprop="datePublished">2023-05-08</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/note/">note</a>►<a class="article-category-link" href="/categories/note/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/05/837da214adeb.html">tmp</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>当进程向某个已收到RST的套接字执行写操作时，内核向进程发送SIGPIPE 信号，该信号默认行为是终止进程</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/05/837da214adeb.html" data-id="clhh52sb5004i4saie9x5g1zo" data-title="tmp" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-网络编程/多路复用" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/05/af3dd6f4d5a3.html" class="article-date">
+  <time class="dt-published" datetime="2023-05-08T02:33:55.000Z" itemprop="datePublished">2023-05-08</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/note/">note</a>►<a class="article-category-link" href="/categories/note/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/05/af3dd6f4d5a3.html">多路复用</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>描述符就绪条件：<br>大于等于套接字缓冲区低水位标记  SO_RCVLOWAT<br>连接的读&#x2F;写半连接关闭<br>监听套接字 且完成的连接数不为0 &#x2F; <strong>非阻塞式connect的套接字已建立连接</strong><br>套接字错误待处理</p>
+<p>当套接字上发生错误时，select 标记为即可读又可写</p>
+<h2 id="select"><a href="#select" class="headerlink" title="select"></a>select</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;typesizes.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;sys/select.h&gt;</span></span></span><br><span class="line"></span><br><span class="line">#define__FD_SETSIZE <span class="number">1024</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> FD_SETSIZE__FD_SETSIZE</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="type">long</span> int__fd_mask;</span><br><span class="line">#undef__NFDBITS</span><br><span class="line">#<span class="built_in">define__NFDBITS</span>(<span class="number">8</span>*(<span class="type">int</span>)<span class="built_in">sizeof</span>(__fd_mask))</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span>&#123;</span><br><span class="line">#ifdef__USE_XOPEN</span><br><span class="line">    __fd_mask fds_bits[__FD_SETSIZE/__NFDBITS];</span><br><span class="line">    #<span class="built_in">define__FDS_BITS</span>(set)((set)-＞fds_bits)</span><br><span class="line"><span class="meta">#<span class="keyword">else</span></span></span><br><span class="line">    __fd_mask__fds_bits[__FD_SETSIZE/__NFDBITS];</span><br><span class="line">    #<span class="built_in">define__FDS_BITS</span>(set)((set)-＞__fds_bits)</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line">&#125;fd_set;</span><br><span class="line"><span class="comment">//fd_set能容纳的文件描述符数量由FD_SETSIZE指定，这就限制了select能同时处理的文件描述符的总量。</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">FD_ZERO</span>(fd_set*fdset);<span class="comment">/*清除fdset的所有位*/</span></span><br><span class="line"><span class="built_in">FD_SET</span>(<span class="type">int</span> fd,fd_set*fdset);<span class="comment">/*设置fdset的位fd*/</span></span><br><span class="line"><span class="built_in">FD_CLR</span>(<span class="type">int</span> fd,fd_set*fdset);<span class="comment">/*清除fdset的位fd*/</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">FD_ISSET</span><span class="params">(<span class="type">int</span> fd,fd_set*fdset)</span></span>;<span class="comment">/*测试fdset的位fd是否被设置*/</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">select</span><span class="params">(<span class="type">int</span> nfds,fd_set* readfds,fd_set* writefds,fd_set* exceptfds, <span class="keyword">struct</span> timeval*timeout)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">timeval</span>&#123;</span><br><span class="line">    <span class="type">long</span> tv_sec;<span class="comment">/*秒数*/</span></span><br><span class="line">    <span class="type">long</span> tv_usec;<span class="comment">/*微秒数*/</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">nfds参数指定被监听的文件描述符的总数。</span></span><br><span class="line"><span class="comment">它通常被设置为 select监听的所有文件描述符中的最大值加1，因为文件描述符是从0开始计数的。</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">readfds、writefds和exceptfds参数分别指向可读、可写和异常等事件对应的文件描述符集合。三个参数都是值-结果参数。</span></span><br><span class="line"><span class="comment">数组的每个元素的每一位（bit）标记一个文件描述符</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">timeout参数用来设置select函数的超时时间。它是一个timeval结构类型的指针，采用指针参数是因为内核将修改它以告诉应用程序select等待了多久</span></span><br><span class="line"><span class="comment">如果给timeout传递NULL，则select将一直阻塞，直到某个文件描述符就绪。</span></span><br><span class="line"><span class="comment">select成功时返回就绪（可读、可写和异常）文件描述符的总数。</span></span><br><span class="line"><span class="comment">如果在超时时间内没有任何文件描述符就绪，select将返回0。select失败时返回-1并设置errno。如果在select等待期间，程序接收到信号，则select立即返回-1，并设置errno为EINTR。</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>当用户process调用select的时候，select会将需要监控的readfds集合<strong>拷贝到内核空间</strong>（假设监控的仅仅是socket可读），然后遍历自己监控的socket sk，挨个调用sk的poll逻辑以便检查该sk是否有可读事件，遍历完所有的sk后，如果没有任何一个sk可读，那么select会调用<em>schedule_timeout</em>进入schedule循环，使得process进入睡眠。如果在timeout时间内某个sk上有数据可读了，或者等待timeout了，则调用select的process会被唤醒，接下来select就是遍历监控的sk集合，挨个收集可读事件并返回给用户了</p>
+<p>select的参数类型fd_set没有将文件描述符和事件绑定，它仅仅是一个文件描述符集合，因此select需要提供3个这种类型的参数来分别传入和输出可读、可写及异常等事件。这一方面使得select不能处理更多类型的 事件，另一方面由于<strong>内核对fd_set集合的在线修改</strong>，<strong>描述符集合内任何与未就绪描述符对应的位返回时均清为0</strong>，应用程序下次调用 select前不得不重置这3个fd_set集合。</p>
+<h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><p>能监听端口的数量有限；</p>
+<p>被监控的fds集合中，只要有<em>一个有数据可读</em>，整个socket集合就会被遍历一次调用sk的poll函数收集可读事件</p>
+<p>内核对fd_set集合的在线修改，应用程序下次调用 select前不得不重置这3个fd_set集合</p>
+<h2 id="poll"><a href="#poll" class="headerlink" title="poll"></a>poll</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;poll.h&gt;</span></span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">pollfd</span>&#123;</span><br><span class="line">    <span class="type">int</span> fd;<span class="comment">/*文件描述符*/</span></span><br><span class="line">    <span class="type">short</span> events;<span class="comment">/*注册的事件*/</span></span><br><span class="line">    <span class="type">short</span> revents;<span class="comment">/*实际发生的事件，由内核填充*/</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">poll</span><span class="params">(<span class="keyword">struct</span> pollfd*fds,<span class="type">nfds_t</span> nfds,<span class="type">int</span> timeout)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>poll改变了fds集合的描述方式，使用了pollfd结构而不是select的fd_set</p>
+<p>内核每次修改的是pollfd结构体 的revents成员，而events成员保持不变，因此下次调用poll时应用程序<strong>无须重置</strong>pollfd类型的事件集参数</p>
+<h2 id="epoll"><a href="#epoll" class="headerlink" title="epoll"></a>epoll</h2><p>深入理解 epoll</p>
+<p>epoll把用户关心的文件描述符上的事件放在<em>内核里的一个<strong>事件表</strong></em>中，从而无须像select和poll那样每次调用都要重复传入文件描述符集或事件集。但epoll需要使用一个额外的文件描述符，来唯一 标识内核中的这个事件表。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span>＜sys/epoll.h＞</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">epoll_create</span><span class="params">(<span class="type">int</span> size)</span></span>;</span><br><span class="line"><span class="comment">//size参数现在并不起作用，只是给内核一个提示，告诉它事件表需要多大。</span></span><br><span class="line"><span class="comment">//该函数返回的文件描述符将用作其他所有epoll系统调用的第一个参数，以指定要访问的内核事件表。</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">epoll_ctl</span><span class="params">(<span class="type">int</span> epfd,<span class="type">int</span> op,<span class="type">int</span> fd,<span class="keyword">struct</span> epoll_event*event)</span></span></span><br><span class="line"><span class="function"><span class="comment">/*</span></span></span><br><span class="line"><span class="comment"><span class="function">EPOLL_CTL_ADD，往事件表中注册fd上的事件。</span></span></span><br><span class="line"><span class="comment"><span class="function">EPOLL_CTL_MOD，修改fd上的注册事件。</span></span></span><br><span class="line"><span class="comment"><span class="function">EPOLL_CTL_DEL，删除fd上的注册事件。</span></span></span><br><span class="line"><span class="comment"><span class="function">event参数指定事件</span></span></span><br><span class="line"><span class="comment"><span class="function">*/</span></span></span><br><span class="line"><span class="function"><span class="keyword">struct</span> epoll_event</span>&#123;</span><br><span class="line">    <span class="type">__uint32_t</span> events;<span class="comment">/*epoll事件类型EPOLLIN EPOLLOUT EPOLLET和EPOLLONESHOT*/</span></span><br><span class="line">    <span class="type">epoll_data_t</span> data;<span class="comment">/*存储用户数据*/</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">union</span> <span class="title class_">epoll_data</span> &#123;<span class="comment">//可以用来关联用户信息</span></span><br><span class="line">    <span class="type">void</span>* ptr;</span><br><span class="line">    <span class="type">int</span> fd;</span><br><span class="line">    <span class="type">uint32_t</span> u32;</span><br><span class="line">    <span class="type">uint64_t</span> u64;</span><br><span class="line">&#125;<span class="type">epoll_data_t</span>;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">epoll_wait</span><span class="params">(<span class="type">int</span> epfd,<span class="keyword">struct</span> epoll_event* events,<span class="type">int</span> maxevents,<span class="type">int</span> timeout)</span></span>;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">该函数成功时返回就绪的文件描述符的个数</span></span><br><span class="line"><span class="comment">maxevents参数指定最多监听多少个事件，它必须大于0。</span></span><br><span class="line"><span class="comment">epoll_wait函数如果检测到事件，就将所有就绪的事件从内核事件表（由epfd参数指定）中复制到它的第二个参数events指向的数组中。</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>events这个数组只用于输出epoll_wait检测到的就绪事件，而不像select和poll的数组参数那样既用于传入用户注册的事件，又用于输出内核检测到的就绪事件,极大地提高了应用程序索引就绪文件描述符的效率。</strong></p>
+<p>数据发送完毕指的是数据发送到写缓冲区，写缓冲区满的时候才需要注册写事件 ，写事件成功后，需要删掉写事件。</p>
+<p>红黑树让 epoll 在查找效率、插入效率、内存开销等等多个方面比较均衡，红黑树的作用是仅仅是在管理大量连接的情况下，添加和删除 socket 非常的高效。如果 epoll 管理的 socket 固定的话，<strong>在数据收发的事件管理过程中其实红黑树是没有起作用的</strong>。内核在socket上收到数据包以后，可以直接找到 epitem(epoll item)，并把它插入到就绪队列里，然后等用户进程把事件取走。这个过程中，红黑树的作用并不会得到体现。</p>
+<h3 id="LT水平触发-amp-amp-ET边沿触发"><a href="#LT水平触发-amp-amp-ET边沿触发" class="headerlink" title="LT水平触发&amp;&amp;ET边沿触发"></a>LT水平触发&amp;&amp;ET边沿触发</h3><p>LT模式是默认的工作模式。<br>对于采用LT工作模式的文件描述符，当epoll_wait检测到其上有事件发生并将此事件通知应用程序后，应用程序可以不立即处理该事件。这样，当应用程序下一次调用epoll_wait时，epoll_wait还会再次向应用程通告此事件，直到该事件被处理。而对于采用ET工作模式的文件描述符，当epoll_wait检测到其上有事件发生并将此事件通知应用程序后，应用程序必须立即处理该事件，因为后续的epoll_wait调用将不再向应用程序通知这一事件。<br>ET模式在很大程度上<strong>降低了同 一个epoll事件被重复触发的次数</strong>，因此效率要比LT模式高。<br>每个使用ET模式的文件描述符都应该是<strong>非阻塞的</strong>。如果文件描述符是阻塞的，那么读或写操作将会因为没有后续的事件而一直 处于阻塞状态（饥渴状态）。（一般都需要while一次性将数据全部读完）</p>
+<h3 id="EPOLLONESHOT"><a href="#EPOLLONESHOT" class="headerlink" title="EPOLLONESHOT"></a>EPOLLONESHOT</h3><p>即使我们使用ET模式，一个socket上的某个事件还是可能被触发多次。这在并发程序中就会引起一个问题。比如一个线程在读取完某个socket上的数据后开始处理这些数据，而在数据的处理过程中该socket上又有新数据可读（EPOLLIN再次被触发）， 此时另外一个线程被唤醒来读取这些新的数据。于是就出现了<strong>两个线 程同时操作一个socket</strong>的局面。这当然不是我们期望的。我们期望的 是一个socket连接在任一时刻都只被一个线程处理。<br>对于注册了EPOLLONESHOT事件的文件描述符，操作系统最多触发其上注册的一个可读、可写或者异常事件，且只触发一次，除非我们使用epoll_ctl函数<strong>重置该文件描述符上注册的EPOLLONESHOT事件</strong>。注册了EPOLLONESHOT事件的 socket一旦被某个线程处理完毕，该线程就应该立即重置这个socket上 的EPOLLONESHOT事件，以确保这个socket下一次可读时，其 EPOLLIN事件能被触发，进而让其他工作线程有机会继续处理这个 socket。</p>
+<h2 id="比较"><a href="#比较" class="headerlink" title="比较"></a>比较</h2><p>但poll和select存在一个性能缺点就是包含大量文件描述符的<strong>数组被整体复制于用户态和内核的地址空间之间，而不论这些文件描述符是否就绪</strong>，它的开销随着文件描述符数量的增加而线性增大。</p>
+<p>从实现原理上来说，select和poll采用的都是<strong>轮询</strong>的方式，即每次调用都要扫描整个注册文件描述符集合，并将其中就绪的文件描述符返回给用户程序，因此它们检测就绪事件的算法的时间复杂度是 O（n）。epoll_wait则不同，它采用的是<strong>回调</strong>的方式。内核检测到就绪的文件描述符时，将触发回调函数，回调函数就将该文件描述符上对应的事件插入内核就绪事件队列。内核最后在适当的时机将该<strong>就绪事件队列中的内容拷贝到用户空间。因此epoll_wait无须轮询整个文件描 述符集合来检测哪些事件已经就绪</strong>，其算法时间复杂度是O（1）。<br>select，poll轮询的是所有的socket，而epoll只轮询就绪的socket。</p>
+<p>select，poll，epoll<strong>本质上都是同步I&#x2F;O</strong>，因为他们都需要在读写事件就绪后自己负责进行读写，也就是说这个读写过程是阻塞的，而异步I&#x2F;O则无需自己负责进行读写，异步I&#x2F;O的实现会负责把数据从内核拷贝到用户空间。</p>
+<p>当活动连接比较多的时候，epoll_wait的效率未必比select和poll 高，因为此时回调函数被触发得过于频繁。所以epoll适用于<strong>连接数量多，但活动连接较少</strong>的情况。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/05/af3dd6f4d5a3.html" data-id="clhh52sba004k4saighzldfxj" data-title="多路复用" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-设计模式/单例模式" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/05/89bf8e17a162.html" class="article-date">
+  <time class="dt-published" datetime="2023-05-08T02:33:55.000Z" itemprop="datePublished">2023-05-08</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/note/">note</a>►<a class="article-category-link" href="/categories/note/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/05/89bf8e17a162.html">单例模式</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="一、懒汉式"><a href="#一、懒汉式" class="headerlink" title="一、懒汉式"></a>一、懒汉式</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Sigleton</span>&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">Sigleton</span>(<span class="type">const</span> Sigleton&amp;) = <span class="keyword">delete</span>;</span><br><span class="line">    Sigleton&amp; <span class="keyword">operator</span>= (<span class="type">const</span> Sigleton&amp;) = <span class="keyword">delete</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">static</span> Sigleton&amp; <span class="title">getInstance</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="type">static</span> Sigleton instance_;<span class="comment">//存在性能问题 : 程序会检查是否初始化</span></span><br><span class="line">        <span class="keyword">return</span> instance_;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="built_in">Sigleton</span>() = <span class="keyword">default</span>;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="二、饿汉式"><a href="#二、饿汉式" class="headerlink" title="二、饿汉式"></a>二、饿汉式</h2><p>c++ 可以保证所有文件内的static变量在main运行开始完成初始化<br>c++ 能保证在同一个文件中声明的static变量的初始换顺序与变量声明的顺序一致<br>但不能保证不同文件中的static变量的初始化顺序</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//other.cpp</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;other.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;singleton.h&quot;</span></span></span><br><span class="line"><span class="function">OtherSingleton&amp;</span></span><br><span class="line"><span class="function"><span class="title">OtherSingleton::GetInstance</span><span class="params">()</span></span>&#123;</span><br><span class="line">    std::cout&lt;&lt;<span class="string">&quot;OtherSingleton GetInstance \n&quot;</span>;</span><br><span class="line"><span class="comment">//    Singleton :: GetInstance();</span></span><br><span class="line">    <span class="keyword">return</span> instance_;</span><br><span class="line">&#125;</span><br><span class="line">OtherSingleton::<span class="built_in">OtherSingleton</span>() &#123;</span><br><span class="line">    std::cout&lt;&lt;<span class="string">&quot;OtherSingleton init \n&quot;</span>;</span><br><span class="line"><span class="comment">//    Singleton :: GetInstance();</span></span><br><span class="line">&#125;</span><br><span class="line">OtherSingleton  OtherSingleton::instance_;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//other.h</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">ifndef</span> MYTEST_OTHER_H</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> MYTEST_OTHER_H</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">OtherSingleton</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">OtherSingleton</span>(<span class="type">const</span> OtherSingleton&amp;) = <span class="keyword">delete</span>;</span><br><span class="line">    OtherSingleton&amp; <span class="keyword">operator</span>=(<span class="type">const</span> OtherSingleton&amp;) = <span class="keyword">delete</span>;</span><br><span class="line">    <span class="function"><span class="type">static</span> OtherSingleton&amp; <span class="title">GetInstance</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="built_in">OtherSingleton</span>();</span><br><span class="line">    <span class="type">static</span> OtherSingleton instance_;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span><span class="comment">//MYTEST_OTHER_H</span></span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//singleton.cpp</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;singleton.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;other.h&quot;</span></span></span><br><span class="line">Singleton::<span class="built_in">Singleton</span>()&#123;</span><br><span class="line">    std::cout&lt;&lt;<span class="string">&quot;Singleton init&quot;</span>&lt;&lt;std::endl;</span><br><span class="line">    OtherSingleton::<span class="built_in">GetInstance</span>();</span><br><span class="line">&#125;</span><br><span class="line"><span class="function">Singleton&amp;</span></span><br><span class="line"><span class="function"><span class="title">Singleton::GetInstance</span><span class="params">()</span></span>&#123;</span><br><span class="line">    std::cout&lt;&lt; <span class="string">&quot;Sigleton&amp; getInstance&quot;</span> &lt;&lt; std::endl;</span><br><span class="line"><span class="comment">//    OtherSingleton::GetInstance();</span></span><br><span class="line">    <span class="keyword">return</span> instance_;</span><br><span class="line">&#125;</span><br><span class="line">Singleton Singleton::instance_;</span><br><span class="line"><span class="comment">//singleton.h</span></span><br><span class="line"><span class="meta">#<span class="keyword">ifndef</span> MYTEST_SINGLETON_H</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> MYTEST_SINGLETON_H</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Singleton</span>&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">Singleton</span>(<span class="type">const</span> Singleton&amp;) = <span class="keyword">delete</span>;</span><br><span class="line">    Singleton&amp; <span class="keyword">operator</span>= (<span class="type">const</span> Singleton&amp;) = <span class="keyword">delete</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">static</span> Singleton&amp; <span class="title">GetInstance</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="type">static</span> Singleton instance_;</span><br><span class="line">    <span class="built_in">Singleton</span>();</span><br><span class="line">&#125;;</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span><span class="comment">//MYTEST_SINGLETON_H</span></span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//main.cpp</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;singleton.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;other.h&quot;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">func</span><span class="params">()</span></span>&#123;</span><br><span class="line">    cout&lt;&lt;<span class="string">&quot;func&quot;</span>&lt;&lt;endl;</span><br><span class="line"><span class="comment">//    Singleton::GetInstance();</span></span><br><span class="line">    OtherSingleton::<span class="built_in">GetInstance</span>();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">static</span> <span class="type">int</span> x = <span class="built_in">func</span>();</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    cout&lt;&lt;<span class="string">&quot;main&quot;</span>&lt;&lt;endl;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">Singleton init</span></span><br><span class="line"><span class="comment">OtherSingleton GetInstance</span></span><br><span class="line"><span class="comment">OtherSingleton init</span></span><br><span class="line"><span class="comment">func</span></span><br><span class="line"><span class="comment">OtherSingleton GetInstance</span></span><br><span class="line"><span class="comment">main</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/05/89bf8e17a162.html" data-id="clhh52sbb004n4sai2n3hanxh" data-title="单例模式" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-设计模式/工厂模式" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/05/877a292ed558.html" class="article-date">
+  <time class="dt-published" datetime="2023-05-08T02:33:55.000Z" itemprop="datePublished">2023-05-08</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/note/">note</a>►<a class="article-category-link" href="/categories/note/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/05/877a292ed558.html">工厂模式</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>通过“对象创建”模式绕开new，来避免<strong>对象创建过程中的紧耦合（依赖具体类）</strong>，从而支持对象创建的稳定。</p>
+<p>new 带来细节依赖</p>
+<p>定义一个创建对象的接口，让子类决定实例化哪个类</p>
+<p>用于隔离类对象的<strong>使用者</strong>和<strong>具体类型</strong>之间的耦合关系。对于<strong>经常变化的具体类</strong>型，紧耦合使得软件的脆弱</p>
+<p>通过面向对象的手法，将所要创建的具体工作延迟到子类，从而实现一种扩展（而非更改代码）的策略</p>
+<p> 解决了单个对象的需求变化，缺点在于要求<strong>创建方法&#x2F;参数相同</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span>  std;</span><br><span class="line"></span><br><span class="line"><span class="comment">//抽象具体类</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">filesplitter</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">split</span><span class="params">()</span> </span>= <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">virtual</span> ~<span class="built_in">filesplitter</span>() = <span class="keyword">default</span>;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">//抽象工厂</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">splitterFactory</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> filesplitter* <span class="title">createFactory</span><span class="params">()</span></span>= <span class="number">0</span> ;</span><br><span class="line">    <span class="keyword">virtual</span> ~<span class="built_in">splitterFactory</span>() = <span class="keyword">default</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//具体类</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">binaryFilesplitter</span> : <span class="keyword">public</span> filesplitter &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">split</span><span class="params">()</span> <span class="keyword">override</span> </span>&#123;</span><br><span class="line">        cout&lt;&lt;<span class="string">&quot;binaryFilesplitter split&quot;</span>&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">txtFilesplitter</span> : <span class="keyword">public</span> filesplitter &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">split</span><span class="params">()</span> <span class="keyword">override</span> </span>&#123;</span><br><span class="line">        cout&lt;&lt;<span class="string">&quot;txtFilesplitter split&quot;</span>&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//new binaryFilesplitter(file,number) ;依赖具体 new依赖细节</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//具体工厂</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">binaryFilesplitterFactory</span>: <span class="keyword">public</span> splitterFactory &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">filesplitter * <span class="title">createFactory</span><span class="params">()</span> <span class="keyword">override</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">binaryFilesplitter</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">txtFilesplitterFactory</span> : <span class="keyword">public</span> splitterFactory &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">filesplitter * <span class="title">createFactory</span><span class="params">()</span> <span class="keyword">override</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">txtFilesplitter</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">class A&#123;</span></span><br><span class="line"><span class="comment">public:</span></span><br><span class="line"><span class="comment">    void func()</span></span><br><span class="line"><span class="comment">    &#123;</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">        binaryFilesplitter* fsp = new binaryFilesplitter();//依赖具体类</span></span><br><span class="line"><span class="comment">        fsp-&gt;split();</span></span><br><span class="line"><span class="comment">    &#125;</span></span><br><span class="line"><span class="comment">&#125;;</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//用法</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">A</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    splitterFactory *factory;<span class="comment">//工厂   现在没有对具体类的依赖</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">A</span>(splitterFactory *factory_) : <span class="built_in">factory</span>(factory_)&#123;&#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">func</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        filesplitter * fsp = factory -&gt; <span class="built_in">createFactory</span>();<span class="comment">//依赖抽象类</span></span><br><span class="line">        fsp-&gt;<span class="built_in">split</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123; </span><br><span class="line">    <span class="built_in">A</span>(<span class="keyword">new</span> <span class="built_in">binaryFilesplitterFactory</span>()).<span class="built_in">func</span>();</span><br><span class="line">    <span class="built_in">A</span>(<span class="keyword">new</span> <span class="built_in">txtFilesplitterFactory</span>()).<span class="built_in">func</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/05/877a292ed558.html" data-id="clhh52sbc004p4saih7m1ahk4" data-title="工厂模式" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-设计模式/观察者模式" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/05/ec3013b3da71.html" class="article-date">
+  <time class="dt-published" datetime="2023-05-08T02:33:55.000Z" itemprop="datePublished">2023-05-08</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/note/">note</a>►<a class="article-category-link" href="/categories/note/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/05/ec3013b3da71.html">观察者模式</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>通知依赖关系 ： 一个对象的状态发生改变，所有的依赖对象都将得到通知并自动更新</p>
+<p>弱化目标对象和观察者对象的依赖关系</p>
+<p>可以使得目标和观察者独立的改变，使得依赖关系松耦合</p>
+<p>目标发送通知时，通知会自动传播</p>
+<p>观察者可以自行订阅通知，目标对象对此一无所知</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">FileSplitter</span><span class="comment">//文件分割器 </span></span><br><span class="line">&#123;</span><br><span class="line">	string m_filePath;</span><br><span class="line">	<span class="type">int</span> m_fileNumber;</span><br><span class="line">	ProgressBar* m_progressBar;<span class="comment">//具体通知控件</span></span><br><span class="line">    <span class="comment">//如果更换通知方式，比如将ProgressBar改成其他类</span></span><br><span class="line">    <span class="comment">//违反依赖倒置原则：编译时依赖</span></span><br><span class="line">    <span class="comment">//不要依赖A ，依赖A的抽象类</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="built_in">FileSplitter</span>(<span class="type">const</span> string&amp; filePath, <span class="type">int</span> fileNumber, ProgressBar* progressBar) :</span><br><span class="line">		<span class="built_in">m_filePath</span>(filePath), </span><br><span class="line">		<span class="built_in">m_fileNumber</span>(fileNumber),</span><br><span class="line">		<span class="built_in">m_progressBar</span>(progressBar)&#123;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//分割 </span></span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">split</span><span class="params">()</span></span>&#123;</span><br><span class="line">		<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; m_fileNumber; i++)&#123;</span><br><span class="line">			<span class="comment">//...</span></span><br><span class="line">			<span class="type">float</span> progressValue = m_fileNumber;</span><br><span class="line">			progressValue = (i + <span class="number">1</span>) / progressValue;</span><br><span class="line">			m_progressBar-&gt;<span class="built_in">setValue</span>(progressValue);<span class="comment">//通知</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//subject observer 稳定的</span></span><br><span class="line"><span class="comment">//concreteSubject  concreteObserver 变化的</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Observer</span> &#123; <span class="comment">//抽象观察者</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">update</span><span class="params">()</span> </span>= <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">virtual</span> ~<span class="built_in">Observer</span>() = <span class="keyword">default</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Subject</span> &#123; <span class="comment">//抽象目标对象</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">detach</span><span class="params">(Observer*)</span> </span>= <span class="number">0</span>;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">attach</span><span class="params">(Observer*)</span> </span>= <span class="number">0</span>;</span><br><span class="line"><span class="comment">//    virtual</span></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">notify</span><span class="params">()</span></span>;</span><br><span class="line">    vector &lt;Observer*&gt; observers;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">virtual</span> ~<span class="built_in">Subject</span>() = <span class="keyword">default</span>;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Subject::notify</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">auto</span> observer:observers) &#123;</span><br><span class="line">        observer -&gt; <span class="built_in">update</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ConcreteSubject</span>:<span class="keyword">public</span> Subject &#123; <span class="comment">//具体目标对象</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">detach</span><span class="params">(Observer*)</span> <span class="keyword">override</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">attach</span><span class="params">(Observer* observer)</span> <span class="keyword">override</span> </span>&#123;</span><br><span class="line">        observers.<span class="built_in">push_back</span>(observer);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">//concreteObserver</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">A</span> : <span class="keyword">public</span> Observer <span class="comment">//具体观察者</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">update</span><span class="params">()</span> <span class="keyword">override</span> </span>&#123;</span><br><span class="line">        cout&lt;&lt;<span class="string">&quot;A update()&quot;</span>&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">B</span>:<span class="keyword">public</span> Observer &#123;<span class="comment">//具体观察者</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">update</span><span class="params">()</span> <span class="keyword">override</span> </span>&#123;</span><br><span class="line">        cout&lt;&lt;<span class="string">&quot;B update()&quot;</span>&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ConcreteSubject tmp;</span><br><span class="line">    A a1,a2,a3;B b1,b2;</span><br><span class="line">    tmp.<span class="built_in">attach</span>(&amp;a1);</span><br><span class="line">    tmp.<span class="built_in">attach</span>(&amp;a2);</span><br><span class="line">    tmp.<span class="built_in">attach</span>(&amp;a3);</span><br><span class="line">    tmp.<span class="built_in">attach</span>(&amp;b1);</span><br><span class="line">    tmp.<span class="built_in">attach</span>(&amp;b2);</span><br><span class="line"></span><br><span class="line">    tmp.<span class="built_in">notify</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>扩展 ：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vector&lt;Observer*&gt; observers;</span><br><span class="line">Observer* -&gt; 智能指针 shared_ptr weak_ptr </span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/05/ec3013b3da71.html" data-id="clhh52sbi004s4saicwpdfqso" data-title="观察者模式" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-cpp/c++11/bind" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/05/94468b793e2e.html" class="article-date">
+  <time class="dt-published" datetime="2023-05-08T02:33:55.000Z" itemprop="datePublished">2023-05-08</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/note/">note</a>►<a class="article-category-link" href="/categories/note/cpp/">cpp</a>►<a class="article-category-link" href="/categories/note/cpp/c-11/">c++11</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/05/94468b793e2e.html">bind</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//p.223</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;functional&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;memory&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">func</span><span class="params">(<span class="type">int</span> a)</span></span>&#123;</span><br><span class="line">    cout&lt;&lt;<span class="string">&quot;void(a)&quot;</span>&lt;&lt;endl;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">func</span><span class="params">(<span class="type">int</span> a,<span class="type">int</span> b)</span></span>&#123;</span><br><span class="line">    cout&lt;&lt;<span class="string">&quot;func(a,b)&quot;</span>&lt;&lt;endl;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">auto</span> f = std::<span class="built_in">bind</span>(</span><br><span class="line">        <span class="comment">// func,std::placeholders::_1</span></span><br><span class="line">        (<span class="built_in">void</span>(*)(<span class="type">int</span>))func,std::placeholders::_1                               </span><br><span class="line">        <span class="comment">// func,std::placeholders::_1,std::placeholders::_2</span></span><br><span class="line">        <span class="comment">// (void(*)(int,int))func,std::placeholders::_1,std::placeholders::_2</span></span><br><span class="line">        );</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>预绑定的参数是以值传递的形式</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;functional&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;functional&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">func</span><span class="params">(<span class="type">int</span> &amp; x )</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    cout&lt;&lt;&amp;x&lt;&lt;endl;</span><br><span class="line">    x = <span class="number">10</span>;</span><br><span class="line">    cout&lt;&lt; x &lt;&lt;endl;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> x = <span class="number">0</span>;</span><br><span class="line">    cout&lt;&lt;&amp;x &lt;&lt;endl;</span><br><span class="line">    <span class="built_in">bind</span>(func,x)();</span><br><span class="line">    </span><br><span class="line">    cout&lt;&lt;x &lt;&lt;endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/05/94468b793e2e.html" data-id="clhh52sbj004u4saiedb896q5" data-title="bind" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-cpp/c++11/forward" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/05/0adaf9cf8a0b.html" class="article-date">
+  <time class="dt-published" datetime="2023-05-08T02:33:55.000Z" itemprop="datePublished">2023-05-08</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/note/">note</a>►<a class="article-category-link" href="/categories/note/cpp/">cpp</a>►<a class="article-category-link" href="/categories/note/cpp/c-11/">c++11</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/05/0adaf9cf8a0b.html">forward</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>forword不进行任何转发。是执行强制型别转换的函数（函数模板）。</p>
+<p><strong>所有函数形参皆为左值</strong></p>
+<p>*当且仅当用来初始化param的实参是右值的条件下，把param强制转换为右值型别 **</p>
+<p>引用折叠：双重引用折叠成单个引用</p>
+<h2 id="forward实现"><a href="#forward实现" class="headerlink" title="forward实现"></a>forward实现</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span></span><br><span class="line"><span class="function">T&amp;&amp; <span class="title">forword</span><span class="params">(std::<span class="type">remove_reference_t</span>&lt;T&gt;&amp; param)</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">static_cast</span>&lt;T&amp;&amp;&gt;(param);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/05/0adaf9cf8a0b.html" data-id="clhh52sbk004x4sai8gfx8h36" data-title="forward" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-cpp/c++11/function" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/05/28ed610b1d60.html" class="article-date">
+  <time class="dt-published" datetime="2023-05-08T02:33:55.000Z" itemprop="datePublished">2023-05-08</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/note/">note</a>►<a class="article-category-link" href="/categories/note/cpp/">cpp</a>►<a class="article-category-link" href="/categories/note/cpp/c-11/">c++11</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/05/28ed610b1d60.html">function</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>每个lambda 表达式的类型都是唯一的，即使函数签名相同，lambda变量也不能相互复制</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">auto</span> f  = []() -&gt; <span class="type">void</span> &#123;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">auto</span> g  = []() -&gt; <span class="type">void</span> &#123;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    cout&lt;&lt; <span class="built_in">typeid</span>(f).<span class="built_in">name</span>() &lt;&lt; endl;</span><br><span class="line">    cout&lt;&lt; <span class="built_in">typeid</span>(g).<span class="built_in">name</span>() &lt;&lt; endl;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//f = g </span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<p>可以改用<code>std::function</code> 函数的容器&#x2F;智能函数指针 可以存储任何符合签名的”可调用物“</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;functional&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">A</span>&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">operator</span><span class="params">()</span><span class="params">()</span></span>&#123;</span><br><span class="line">        cout&lt;&lt;<span class="string">&quot;A&quot;</span>&lt;&lt;endl;</span><br><span class="line">    &#125; </span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">func</span><span class="params">(<span class="type">int</span> )</span></span>&#123;</span><br><span class="line">    cout&lt;&lt;<span class="string">&quot;func&quot;</span>&lt;&lt;endl;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    function&lt;<span class="type">void</span>()&gt; f = []() -&gt; <span class="type">void</span> &#123;</span><br><span class="line">        cout&lt;&lt;<span class="string">&quot;f&quot;</span>&lt;&lt;endl;</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="built_in">f</span>();</span><br><span class="line"></span><br><span class="line">    f = []()-&gt;<span class="type">void</span> &#123;</span><br><span class="line">        cout&lt;&lt;<span class="string">&quot;nf&quot;</span>&lt;&lt;endl;</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="built_in">f</span>();</span><br><span class="line"></span><br><span class="line">    A a;</span><br><span class="line">    f = a;</span><br><span class="line">    <span class="built_in">f</span>();</span><br><span class="line"></span><br><span class="line">    f = <span class="built_in">bind</span>(func,<span class="number">0</span>);</span><br><span class="line">    <span class="built_in">f</span>();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/05/28ed610b1d60.html" data-id="clhh52sbk004z4saigl9n8ev4" data-title="function" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-cpp/c++11/initializer list" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/05/06716b43b41d.html" class="article-date">
+  <time class="dt-published" datetime="2023-05-08T02:33:55.000Z" itemprop="datePublished">2023-05-08</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/note/">note</a>►<a class="article-category-link" href="/categories/note/cpp/">cpp</a>►<a class="article-category-link" href="/categories/note/cpp/c-11/">c++11</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/05/06716b43b41d.html">initializer list</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>**c++ 对任意能够解析为声明的都要解析为声明 !!! **</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">```cpp</span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">A</span>&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="type">int</span> a,b;</span><br><span class="line">    string s;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="comment">// A a(1,2,&quot;asd&quot;);</span></span><br><span class="line">    A b&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="string">&quot;asd&quot;</span>&#125;;</span><br><span class="line">    A c&#123;<span class="number">1</span>,<span class="number">2</span>&#125;;</span><br><span class="line">    cout&lt;&lt;b.a &lt;&lt;<span class="string">&quot; &quot;</span>&lt;&lt; b.b&lt;&lt;<span class="string">&quot; &quot;</span>&lt;&lt;b.s&lt;&lt;endl;</span><br><span class="line">    cout&lt;&lt;c.a &lt;&lt;<span class="string">&quot; &quot;</span>&lt;&lt; c.b&lt;&lt;<span class="string">&quot; &quot;</span>&lt;&lt;c.s&lt;&lt;endl;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+<p>采用大括号初始化语法的语句：会强烈优先调用std::initializer_list形参的重载版本。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;initializer_list&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">p</span>&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">p</span>(<span class="type">int</span> a,<span class="type">int</span> b)&#123;</span><br><span class="line">        cout&lt;&lt;<span class="string">&quot;(int,int)\n&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">p</span>(initializer_list&lt;<span class="type">int</span>&gt; v)&#123;</span><br><span class="line">        cout&lt;&lt;<span class="string">&quot;initializer_list\n&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="built_in">p</span>(<span class="number">1</span>,<span class="number">2</span>);</span><br><span class="line">    p s = &#123;<span class="number">1</span>,<span class="number">2</span>&#125;; p&#123;<span class="number">1</span>,<span class="number">2</span>&#125;;<span class="comment">//the initializer_list is prefered </span></span><br><span class="line">    p&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	<span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">v</span><span class="params">(<span class="number">10</span>)</span></span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">auto</span> i: v) cout&lt;&lt;i &lt;&lt;<span class="string">&quot; &quot;</span>;cout&lt;&lt;endl;    </span><br><span class="line">    vector&lt;<span class="type">int</span>&gt; v2&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>&#125;;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">auto</span> i: v2) cout&lt;&lt;i &lt;&lt;<span class="string">&quot; &quot;</span>;cout&lt;&lt;endl;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>narrowing initialization  - reduce precision &#x2F; suppiled value gets modified ： are not possible with braces<br>不支持窄化</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;initializer_list&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">print</span><span class="params">( initializer_list&lt;<span class="type">int</span>&gt; vals)</span></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">auto</span> i:vals)</span><br><span class="line">        cout&lt;&lt;i &lt;&lt; <span class="string">&quot; &quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>&#125;);</span><br><span class="line">	<span class="built_in">print</span>(&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5.1</span>&#125;);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>空的{} ：没有实参，而非空的initializer_list </p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span>  std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">A</span>&#123;</span><br><span class="line">    <span class="built_in">A</span>()&#123;cout&lt;&lt;<span class="string">&quot;()&quot;</span>&lt;&lt;endl;&#125;</span><br><span class="line">    <span class="built_in">A</span>(initializer_list&lt;<span class="type">int</span>&gt; )&#123;cout&lt;&lt;<span class="string">&quot;&#123;&#125;&quot;</span>&lt;&lt;endl;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    A&#123;&#125;;</span><br><span class="line">    <span class="built_in">A</span>(&#123;&#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/05/06716b43b41d.html" data-id="clhh52sbl00524sai9qk2cari" data-title="initializer list" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-cpp/c++11/lambda" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2023/05/8dad354cfbf9.html" class="article-date">
@@ -97,539 +579,17 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <hr>
-<h2 id="title-lambdadate-2023-x2F-05-x2F-08-10-33-55categories-note-cpp-c-11"><a href="#title-lambdadate-2023-x2F-05-x2F-08-10-33-55categories-note-cpp-c-11" class="headerlink" title="title: lambdadate: 2023&#x2F;05&#x2F;08 10:33:55categories:  - note  - cpp  - c++11 "></a>title: lambda<br>date: 2023&#x2F;05&#x2F;08 10:33:55categories:<br>  - note<br>  - cpp<br>  - c++11 </h2><hr>
-<h2 id="title-lambdacategories-note-cpp-c-11"><a href="#title-lambdacategories-note-cpp-c-11" class="headerlink" title="title: lambdacategories:  - note  - cpp  - c++11 "></a>title: lambda<br>categories:<br>  - note<br>  - cpp<br>  - c++11 </h2><p>按引用捕获<br>    一旦由lambda 式所创建的闭包越过了该局部变量或形参的生命期，闭包内的<em>引用都会空悬</em>，捕获只能针对在创建lambda式的作用域内可见的非静态局部变量。</p>
+        <p>函数：具有全局性、不能嵌套定义函数、没有生存周期的概念</p>
+<p>lambda 实现函数的局部化</p>
+<p>函数式编程 </p>
+<p>按引用捕获<br>    一旦由lambda 式所创建的闭包越过了该局部变量或形参的生命期，闭包内的<em>引用都会空悬</em>，捕获只能针对在创建lambda式的作用域内可见的非静态局部变量。</p>
 <p>按值捕获<br>    按值默认捕获对于类而言：<em>捕获其this指针</em> ，lambda 闭包的存活与它含有this指针副本的对象的生命周期绑定，可将其想捕获的成员变量复制到局部变量中之后，再进行按值捕获对应的局部变量。</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//p.211</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;functional&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line">function&lt;<span class="type">void</span>()&gt; f;</span><br><span class="line">vector&lt;<span class="type">int</span>&gt; v,g;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">func</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="type">static</span> <span class="type">int</span> a = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> num = <span class="number">0</span>;</span><br><span class="line">    f = [=]()&#123;</span><br><span class="line">            g.<span class="built_in">push_back</span>(num);</span><br><span class="line">            v.<span class="built_in">push_back</span>(a);<span class="comment">//应该是通过a地址来实现</span></span><br><span class="line">        &#125;;</span><br><span class="line">    </span><br><span class="line">    a++;</span><br><span class="line">    num++;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">func</span>();<span class="built_in">func</span>();</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i =<span class="number">0</span>;i&lt;<span class="number">10</span>;i++) <span class="built_in">f</span>();</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">auto</span> i:v) cout&lt;&lt;i&lt;&lt;<span class="string">&quot; &quot;</span>;cout&lt;&lt;endl;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">auto</span> i:g) cout&lt;&lt;i&lt;&lt;<span class="string">&quot; &quot;</span>;cout&lt;&lt;endl;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/05/8dad354cfbf9.html" data-id="clhh4tqbq004iwaai2jdcd43o" data-title="lambda" class="article-share-link">Share</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-cpp/c++11/move" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2023/05/e13db21af09a.html" class="article-date">
-  <time class="dt-published" datetime="2023-05-08T02:33:55.000Z" itemprop="datePublished">2023-05-08</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/note/">note</a>►<a class="article-category-link" href="/categories/note/cpp/">cpp</a>►<a class="article-category-link" href="/categories/note/cpp/c-11/">c++11</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2023/05/e13db21af09a.html">move</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <hr>
-<h2 id="title-movedate-2023-x2F-05-x2F-08-10-33-55categories-note-cpp-c-11"><a href="#title-movedate-2023-x2F-05-x2F-08-10-33-55categories-note-cpp-c-11" class="headerlink" title="title: movedate: 2023&#x2F;05&#x2F;08 10:33:55categories:  - note  - cpp  - c++11 "></a>title: move<br>date: 2023&#x2F;05&#x2F;08 10:33:55categories:<br>  - note<br>  - cpp<br>  - c++11 </h2><hr>
-<h2 id="title-movecategories-note-cpp-c-11"><a href="#title-movecategories-note-cpp-c-11" class="headerlink" title="title: movecategories:  - note  - cpp  - c++11 "></a>title: move<br>categories:<br>  - note<br>  - cpp<br>  - c++11 </h2><p>move不进行任何移动，而是执行强制型别转换的函数（函数模板）。</p>
-<p>无条件的将实参强制转换为右值 </p>
-<ol>
-<li>针对任意对象实施std::move的结果，唯一可以确定的是，该结果是右值</li>
-<li>如果想取得某个对象执行移动操作的能力，则不要将其声明为常量：*const &amp;&amp; *</li>
-</ol>
-<p>可以解决非必要拷贝，可以被<strong>偷</strong></p>
-<p>可以接受右值的右值引用本身却是左值</p>
-<p>默认的移动构造函数实际上跟默认的拷贝构造函数一样，只能按位拷贝</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">tmp</span>&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="built_in">tmp</span>()&#123;</span><br><span class="line">		cout&lt;&lt;<span class="string">&quot;tmp()&quot;</span>&lt;&lt;endl;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">tmp</span>( tmp <span class="type">const</span> &amp; )&#123;</span><br><span class="line">		cout&lt;&lt;<span class="string">&quot;tmp( tmp const &amp; )&quot;</span>&lt;&lt;endl;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">tmp</span>(tmp &amp;&amp; x)&#123;</span><br><span class="line">		cout&lt;&lt;<span class="string">&quot;tmp(tmp &amp;&amp; x)&quot;</span>&lt;&lt;endl;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">do_tmp</span><span class="params">(tmp&amp;&amp; x_)</span></span></span><br><span class="line"><span class="function"><span class="comment">// 尽管右值引用的形参与传入的右值实参绑定,但参数进入函数内部后即被当作左值处理</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="function">tmp <span class="title">t1</span><span class="params">(x_)</span></span>;</span><br><span class="line">	<span class="function">tmp <span class="title">t2</span><span class="params">(move(x_))</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="built_in">do_tmp</span>(<span class="built_in">tmp</span>());</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-<h2 id="move实现"><a href="#move实现" class="headerlink" title="move实现"></a>move实现</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span></span><br><span class="line"><span class="function"><span class="keyword">decltype</span>(<span class="keyword">auto</span>) <span class="title">move</span><span class="params">(T &amp;&amp;param)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">using</span> ReturnType = std::<span class="type">remove_reference_t</span>&lt;T&gt;&amp;&amp;;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">static_cast</span>&lt;ReturnType&gt;(param);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">A</span>&#123;</span><br><span class="line">    <span class="built_in">A</span>()&#123;std::cout&lt;&lt;<span class="string">&quot;A()&quot;</span>&lt;&lt;<span class="string">&quot;\n&quot;</span>;&#125;</span><br><span class="line">    <span class="built_in">A</span>(<span class="type">const</span> A&amp;)&#123;std::cout&lt;&lt;<span class="string">&quot;A(const A&amp;)&quot;</span>&lt;&lt;<span class="string">&quot;\n&quot;</span>;&#125;</span><br><span class="line">    <span class="built_in">A</span>(A&amp;&amp;)  &#123;std::cout&lt;&lt;<span class="string">&quot;A(A&amp;&amp;)&quot;</span>&lt;&lt;<span class="string">&quot;\n&quot;</span>;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    A a&#123;&#125;;<span class="built_in">A</span> (<span class="built_in">move</span>(a));</span><br><span class="line">    <span class="type">const</span> A b&#123;&#125;;<span class="built_in">A</span>(<span class="built_in">move</span>(b));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2023/05/e13db21af09a.html" data-id="clhh4tqbu004kwaaig5ybay0y" data-title="move" class="article-share-link">Share</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-cpp/c++11/智能指针" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2023/05/6a0d97569379.html" class="article-date">
-  <time class="dt-published" datetime="2023-05-08T02:33:55.000Z" itemprop="datePublished">2023-05-08</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/note/">note</a>►<a class="article-category-link" href="/categories/note/cpp/">cpp</a>►<a class="article-category-link" href="/categories/note/cpp/c-11/">c++11</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2023/05/6a0d97569379.html">智能指针</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <hr>
-<h2 id="title-智能指针date-2023-x2F-05-x2F-08-10-33-55categories-note-cpp-c-11"><a href="#title-智能指针date-2023-x2F-05-x2F-08-10-33-55categories-note-cpp-c-11" class="headerlink" title="title: 智能指针date: 2023&#x2F;05&#x2F;08 10:33:55categories:  - note  - cpp  - c++11 "></a>title: 智能指针<br>date: 2023&#x2F;05&#x2F;08 10:33:55categories:<br>  - note<br>  - cpp<br>  - c++11 </h2><hr>
-<h2 id="title-智能指针categories-note-cpp-c-11"><a href="#title-智能指针categories-note-cpp-c-11" class="headerlink" title="title: 智能指针categories:  - note  - cpp  - c++11 "></a>title: 智能指针<br>categories:<br>  - note<br>  - cpp<br>  - c++11 </h2><p>裸指针：指针空悬，指的是数组&#x2F;单个对象?，内存泄露 </p>
-<p>shared_ptr </p>
-<p>unique_ptr  </p>
-<p>weak_ptr 作为sahred_ptr的观察者，不影响其引用计数，生存周期</p>
-<p>​	&#x3D;》 缓存（检测是否失效），观察者模式，指针环路</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;memory&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    shared_ptr&lt;<span class="type">int</span>&gt;<span class="built_in">p</span>(<span class="keyword">new</span> <span class="type">int</span>);</span><br><span class="line">    *p = <span class="number">20</span>;</span><br><span class="line">    cout&lt;&lt;p.<span class="built_in">use_count</span>()&lt;&lt;endl;</span><br><span class="line">    cout&lt;&lt;*p&lt;&lt;endl;</span><br><span class="line">    <span class="comment">// auto x = p;</span></span><br><span class="line">    <span class="keyword">auto</span> &amp;x = p;</span><br><span class="line"></span><br><span class="line">    *x = <span class="number">10</span>;</span><br><span class="line">    cout&lt;&lt;*p&lt;&lt;endl;</span><br><span class="line">    cout&lt;&lt;p.<span class="built_in">use_count</span>()&lt;&lt;endl;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>unique_ptr -&gt; shared_ptr </p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;memory&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="function">unique_ptr&lt;<span class="type">int</span>&gt; <span class="title">p</span><span class="params">(<span class="keyword">new</span> <span class="type">int</span>)</span></span>;</span><br><span class="line">    *p  = <span class="number">10</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="function">shared_ptr&lt;<span class="type">int</span>&gt; <span class="title">g</span><span class="params">(move(p))</span></span>;</span><br><span class="line">    cout&lt;&lt;*g&lt;&lt;endl;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>shared_from_this </p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//shared_from_this </span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;memory&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">A</span>;</span><br><span class="line">vector&lt;shared_ptr&lt;A&gt;&gt; v;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">A</span> : <span class="keyword">public</span> enable_shared_from_this&lt;A&gt;&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">process</span><span class="params">()</span></span>&#123;</span><br><span class="line">        v.<span class="built_in">emplace_back</span>(<span class="built_in">shared_from_this</span>());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="function">shared_ptr&lt;A&gt; <span class="title">p</span><span class="params">( <span class="keyword">new</span> A )</span></span>;</span><br><span class="line">    p-&gt;<span class="built_in">process</span>();</span><br><span class="line">    cout&lt;&lt;v.<span class="built_in">size</span>()&lt;&lt;endl;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-<p>指定删除器</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">deleteintptr</span><span class="params">(<span class="type">int</span> * p )</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    cout&lt;&lt;<span class="string">&quot;delete int* p &quot;</span>&lt;&lt;endl;</span><br><span class="line">    <span class="keyword">delete</span>  p;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;   </span><br><span class="line">    <span class="function">shared_ptr&lt;<span class="type">int</span>&gt; <span class="title">ptr</span><span class="params">(<span class="keyword">new</span> <span class="type">int</span>(<span class="number">100</span>),deleteintptr)</span></span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-<p>智能指针 不要用地址传递的方式</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;memory&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">test</span><span class="params">(shared_ptr&lt;<span class="type">int</span>&gt;&amp; tmp)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    cout&lt;&lt; <span class="string">&quot; test &quot;</span>;</span><br><span class="line">    cout&lt;&lt;tmp.<span class="built_in">use_count</span>()&lt;&lt;endl;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">test2</span><span class="params">(shared_ptr&lt;<span class="type">int</span>&gt; tmp)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    cout&lt;&lt; <span class="string">&quot; test2 &quot;</span>;</span><br><span class="line">    cout&lt;&lt;tmp.<span class="built_in">use_count</span>()&lt;&lt;endl;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="function">shared_ptr&lt;<span class="type">int</span>&gt; <span class="title">tmp</span><span class="params">(<span class="keyword">new</span> <span class="type">int</span>(<span class="number">100</span>))</span></span>;</span><br><span class="line">    cout&lt;&lt;tmp.<span class="built_in">use_count</span>()&lt;&lt;endl;</span><br><span class="line">    <span class="built_in">test</span>(tmp);</span><br><span class="line">    <span class="built_in">test2</span>(tmp);</span><br><span class="line">    cout&lt;&lt;tmp.<span class="built_in">use_count</span>()&lt;&lt;endl;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">A</span>&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">A</span>()&#123;cout&lt;&lt;<span class="string">&quot;A&quot;</span>&lt;&lt;endl;&#125;</span><br><span class="line">    ~<span class="built_in">A</span>()&#123;cout&lt;&lt;<span class="string">&quot;~A&quot;</span>&lt;&lt;endl;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">DeleteArrA</span><span class="params">(A* p)</span></span>&#123;</span><br><span class="line">	<span class="keyword">delete</span>[] p;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="built_in">shared_ptr</span>&lt;A&gt; (<span class="keyword">new</span> A[<span class="number">3</span>],DeleteArrA);</span><br><span class="line">	<span class="built_in">shared_ptr</span>&lt;A&gt;(<span class="keyword">new</span> A[<span class="number">3</span>]);<span class="comment">//析构函数调用delete,而不是delete []</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>unique_ptr实现独占式拥有或严格拥有概念，保证同一时间内只有一个智能指针可以指向该对象</p>
-<p>std::move()，让你能够将一个unique_ptr赋给另一个</p>
-<p> weak_ptr 是一种不控制对象生命周期的智能指针, 它指向一个 shared_ptr 管理的对象。进行该对象的内存管理的是那个强引用的 shared_ptr。weak_ptr只是提供了对管理对象的一个访问手段。weak_ptr 设计的目的是为配合 shared_ptr 而引入的一种智能指针来协助 shared_ptr 工作，它只可以从一个 shared_ptr 或另一个 weak_ptr 对象构造, 它的构造和析构不会引起引用记数的增加或减少。weak_ptr是用来解决shared_ptr相互引用时的死锁问题，如果说两个shared_ptr相互引用，那么这两个指针的引用计数永远不可能下降为0,资源永远不会释放。它是对对象的一种弱引用，不会增加对象的引用计数，和shared_ptr之间可以相互转化，shared_ptr可以直接赋值给它，它可以通过调用lock函数来获得shared_ptr。可以检测到所管理的对象是否已经被释放，从而避免非法访问。</p>
-<p><strong>unique_ptr</strong></p>
-<p> <strong>实现原理：</strong>将拷贝构造函数和赋值拷贝构造函数申明为private或delete。不允许拷贝构造函数和赋值操作符，但是支持移动构造函数，通过std:move把一个对象指针变成右值之后可以移动给另一个unique_ptr</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2023/05/6a0d97569379.html" data-id="clhh4tqbv004nwaaihqut491q" data-title="智能指针" class="article-share-link">Share</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-cpp/c++11/用户自定义字面量" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2023/05/4d79a54828bd.html" class="article-date">
-  <time class="dt-published" datetime="2023-05-08T02:33:55.000Z" itemprop="datePublished">2023-05-08</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/note/">note</a>►<a class="article-category-link" href="/categories/note/cpp/">cpp</a>►<a class="article-category-link" href="/categories/note/cpp/c-11/">c++11</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2023/05/4d79a54828bd.html">用户自定义字面量</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <hr>
-<h2 id="title-用户自定义字面量date-2023-x2F-05-x2F-08-10-33-55categories-note-cpp-c-11"><a href="#title-用户自定义字面量date-2023-x2F-05-x2F-08-10-33-55categories-note-cpp-c-11" class="headerlink" title="title: 用户自定义字面量date: 2023&#x2F;05&#x2F;08 10:33:55categories:  - note  - cpp  - c++11 "></a>title: 用户自定义字面量<br>date: 2023&#x2F;05&#x2F;08 10:33:55categories:<br>  - note<br>  - cpp<br>  - c++11 </h2><hr>
-<h2 id="title-用户自定义字面量categories-note-cpp-c-11"><a href="#title-用户自定义字面量categories-note-cpp-c-11" class="headerlink" title="title: 用户自定义字面量categories:  - note  - cpp  - c++11 "></a>title: 用户自定义字面量<br>categories:<br>  - note<br>  - cpp<br>  - c++11 </h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;vector&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 长度为 sz 的字符串 c  </span></span><br><span class="line"><span class="type">char</span> <span class="keyword">operator</span> <span class="string">&quot;&quot;</span>_C(<span class="type">const</span> <span class="type">char</span> *c,<span class="type">size_t</span> sz)&#123;   </span><br><span class="line">    cout&lt;&lt;c&lt;&lt; <span class="string">&quot; &quot;</span>;</span><br><span class="line">    cout&lt;&lt;sz&lt;&lt; endl;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&#x27;c&#x27;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">char</span> <span class="keyword">operator</span> <span class="string">&quot;&quot;</span>__D(<span class="type">size_t</span> sz)&#123;</span><br><span class="line">    cout&lt;&lt;sz&lt;&lt; <span class="string">&quot; &quot;</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&#x27;d&#x27;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    cout&lt;&lt;<span class="string">&quot;hello world&quot;</span>_C &lt;&lt; endl;</span><br><span class="line">    cout&lt;&lt; <span class="number">1024</span>__D &lt;&lt; endl;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2023/05/4d79a54828bd.html" data-id="clhh4tqbw004pwaaiez410n7k" data-title="用户自定义字面量" class="article-share-link">Share</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-cpp/c++11/类型转换" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2023/05/67e8e4218b46.html" class="article-date">
-  <time class="dt-published" datetime="2023-05-08T02:33:55.000Z" itemprop="datePublished">2023-05-08</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/note/">note</a>►<a class="article-category-link" href="/categories/note/cpp/">cpp</a>►<a class="article-category-link" href="/categories/note/cpp/c-11/">c++11</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2023/05/67e8e4218b46.html">类型转换</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <hr>
-<h2 id="title-类型转换date-2023-x2F-05-x2F-08-10-33-55categories-note-cpp-c-11"><a href="#title-类型转换date-2023-x2F-05-x2F-08-10-33-55categories-note-cpp-c-11" class="headerlink" title="title: 类型转换date: 2023&#x2F;05&#x2F;08 10:33:55categories:  - note  - cpp  - c++11 "></a>title: 类型转换<br>date: 2023&#x2F;05&#x2F;08 10:33:55categories:<br>  - note<br>  - cpp<br>  - c++11 </h2><hr>
-<h2 id="title-类型转换categories-note-cpp-c-11"><a href="#title-类型转换categories-note-cpp-c-11" class="headerlink" title="title: 类型转换categories:  - note  - cpp  - c++11 "></a>title: 类型转换<br>categories:<br>  - note<br>  - cpp<br>  - c++11 </h2><p>C中的指针转换永远都是保持指针指向地址不变，<em>只改变指针类型</em>，因此C中的C-Cast其实是没有歧义的。</p>
-<p>但在C++中，指针之间的自动转换存在一种特殊情况：如果将子类指针转向基类指针类型，这时候有可能需要<em>调整指针指向的地址</em>，尤其是<strong>多继承</strong>的情况下。</p>
-<p>但是，也有可能用户就是想要旧式的强制改变类型而不改变值的特性，使用C-Cast就会比较麻烦，而且如果用户想要子类基类转换，却不小心搞错了继承关系，也会自动变成reinterpret_cast，这样还不如将这两种可能的转换方式分开，指针强制转换用reinterpret_cast表示，基类子类转换用static_cast表示，这样如果指针之间没有基类子类关系而用了static_cast就能正确提示编译错误，也避免了语义上的歧义。</p>
-<h2 id="static-cast"><a href="#static-cast" class="headerlink" title="static_cast"></a>static_cast</h2><p>static_cast不能转换掉底层const，volatile和__unaligned属性,<em>不提供运行时的检查</em></p>
-<p>用于类层次结构中，父类和子类之间指针和引用的转换；进行上行转换，把子类对象的指针&#x2F;引用转换为父类指针&#x2F;引用，这种转换是安全的；进行<em>下行转换</em>，把父类对象的指针&#x2F;引用转换成子类指针&#x2F;引用，这种转换是不安全的；</p>
-<p>用于基本数据类型之间的转换，例如把int转char，int转enum等，需要编写程序时来确认安全性；</p>
-<p>把void指针转换成目标类型的指针（这是极其不安全的；</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">A</span>&#123;</span><br><span class="line">    <span class="type">int</span> a;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">B</span>&#123;</span><br><span class="line">    <span class="type">int</span> b;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">C</span>:A,B&#123;</span><br><span class="line">    <span class="type">int</span> c;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    C *pc = <span class="keyword">new</span> C;</span><br><span class="line">    cout &lt;&lt; pc &lt;&lt; endl;</span><br><span class="line">    cout &lt;&lt; (A *) pc &lt;&lt; endl;</span><br><span class="line">    cout &lt;&lt; (B *) pc &lt;&lt; endl;</span><br><span class="line"></span><br><span class="line">    cout &lt;&lt; <span class="built_in">static_cast</span>&lt;A *&gt;(pc) &lt;&lt; endl;</span><br><span class="line">    cout &lt;&lt; <span class="built_in">static_cast</span>&lt;B *&gt;(pc) &lt;&lt; endl;</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-<h2 id="dynamic-cast"><a href="#dynamic-cast" class="headerlink" title="dynamic_cast"></a>dynamic_cast</h2><p>C++新引入了从基类指针向子类指针转换的功能，这种转换同样需要调整指向的地址，但跟子类向基类转换还有不同，首先基类指针不一定是子类指针，其次涉及到虚基类的时候，两个指针之间的相对偏移是不固定的，跟实际的类型有关系，这样<strong>static_cast只能处理确信基类指针是子类指针且不涉及虚继承的情况</strong>。C++需要引入一套基于<strong>运行时类型检查进行cast</strong>的方法，而且这种cast机制跟老的static_cast有歧义，所以需要引入一种新的dynamic_cast。</p>
-<p>dynamic_cast会在运行时检查类型转换是否合法，具有一定的安全性。由于运行时的检查，所以会额外消耗一些性能。dynamic_cast使用场景与static相似，在类层次结构中使用时，上行转换和static_cast没有区别，都是安全的；下行转换时，dynamic_cast会检查转换的类型，相比static_cast更安全。</p>
-<p><strong>dynamic_cast转换仅适用于指针或引用。</strong></p>
-<p>在转换可能发生的前提下，dynamic_cast会尝试转换，若<strong>指针转换失败，则返回空指针，若引用转换失败，则抛出异常</strong>。</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">A</span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">func</span><span class="params">()</span></span>&#123;</span><br><span class="line">        cout&lt;&lt;<span class="string">&quot;base&quot;</span>&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">int</span> a;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">B</span> : <span class="keyword">public</span>  A&#123;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">func</span><span class="params">()</span> <span class="keyword">override</span></span>&#123;</span><br><span class="line">        cout&lt;&lt;<span class="string">&quot;derived B&quot;</span>&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">int</span> b;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">C</span> : <span class="keyword">public</span>  A&#123;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">func</span><span class="params">()</span> <span class="keyword">override</span></span>&#123;</span><br><span class="line">        cout&lt;&lt;<span class="string">&quot;derived C&quot;</span>&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">int</span> c;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    A * a = <span class="keyword">new</span> <span class="built_in">B</span>();</span><br><span class="line">    a-&gt;<span class="built_in">func</span>();</span><br><span class="line">    B* bp = <span class="built_in">dynamic_cast</span>&lt;B*&gt;(a);</span><br><span class="line"></span><br><span class="line">    bp-&gt;<span class="built_in">func</span>();</span><br><span class="line">    <span class="keyword">try</span>&#123;</span><br><span class="line">        C* cp = <span class="built_in">dynamic_cast</span>&lt;C*&gt;(a);</span><br><span class="line">        <span class="keyword">if</span> (cp == <span class="literal">nullptr</span>)&#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="built_in">runtime_error</span>(<span class="string">&quot;cp error&quot;</span>);</span><br><span class="line">        &#125;<span class="keyword">else</span></span><br><span class="line">            cp-&gt;<span class="built_in">func</span>();</span><br><span class="line">    &#125;<span class="built_in">catch</span> (...)</span><br><span class="line">    &#123;</span><br><span class="line">        cout&lt;&lt;<span class="string">&quot;catch&quot;</span>&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">A</span> &#123; <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">f</span><span class="params">()</span> </span>&#123;&#125;; &#125;;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">B</span> :<span class="keyword">virtual</span> <span class="keyword">public</span> A &#123; <span class="function"><span class="type">void</span> <span class="title">f</span><span class="params">()</span> </span>&#123;&#125;; &#125;;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">C</span> :<span class="keyword">virtual</span> <span class="keyword">public</span> A &#123; <span class="function"><span class="type">void</span> <span class="title">f</span><span class="params">()</span> </span>&#123;&#125;; &#125;;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">D</span> :<span class="keyword">public</span> B, <span class="keyword">public</span> C &#123; <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">f</span><span class="params">()</span> </span>&#123;&#125;; &#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//class A &#123; virtual void f() &#123;&#125;; &#125;;</span></span><br><span class="line"><span class="comment">//class B : public A &#123; void f() &#123;&#125;; &#125;;</span></span><br><span class="line"><span class="comment">//class C : public A &#123; void f() &#123;&#125;; &#125;;</span></span><br><span class="line"><span class="comment">//class D :public B, public C &#123; virtual void f() &#123;&#125;; &#125;;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    D *pD = <span class="keyword">new</span> D;</span><br><span class="line">    A *pA = <span class="built_in">dynamic_cast</span>&lt;A *&gt;(pD); <span class="comment">// pA = NULL</span></span><br><span class="line"><span class="comment">//    D *pD = new D;</span></span><br><span class="line"><span class="comment">//    B *pB = dynamic_cast&lt;B *&gt;(pD);</span></span><br><span class="line"><span class="comment">//    A *pA = dynamic_cast&lt;A *&gt;(pB);</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-
-<h2 id="const-cast"><a href="#const-cast" class="headerlink" title="const_cast"></a>const_cast</h2><p>C++比起C来说大大增强了const的作用，也允许const常量参与编译器优化，因而也需要对const修饰进行更强的保护。C-Cast可以自由去掉const限制，而在许多情况下去掉const修饰都是很危险的，实际使用中也很少出现，所以将涉及const的转换单独分离出去，保证了不会在不注意的时候不小心丢掉const修饰。</p>
-<p>const_cast用于移除类型的const、volatile和__unaligned属性。</p>
-<p>常量指针被转换成非常量指针，并且仍然指向原来的对象；<br>常量引用被转换成非常量引用，并且仍然引用原来的对象。</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="type">const</span> <span class="type">char</span> * p = <span class="string">&quot;hello&quot;</span>;</span><br><span class="line"><span class="comment">//    p[1] = &#x27;0&#x27;;</span></span><br><span class="line"><span class="comment">//    cout&lt;&lt;p&lt;&lt;endl;</span></span><br><span class="line">    <span class="type">char</span> * np = <span class="built_in">const_cast</span>&lt;<span class="type">char</span>*&gt;(p);</span><br><span class="line">    np[<span class="number">0</span>] = <span class="string">&#x27;1&#x27;</span>;</span><br><span class="line">    cout&lt;&lt;p&lt;&lt;endl;</span><br><span class="line">    cout&lt;&lt;np&lt;&lt;endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-
-<h2 id="reinterpret-cast"><a href="#reinterpret-cast" class="headerlink" title="reinterpret_cast"></a>reinterpret_cast</h2><p>reinterpret_cast整体的意思就是 “重新解释的转型”。</p>
-<p>reinterpret_cast运算符是用来处理无关类型之间的转换；它会产生一个新的值，这个值会有与原始参数（expressoin）有完全相同的比特位。所以reinterpret_cast是个很强大的运算符，因为它可以无视种族隔离，随便搞。</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">A</span>&#123;</span><br><span class="line">    <span class="type">int</span> a;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">B</span>&#123;</span><br><span class="line">    <span class="type">int</span> b;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">C</span>:A,B&#123;</span><br><span class="line">    <span class="type">int</span> c;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">auto</span> cp = <span class="keyword">new</span> <span class="built_in">C</span>();</span><br><span class="line">    <span class="keyword">auto</span> ap = <span class="built_in">reinterpret_cast</span>&lt;A*&gt;(cp);</span><br><span class="line">    <span class="keyword">auto</span> bp = <span class="built_in">reinterpret_cast</span>&lt;B*&gt;(cp);</span><br><span class="line">    cout&lt;&lt; cp &lt;&lt;<span class="string">&quot;\n&quot;</span>&lt;&lt;ap &lt;&lt;<span class="string">&quot;\n&quot;</span>&lt;&lt;bp &lt;&lt; endl;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2023/05/67e8e4218b46.html" data-id="clhh4tqc2004swaaib0uafpnr" data-title="类型转换" class="article-share-link">Share</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-cpp/c++11/闭包" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2023/05/eab1d4f7bd43.html" class="article-date">
-  <time class="dt-published" datetime="2023-05-08T02:33:55.000Z" itemprop="datePublished">2023-05-08</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/note/">note</a>►<a class="article-category-link" href="/categories/note/cpp/">cpp</a>►<a class="article-category-link" href="/categories/note/cpp/c-11/">c++11</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2023/05/eab1d4f7bd43.html">闭包</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <hr>
-<h2 id="title-闭包date-2023-x2F-05-x2F-08-10-33-55categories-note-cpp-c-11"><a href="#title-闭包date-2023-x2F-05-x2F-08-10-33-55categories-note-cpp-c-11" class="headerlink" title="title: 闭包date: 2023&#x2F;05&#x2F;08 10:33:55categories:  - note  - cpp  - c++11 "></a>title: 闭包<br>date: 2023&#x2F;05&#x2F;08 10:33:55categories:<br>  - note<br>  - cpp<br>  - c++11 </h2><hr>
-<h2 id="title-闭包categories-note-cpp-c-11"><a href="#title-闭包categories-note-cpp-c-11" class="headerlink" title="title: 闭包categories:  - note  - cpp  - c++11 "></a>title: 闭包<br>categories:<br>  - note<br>  - cpp<br>  - c++11 </h2><p>闭包（Closure）是指函数对象（函数和其相关的引用环境）组成的实体，它是一种特殊的对象，可以对函数中的自由变量进行封装和存储。</p>
-<p>在一个函数内部定义的函数可以访问外部函数的变量，这些变量被称为自由变量。在函数执行完毕之后，这些自由变量通常会被销毁。但是，在某些情况下，我们希望<em>保留这些自由变量的值，以便下次调用函数时可以继续使用</em>。这就需要使用闭包了。</p>
-<p>闭包可以将函数和其相关的引用环境<em>打包成一个对象</em>，该对象可以在函数执行完毕后继续存在，并且可以在以后的调用中访问到函数中的自由变量的值。这就使得函数可以具有记忆性，也就是说，函数可以“记住”之前的状态，从而在后续的调用中使用。</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">auto</span> <span class="title">nxt</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> a = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">return</span> [=]() <span class="keyword">mutable</span> -&gt; <span class="type">int</span>&#123;</span><br><span class="line">        a++;</span><br><span class="line">        <span class="keyword">return</span> a;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">auto</span> f = <span class="built_in">nxt</span>();</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>;i&lt;<span class="number">10</span>;i++)&#123;</span><br><span class="line">        cout&lt;&lt; <span class="built_in">f</span>() &lt;&lt;<span class="string">&quot; &quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">auto</span> g = <span class="built_in">nxt</span>();</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>;i&lt;<span class="number">10</span>;i++)&#123;</span><br><span class="line">        cout&lt;&lt; <span class="built_in">g</span>() &lt;&lt;<span class="string">&quot; &quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2023/05/eab1d4f7bd43.html" data-id="clhh4tqc9004uwaai0smv1hca" data-title="闭包" class="article-share-link">Share</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-cpp/class/NOCopy class" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2023/05/273d3e1efd85.html" class="article-date">
-  <time class="dt-published" datetime="2023-05-08T02:33:55.000Z" itemprop="datePublished">2023-05-08</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/note/">note</a>►<a class="article-category-link" href="/categories/note/cpp/">cpp</a>►<a class="article-category-link" href="/categories/note/cpp/class/">class</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2023/05/273d3e1efd85.html">NOCopy class</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <hr>
-<h2 id="title-NOCopy-classdate-2023-x2F-05-x2F-08-10-33-55categories-note-cpp-class"><a href="#title-NOCopy-classdate-2023-x2F-05-x2F-08-10-33-55categories-note-cpp-class" class="headerlink" title="title: NOCopy classdate: 2023&#x2F;05&#x2F;08 10:33:55categories:  - note  - cpp  - class "></a>title: NOCopy class<br>date: 2023&#x2F;05&#x2F;08 10:33:55categories:<br>  - note<br>  - cpp<br>  - class </h2><hr>
-<h2 id="title-NOCopy-classcategories-note-cpp-class"><a href="#title-NOCopy-classcategories-note-cpp-class" class="headerlink" title="title: NOCopy classcategories:  - note  - cpp  - class "></a>title: NOCopy class<br>categories:<br>  - note<br>  - cpp<br>  - class </h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">NoCopy</span>&#123;</span><br><span class="line"><span class="keyword">public</span>: </span><br><span class="line">    <span class="built_in">NoCopy</span>() = <span class="keyword">default</span>;</span><br><span class="line">    <span class="built_in">NoCopy</span>(<span class="type">const</span> NoCopy&amp;) = <span class="keyword">delete</span>;</span><br><span class="line">    NoCopy&amp; <span class="keyword">operator</span>=(<span class="type">const</span> NoCopy&amp;) = <span class="keyword">delete</span>;</span><br><span class="line">    ~<span class="built_in">NoCopy</span>() = <span class="keyword">default</span>;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">PrivateCopy</span>&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">PrivateCopy</span>() = <span class="keyword">default</span>;</span><br><span class="line">    ~<span class="built_in">PrivateCopy</span>() = <span class="keyword">default</span>;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="built_in">PrivateCopy</span>(<span class="type">const</span> PrivateCopy&amp;);</span><br><span class="line">    PrivateCopy&amp; <span class="keyword">operator</span>=(<span class="type">const</span> PrivateCopy&amp;);</span><br><span class="line">    <span class="comment">//class 不能被ordinary user code copy,但可以被friend 和 member copy  </span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">NoDtor</span>&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">NoDtor</span>() = <span class="keyword">default</span>;</span><br><span class="line">    ~<span class="built_in">NoDtor</span>() = <span class="keyword">delete</span>;</span><br><span class="line">    <span class="comment">//NoDtor* p = new NoDtor() 但不能delete </span></span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2023/05/273d3e1efd85.html" data-id="clhh4tqca004xwaaic69t6xtp" data-title="NOCopy class" class="article-share-link">Share</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-cpp/class/big three" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2023/05/f1afdb4b5966.html" class="article-date">
-  <time class="dt-published" datetime="2023-05-08T02:33:55.000Z" itemprop="datePublished">2023-05-08</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/note/">note</a>►<a class="article-category-link" href="/categories/note/cpp/">cpp</a>►<a class="article-category-link" href="/categories/note/cpp/class/">class</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2023/05/f1afdb4b5966.html">big three</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <hr>
-<h2 id="title-big-threedate-2023-x2F-05-x2F-08-10-33-55categories-note-cpp-class"><a href="#title-big-threedate-2023-x2F-05-x2F-08-10-33-55categories-note-cpp-class" class="headerlink" title="title: big threedate: 2023&#x2F;05&#x2F;08 10:33:55categories:  - note  - cpp  - class "></a>title: big three<br>date: 2023&#x2F;05&#x2F;08 10:33:55categories:<br>  - note<br>  - cpp<br>  - class </h2><hr>
-<h2 id="title-big-threecategories-note-cpp-class"><a href="#title-big-threecategories-note-cpp-class" class="headerlink" title="title: big threecategories:  - note  - cpp  - class "></a>title: big three<br>categories:<br>  - note<br>  - cpp<br>  - class </h2><p><strong>class with pointer</strong>  必须写 big three : 拷贝构造，拷贝赋值，析构函数</p>
-<p>浅拷贝 编译器默认 :  一个位 一个位的进行赋值 </p>
-<p>深拷贝  (拷贝构造 拷贝赋值) </p>
-<p><img src="/../../images/cpp/class/big%20three/image-20230426204357057.png"></p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">string <span class="title">s1</span><span class="params">(<span class="string">&quot;hello&quot;</span>)</span></span>;</span><br><span class="line"><span class="function">string <span class="title">s2</span><span class="params">(s1)</span></span>;</span><br><span class="line">string s3 = s1;</span><br><span class="line"><span class="comment">//意思完全相同  写法不同 因为都是新创建的对象 调用的都是同一个函数 String(const String&amp;)</span></span><br></pre></td></tr></table></figure>
-
-
-<p><img src="/../../images/cpp/class/big%20three/image-20230426204441647.png"><br><img src="/../../images/cpp/class/big%20three/image-20230426204511887.png"></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2023/05/f1afdb4b5966.html" data-id="clhh4tqcc004zwaai89es1a1j" data-title="big three" class="article-share-link">Share</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-cpp/class/empty class" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2023/05/8f4302707c2c.html" class="article-date">
-  <time class="dt-published" datetime="2023-05-08T02:33:55.000Z" itemprop="datePublished">2023-05-08</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/note/">note</a>►<a class="article-category-link" href="/categories/note/cpp/">cpp</a>►<a class="article-category-link" href="/categories/note/cpp/class/">class</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2023/05/8f4302707c2c.html">empty class</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <hr>
-<h2 id="title-empty-classdate-2023-x2F-05-x2F-08-10-33-55categories-note-cpp-class"><a href="#title-empty-classdate-2023-x2F-05-x2F-08-10-33-55categories-note-cpp-class" class="headerlink" title="title: empty classdate: 2023&#x2F;05&#x2F;08 10:33:55categories:  - note  - cpp  - class "></a>title: empty class<br>date: 2023&#x2F;05&#x2F;08 10:33:55categories:<br>  - note<br>  - cpp<br>  - class </h2><hr>
-<h2 id="title-empty-classcategories-note-cpp-class"><a href="#title-empty-classcategories-note-cpp-class" class="headerlink" title="title: empty classcategories:  - note  - cpp  - class "></a>title: empty class<br>categories:<br>  - note<br>  - cpp<br>  - class </h2><p>对于空类，编译器不会生成任何的成员函数，只会生成1个字节的占位符。</p>
-<p>使用空类定义对象或者调用成员函数时，编译器会自动为你生成以下个成员函数（仅在需要时生成）：</p>
-<ul>
-<li>一个默认构造函数</li>
-<li>一个复制构造函数</li>
-<li>一个复制赋值运算符<br>  copy ctor 和 copy assignment operator  编译器只是单纯的的将source object 的每一个non-static data members 拷贝到 destination object </li>
-<li>一个析构函数 （编译器产出的dtor 是<em>non-virtual</em> 除非class 的base class 本身带有virtual  dtor） </li>
-<li>移动构造函数</li>
-<li>移动赋值函数</li>
-<li>两个取址运算符（常量和非常量）</li>
-</ul>
-<p>这些成员函数都是<strong>公有的、内联的、无参数</strong>的。<br>用处：<strong>主要是给编译器一个地方用来放置   幕后的code</strong> , 例如 base class ,non-static members 的ctors 、dtors</p>
-<p><strong>可以使用delete 或者private 来阻止编译器生成</strong></p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">A</span>&#123;</span><br><span class="line">    <span class="type">void</span>* <span class="keyword">operator</span>&amp;() <span class="type">const</span> &#123;</span><br><span class="line">        cout&lt;&lt;<span class="string">&quot;operator*&quot;</span>&lt;&lt;endl;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">const</span> A a;</span><br><span class="line">    cout&lt;&lt;&amp;a&lt;&lt;endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-<p>声明复制操作 ，不会生成移动操作</p>
-<p>声明移动操作 ，不会生成复制操作</p>
-<p>析构函数 阻止移动操作的生成 ，针对移动操作的请求仍然可以被编译和执行，但触发的是复制操作</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">base</span>&#123;</span><br><span class="line">    <span class="built_in">base</span>() = <span class="keyword">default</span>;</span><br><span class="line">    <span class="built_in">base</span>(<span class="type">const</span> base&amp;)&#123;</span><br><span class="line">        cout&lt;&lt;<span class="string">&quot;base(const base&amp;)&quot;</span>&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">base</span>(<span class="type">const</span> base&amp;&amp;)&#123;</span><br><span class="line">        cout&lt;&lt;<span class="string">&quot;base(const base&amp;&amp;)&quot;</span>&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">A</span>&#123;</span><br><span class="line">    <span class="comment">// A() = default;</span></span><br><span class="line">    <span class="comment">// A(const A&amp; )</span></span><br><span class="line">    <span class="comment">// &#123;</span></span><br><span class="line">    <span class="comment">//     cout&lt;&lt;&quot;A&quot;&lt;&lt;endl;</span></span><br><span class="line">    <span class="comment">// &#125;</span></span><br><span class="line">    ~<span class="built_in">A</span>()&#123;</span><br><span class="line">    &#125;</span><br><span class="line">    base b;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    A a;</span><br><span class="line">    <span class="function">A <span class="title">b</span><span class="params">(move(a))</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2023/05/8f4302707c2c.html" data-id="clhh4tqcd0052waai1hyncj10" data-title="empty class" class="article-share-link">Share</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-cpp/class/overload" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2023/05/639b4b143142.html" class="article-date">
-  <time class="dt-published" datetime="2023-05-08T02:33:55.000Z" itemprop="datePublished">2023-05-08</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/note/">note</a>►<a class="article-category-link" href="/categories/note/cpp/">cpp</a>►<a class="article-category-link" href="/categories/note/cpp/class/">class</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2023/05/639b4b143142.html">overload</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <hr>
-<h2 id="title-overloaddate-2023-x2F-05-x2F-08-10-33-55categories-note-cpp-class"><a href="#title-overloaddate-2023-x2F-05-x2F-08-10-33-55categories-note-cpp-class" class="headerlink" title="title: overloaddate: 2023&#x2F;05&#x2F;08 10:33:55categories:  - note  - cpp  - class "></a>title: overload<br>date: 2023&#x2F;05&#x2F;08 10:33:55categories:<br>  - note<br>  - cpp<br>  - class </h2><hr>
-<h2 id="title-overloadcategories-note-cpp-class"><a href="#title-overloadcategories-note-cpp-class" class="headerlink" title="title: overloadcategories:  - note  - cpp  - class "></a>title: overload<br>categories:<br>  - note<br>  - cpp<br>  - class </h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">A</span>&#123;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">func</span><span class="params">()</span></span>&#123;</span><br><span class="line">        cout&lt;&lt;<span class="string">&quot;func&quot;</span>&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// void func() const &#123;</span></span><br><span class="line">    <span class="comment">//     cout&lt;&lt;&quot;const func&quot;&lt;&lt;endl;</span></span><br><span class="line">    <span class="comment">// &#125;    </span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    A a;a.<span class="built_in">func</span>();</span><br><span class="line">    <span class="comment">// const A b;b.func();</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2023/05/639b4b143142.html" data-id="clhh4tqcg0054waai24ghgu0w" data-title="overload" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2023/05/8dad354cfbf9.html" data-id="clhh52sbm00544saigv7d6hkp" data-title="lambda" class="article-share-link">Share</a>
       
       
       
@@ -645,7 +605,7 @@
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/7/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/9/">Next &raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/7/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/9/">Next &raquo;</a>
   </nav>
 
 </section>
@@ -656,7 +616,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/note/">note</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/note/backup/">backup</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/">cpp</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/c-11/">c++11</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/class/">class</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/stl/">stl</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/template/">template</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/waining/">waining</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/%E8%AF%AD%E8%A8%80%E7%9B%B8%E5%85%B3/">语言相关</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/go/">go</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/linux/">linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/mysql/">mysql</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/os/">os</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/redis/">redis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/">计网</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E4%BC%A0%E8%BE%93%E5%B1%82/">传输层</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E4%BC%A0%E8%BE%93%E5%B1%82/TCP/">TCP</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E5%BA%94%E7%94%A8%E5%B1%82/">应用层</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E7%BD%91%E7%BB%9C%E5%B1%82/">网络层</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/note/">note</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/note/backup/">backup</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/">cpp</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/c-11/">c++11</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/class/">class</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/stl/">stl</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/template/">template</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/thread/">thread</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/waining/">waining</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/%E8%AF%AD%E8%A8%80%E7%9B%B8%E5%85%B3/">语言相关</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/git/">git</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/go/">go</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/linux/">linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/mysql/">mysql</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/os/">os</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/redis/">redis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E5%88%86%E5%B8%83%E5%BC%8F/">分布式</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/">计网</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E4%BC%A0%E8%BE%93%E5%B1%82/">传输层</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E4%BC%A0%E8%BE%93%E5%B1%82/TCP/">TCP</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E5%BA%94%E7%94%A8%E5%B1%82/">应用层</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E7%BD%91%E7%BB%9C%E5%B1%82/">网络层</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul></li></ul>
     </div>
   </div>
 
@@ -688,6 +648,10 @@
           </li>
         
           <li>
+            <a href="/2023/05/b75e23be19eb.html">tmp</a>
+          </li>
+        
+          <li>
             <a href="/2023/05/57f7189c85b4.html">Generics</a>
           </li>
         
@@ -697,10 +661,6 @@
         
           <li>
             <a href="/2023/05/fa2a1258122b.html">interface</a>
-          </li>
-        
-          <li>
-            <a href="/2023/05/18aa578c0caa.html">methods</a>
           </li>
         
       </ul>

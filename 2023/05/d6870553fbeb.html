@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Category: note | daidai</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="索引失效联合索引不按照最左匹配like %xx 或者 like %xx%对索引列使用函数&#x2F;表达式计算where 中的 or在 WHERE 子句中，如果在 OR 前的条件列是索引列，而在 OR 后的条件列不是索引列，那么索引会失效。 12SELECT * FROM t WHERE a&#x3D;1 OR c&#x3D;2;#a是索引列 c不是索引列 -&gt; 全表扫描 -&gt; 将c 设置为索引   12">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用索引">
+<meta property="og:url" content="http://example.com/2023/05/d6870553fbeb.html">
+<meta property="og:site_name" content="daidai">
+<meta property="og:description" content="索引失效联合索引不按照最左匹配like %xx 或者 like %xx%对索引列使用函数&#x2F;表达式计算where 中的 or在 WHERE 子句中，如果在 OR 前的条件列是索引列，而在 OR 后的条件列不是索引列，那么索引会失效。 12SELECT * FROM t WHERE a&#x3D;1 OR c&#x3D;2;#a是索引列 c不是索引列 -&gt; 全表扫描 -&gt; 将c 设置为索引   12">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-05-08T02:33:55.000Z">
+<meta property="article:modified_time" content="2023-05-10T03:26:28.660Z">
+<meta property="article:author" content="daidai">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="daidai" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">daidai</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-mysql/使用索引" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/05/d6870553fbeb.html" class="article-date">
+  <time class="dt-published" datetime="2023-05-08T02:33:55.000Z" itemprop="datePublished">2023-05-08</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/note/">note</a>►<a class="article-category-link" href="/categories/note/mysql/">mysql</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      使用索引
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="索引失效"><a href="#索引失效" class="headerlink" title="索引失效"></a>索引失效</h2><h3 id="联合索引不按照最左匹配"><a href="#联合索引不按照最左匹配" class="headerlink" title="联合索引不按照最左匹配"></a>联合索引不按照最左匹配</h3><h3 id="like-xx-或者-like-xx"><a href="#like-xx-或者-like-xx" class="headerlink" title="like %xx 或者 like %xx%"></a>like %xx 或者 like %xx%</h3><h3 id="对索引列使用函数-x2F-表达式计算"><a href="#对索引列使用函数-x2F-表达式计算" class="headerlink" title="对索引列使用函数&#x2F;表达式计算"></a>对索引列使用函数&#x2F;表达式计算</h3><h3 id="where-中的-or"><a href="#where-中的-or" class="headerlink" title="where 中的 or"></a>where 中的 or</h3><p>在 WHERE 子句中，如果在 OR 前的条件列是索引列，而在 OR 后的条件列不是索引列，那么索引会失效。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM t WHERE a=1 OR c=2;</span><br><span class="line">#a是索引列 c不是索引列 -&gt; 全表扫描 -&gt; 将c 设置为索引</span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM t WHERE a=1 AND c=2;</span><br><span class="line"># a，c 都是索引，分别进行索引查找，对结果取交集</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="对索引隐式类型转换"><a href="#对索引隐式类型转换" class="headerlink" title="对索引隐式类型转换"></a>对索引隐式类型转换</h3><p>在遇到字符串和数字比较的时候，会自动<strong>把字符串转为数字</strong>，然后再进行比较。<br>如果字符串是索引列，而条件语句中的输入参数是数字的话，那么索引列会发生隐式类型转换，由于隐式类型转换是通过 CAST 函数实现的，等同于对索引列使用了函数，所以就会导致索引失效</p>
+<h2 id="索引优化"><a href="#索引优化" class="headerlink" title="索引优化"></a>索引优化</h2><h3 id="字符串索引优化"><a href="#字符串索引优化" class="headerlink" title="字符串索引优化"></a>字符串索引优化</h3><p>使用<em>前缀索引</em>，定义好长度，就可以做到既节省空间，又不用额外增加太多的查询成本。<br>需要关注的是<em>区分度</em>  count(distinct) </p>
+<p><em>倒序索引</em>  &#x3D;&gt;  字符串本身前缀的区分度不够的问题</p>
+<p>创建 <em>hash 字段</em>索引 </p>
+<h3 id="前缀索引"><a href="#前缀索引" class="headerlink" title="前缀索引"></a>前缀索引</h3><p>减小索引字段大小，有效提高索引的查询速度.</p>
+<p>只为列的前缀建立索引，<strong>无法使用其进行排序，分组。</strong></p>
+<p>无法把前缀索引用作覆盖索引；</p>
+<h3 id="让索引列以列名形式单独在搜索条件中出现"><a href="#让索引列以列名形式单独在搜索条件中出现" class="headerlink" title="让索引列以列名形式单独在搜索条件中出现"></a>让索引列以列名形式单独在搜索条件中出现</h3><h3 id="索引列的类型尽量小"><a href="#索引列的类型尽量小" class="headerlink" title="索引列的类型尽量小"></a>索引列的类型尽量小</h3><p>​</p>
+<h3 id="考虑索引列中不重复元素的数量"><a href="#考虑索引列中不重复元素的数量" class="headerlink" title="考虑索引列中不重复元素的数量"></a>考虑索引列中不重复元素的数量</h3><h3 id="最好让插入记录的主键值依次递增-auto-increment"><a href="#最好让插入记录的主键值依次递增-auto-increment" class="headerlink" title="最好让插入记录的主键值依次递增 auto_increment"></a>最好让插入记录的主键值依次递增 auto_increment</h3><p><strong>如果我们使用自增主键</strong>，那么每次插入的新数据就会按顺序添加到当前索引节点的位置，不需要移动已有的数据，当页面写满，就会自动开辟一个新页面。因为每次<strong>插入一条新记录，都是追加操作，不需要重新移动数据</strong>，因此这种插入数据的方法效率非常高。</p>
+<p><strong>如果我们使用非自增主键</strong>，由于每次插入主键的索引值都是随机的，因此每次插入新的数据时，就可能会插入到现有数据页中间的某个位置，这将不得不移动其它数据来满足新数据的插入，甚至需要从一个页面复制数据到另外一个页面，我们通常将这种情况称为<strong>页分裂</strong>。<strong>页分裂还有可能会造成大量的内存碎片，导致索引结构不紧凑，从而影响查询效率</strong>。</p>
+<h3 id="联合索引要能正确使用需要遵循最左匹配原则"><a href="#联合索引要能正确使用需要遵循最左匹配原则" class="headerlink" title="联合索引要能正确使用需要遵循最左匹配原则"></a>联合索引要能正确使用需要遵循最左匹配原则</h3><p>​MySQL 优化器认为直接遍历二级索引树要比遍历聚簇索引树的成本要小的多，因此对于（select id like “%xx” （覆盖索引的情况） ）MySQL 选择了「全扫描二级索引树」的方式查询数据。</p>
+<h3 id="覆盖索引优化"><a href="#覆盖索引优化" class="headerlink" title="覆盖索引优化"></a>覆盖索引优化</h3><p>SQL 中 query 的所有字段，在索引 B+Tree 的叶子节点上都能找得到的那些索引，从二级索引中查询得到记录，而不需要通过聚簇索引查询获得，可以<em>避免回表</em>的操作</p>
+<p>不需要查询出包含整行记录的所有信息，也就减少了大量的 I&#x2F;O 操作</p>
+<h3 id="索引最好设置成NOT-NULL"><a href="#索引最好设置成NOT-NULL" class="headerlink" title="索引最好设置成NOT NULL"></a>索引最好设置成NOT NULL</h3><h2 id="索引选择"><a href="#索引选择" class="headerlink" title="索引选择"></a>索引选择</h2><p>索引适合字段有唯一性限制的，经常where,group by ,order by<br>不适合：重复数据多的，数据少，经常更新的</p>
+<h3 id="唯一索引与普通索引"><a href="#唯一索引与普通索引" class="headerlink" title="唯一索引与普通索引"></a>唯一索引与普通索引</h3><p>查询 ： 普通索引需要在查到满足条件的第一个记录后，需要查找下一个记录，直到碰到第一个不满足条件的记录。由于mysql按照页来读数据，索引性能差异很小</p>
+<p>插入：唯一索引需要去判断是否满足唯一性，普通索引会通过 change buffer优化插入</p>
+<p>如何选择 ：<br>    业务正确性优先<br>    “归档库”的场景 归档数据已经是<em>确保没有唯一键冲突了</em>，可以用普通索引</p>
+<h3 id="处理"><a href="#处理" class="headerlink" title="处理"></a>处理</h3><ul>
+<li>force index</li>
+<li>修改mysql语句</li>
+<li>新建更合适的索引</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/05/d6870553fbeb.html" data-id="clhh52s8v001g4sai5pr8ferg" data-title="使用索引" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2023/05/4e7d087f487d.html" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          事务
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2023/05/ff0230f7d61d.html" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">索引</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/note/">note</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/note/backup/">backup</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/">cpp</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/c-11/">c++11</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/class/">class</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/stl/">stl</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/template/">template</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/thread/">thread</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/waining/">waining</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/%E8%AF%AD%E8%A8%80%E7%9B%B8%E5%85%B3/">语言相关</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/git/">git</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/go/">go</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/linux/">linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/mysql/">mysql</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/os/">os</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/redis/">redis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E5%88%86%E5%B8%83%E5%BC%8F/">分布式</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/">计网</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E4%BC%A0%E8%BE%93%E5%B1%82/">传输层</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E4%BC%A0%E8%BE%93%E5%B1%82/TCP/">TCP</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E5%BA%94%E7%94%A8%E5%B1%82/">应用层</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E7%BD%91%E7%BB%9C%E5%B1%82/">网络层</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/05/">May 2023</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/05/a2320691ce09.html">token</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/b75e23be19eb.html">tmp</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/57f7189c85b4.html">Generics</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/20146d42898b.html">channel</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/fa2a1258122b.html">interface</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 daidai<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

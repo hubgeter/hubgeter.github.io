@@ -6,15 +6,15 @@
   
   <title>Category: note | daidai</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="title: 类型转换date: 2023&#x2F;05&#x2F;08 10:33:55categories:  - note  - cpp  - c++11  title: 类型转换categories:  - note  - cpp  - c++11 C中的指针转换永远都是保持指针指向地址不变，只改变指针类型，因此C中的C-Cast其实是没有歧义的。 但在C++中，指针之间的自动转换存在">
+  <meta name="description" content="C中的指针转换永远都是保持指针指向地址不变，只改变指针类型，因此C中的C-Cast其实是没有歧义的。 但在C++中，指针之间的自动转换存在一种特殊情况：如果将子类指针转向基类指针类型，这时候有可能需要调整指针指向的地址，尤其是多继承的情况下。 但是，也有可能用户就是想要旧式的强制改变类型而不改变值的特性，使用C-Cast就会比较麻烦，而且如果用户想要子类基类转换，却不小心搞错了继承关系，也会自动变">
 <meta property="og:type" content="article">
 <meta property="og:title" content="类型转换">
 <meta property="og:url" content="http://example.com/2023/05/67e8e4218b46.html">
 <meta property="og:site_name" content="daidai">
-<meta property="og:description" content="title: 类型转换date: 2023&#x2F;05&#x2F;08 10:33:55categories:  - note  - cpp  - c++11  title: 类型转换categories:  - note  - cpp  - c++11 C中的指针转换永远都是保持指针指向地址不变，只改变指针类型，因此C中的C-Cast其实是没有歧义的。 但在C++中，指针之间的自动转换存在">
+<meta property="og:description" content="C中的指针转换永远都是保持指针指向地址不变，只改变指针类型，因此C中的C-Cast其实是没有歧义的。 但在C++中，指针之间的自动转换存在一种特殊情况：如果将子类指针转向基类指针类型，这时候有可能需要调整指针指向的地址，尤其是多继承的情况下。 但是，也有可能用户就是想要旧式的强制改变类型而不改变值的特性，使用C-Cast就会比较麻烦，而且如果用户想要子类基类转换，却不小心搞错了继承关系，也会自动变">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2023-05-08T02:33:55.000Z">
-<meta property="article:modified_time" content="2023-05-10T03:19:27.049Z">
+<meta property="article:modified_time" content="2023-05-10T03:26:28.656Z">
 <meta property="article:author" content="daidai">
 <meta name="twitter:card" content="summary">
   
@@ -99,9 +99,7 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <hr>
-<h2 id="title-类型转换date-2023-x2F-05-x2F-08-10-33-55categories-note-cpp-c-11"><a href="#title-类型转换date-2023-x2F-05-x2F-08-10-33-55categories-note-cpp-c-11" class="headerlink" title="title: 类型转换date: 2023&#x2F;05&#x2F;08 10:33:55categories:  - note  - cpp  - c++11 "></a>title: 类型转换<br>date: 2023&#x2F;05&#x2F;08 10:33:55categories:<br>  - note<br>  - cpp<br>  - c++11 </h2><hr>
-<h2 id="title-类型转换categories-note-cpp-c-11"><a href="#title-类型转换categories-note-cpp-c-11" class="headerlink" title="title: 类型转换categories:  - note  - cpp  - c++11 "></a>title: 类型转换<br>categories:<br>  - note<br>  - cpp<br>  - c++11 </h2><p>C中的指针转换永远都是保持指针指向地址不变，<em>只改变指针类型</em>，因此C中的C-Cast其实是没有歧义的。</p>
+        <p>C中的指针转换永远都是保持指针指向地址不变，<em>只改变指针类型</em>，因此C中的C-Cast其实是没有歧义的。</p>
 <p>但在C++中，指针之间的自动转换存在一种特殊情况：如果将子类指针转向基类指针类型，这时候有可能需要<em>调整指针指向的地址</em>，尤其是<strong>多继承</strong>的情况下。</p>
 <p>但是，也有可能用户就是想要旧式的强制改变类型而不改变值的特性，使用C-Cast就会比较麻烦，而且如果用户想要子类基类转换，却不小心搞错了继承关系，也会自动变成reinterpret_cast，这样还不如将这两种可能的转换方式分开，指针强制转换用reinterpret_cast表示，基类子类转换用static_cast表示，这样如果指针之间没有基类子类关系而用了static_cast就能正确提示编译错误，也避免了语义上的歧义。</p>
 <h2 id="static-cast"><a href="#static-cast" class="headerlink" title="static_cast"></a>static_cast</h2><p>static_cast不能转换掉底层const，volatile和__unaligned属性,<em>不提供运行时的检查</em></p>
@@ -138,7 +136,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/05/67e8e4218b46.html" data-id="clhh4tqc2004swaaib0uafpnr" data-title="类型转换" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2023/05/67e8e4218b46.html" data-id="clhh52sbs005e4sai4q6d53so" data-title="类型转换" class="article-share-link">Share</a>
       
       
       
@@ -177,7 +175,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/note/">note</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/note/backup/">backup</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/">cpp</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/c-11/">c++11</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/class/">class</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/stl/">stl</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/template/">template</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/waining/">waining</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/%E8%AF%AD%E8%A8%80%E7%9B%B8%E5%85%B3/">语言相关</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/go/">go</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/linux/">linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/mysql/">mysql</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/os/">os</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/redis/">redis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/">计网</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E4%BC%A0%E8%BE%93%E5%B1%82/">传输层</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E4%BC%A0%E8%BE%93%E5%B1%82/TCP/">TCP</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E5%BA%94%E7%94%A8%E5%B1%82/">应用层</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E7%BD%91%E7%BB%9C%E5%B1%82/">网络层</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/note/">note</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/note/backup/">backup</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/">cpp</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/c-11/">c++11</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/class/">class</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/stl/">stl</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/template/">template</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/thread/">thread</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/waining/">waining</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/%E8%AF%AD%E8%A8%80%E7%9B%B8%E5%85%B3/">语言相关</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/git/">git</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/go/">go</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/linux/">linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/mysql/">mysql</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/os/">os</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/redis/">redis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E5%88%86%E5%B8%83%E5%BC%8F/">分布式</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/">计网</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E4%BC%A0%E8%BE%93%E5%B1%82/">传输层</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E4%BC%A0%E8%BE%93%E5%B1%82/TCP/">TCP</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E5%BA%94%E7%94%A8%E5%B1%82/">应用层</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E7%BD%91%E7%BB%9C%E5%B1%82/">网络层</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul></li></ul>
     </div>
   </div>
 
@@ -209,6 +207,10 @@
           </li>
         
           <li>
+            <a href="/2023/05/b75e23be19eb.html">tmp</a>
+          </li>
+        
+          <li>
             <a href="/2023/05/57f7189c85b4.html">Generics</a>
           </li>
         
@@ -218,10 +220,6 @@
         
           <li>
             <a href="/2023/05/fa2a1258122b.html">interface</a>
-          </li>
-        
-          <li>
-            <a href="/2023/05/18aa578c0caa.html">methods</a>
           </li>
         
       </ul>

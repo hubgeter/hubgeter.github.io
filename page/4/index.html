@@ -71,6 +71,141 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-os/fork" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/05/d8db15e830dd.html" class="article-date">
+  <time class="dt-published" datetime="2023-05-08T02:33:55.000Z" itemprop="datePublished">2023-05-08</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/note/">note</a>►<a class="article-category-link" href="/categories/note/os/">os</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/05/d8db15e830dd.html">fork</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="fork"><a href="#fork" class="headerlink" title="fork"></a>fork</h2><p>用于创建一个新进程，子进程是父进程的副本，它继承了父进程的所有数据和代码段。子进程和父进程共享相同的代码段，但是拥有独立的数据段和堆栈，它们<strong>运行时是完全独立</strong>的。</p>
+<p>fork 的实际开销就是复制父进程的页表以及给子进程创建唯一的进程描述符。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">clone(SIGCHLD,<span class="number">0</span>);</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="vfork"><a href="#vfork" class="headerlink" title="vfork"></a>vfork</h2><p>vfork() 是 fork() 的一种变体，它不会像 fork() 一样复制父进程的地址空间，而是<strong>共享</strong>父进程的地址空间。这意味着子进程将共享父进程的代码段、数据段和堆栈。</p>
+<p>vfork 除了不拷贝父进程的页表项 ，其余与fork功能相同。 	</p>
+<p>vfork()保证<strong>子进程先运行</strong>，在她调用exec或_exit之后父进程才可能被调度运行。如果在调用这两个函数之前子进程依赖于父进程的进一步动作，则会导致死锁。因此vfork设计用以子进程创建后立即执行execve系统调用加载新程序的情形。在子进程退出或开始新程序之前，内核保证了父进程处于阻塞状态。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">clone(CLONE_VFORK|CLONE_VM|SIGCHLD,<span class="number">0</span>);</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="pthread-线程"><a href="#pthread-线程" class="headerlink" title="pthread 线程"></a>pthread 线程</h2><p>在 pthread 库中，创建<strong>线程</strong>时调用的是 clone 系统调用，其参数包括：</p>
+<ol>
+<li>start_routine：新线程要执行的函数指针；</li>
+<li>arg：start_routine 函数的参数；</li>
+<li>child_stack：指向新线程的栈空间的指针；</li>
+<li>flags：用于控制新线程的行为，可以设置以下标志：</li>
+</ol>
+<ul>
+<li>CLONE_VM：新线程与原线程共享地址空间；</li>
+<li>CLONE_FS：新线程与原线程共享文件系统信息；</li>
+<li>CLONE_FILES：新线程与原线程共享文件描述符表；</li>
+<li>CLONE_SIGHAND：新线程与原线程共享信号处理程序；</li>
+<li>CLONE_THREAD：创建线程而非进程；</li>
+<li>CLONE_SYSVSEM：新线程与原线程共享 System V 信号量；</li>
+<li>CLONE_SETTLS：为新线程设置 TLS（Thread Local Storage）。</li>
+</ul>
+<p>注意：在 pthread 库中，实际上是通过封装 clone 系统调用来实现线程的创建和管理的，并且传递给 clone 系统调用的参数也有所不同。</p>
+<h2 id="clone"><a href="#clone" class="headerlink" title="clone"></a>clone</h2><p>它可以用来创建一个新的<strong>进程或线程</strong>。</p>
+<p>clone() 可以控制新进程与父进程之间的共享资源，而且可以指定子进程的资源和行为。它也可以创建轻量级线程，会共享父进程的地址空间，但是拥有独立的执行流。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>fork() 和 vfork() 创建的进程都是完全独立的进程，它们都会复制父进程的地址空间，但是 vfork() 在子进程创建新的地址空间前会暂停父进程的执行。而 clone() 可以控制新进程与父进程之间的共享资源，它更加灵活。</p>
+<p>fork()，vfork()， __clone() 库函数都会根据需要的参数标志去调用clone() ，clone() 去调用do_fork()</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">do_fork()</span><br><span class="line">&#123;</span><br><span class="line">    copy_process();</span><br><span class="line">&#125;</span><br><span class="line">copy_process()</span><br><span class="line">&#123;</span><br><span class="line">    copy_mm()</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">static</span> <span class="type">int</span> <span class="title function_">copy_mm</span><span class="params">(<span class="type">unsigned</span> <span class="type">long</span> clone_flags, <span class="keyword">struct</span> task_struct *tsk)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 子进程虚拟内存空间，父进程虚拟内存空间</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">mm_struct</span> *<span class="title">mm</span>, *<span class="title">oldmm</span>;</span></span><br><span class="line">	<span class="type">int</span> retval;</span><br><span class="line"></span><br><span class="line">        ...... 省略 ......</span><br><span class="line"></span><br><span class="line">	tsk-&gt;mm = <span class="literal">NULL</span>;</span><br><span class="line">	tsk-&gt;active_mm = <span class="literal">NULL</span>;</span><br><span class="line">    <span class="comment">// 获取父进程虚拟内存空间</span></span><br><span class="line">	oldmm = current-&gt;mm;</span><br><span class="line">	<span class="keyword">if</span> (!oldmm)</span><br><span class="line">		<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">        ...... 省略 ......</span><br><span class="line">    <span class="comment">// 通过 vfork 或者 clone 系统调用创建出的子进程（线程）和父进程共享虚拟内存空间</span></span><br><span class="line">	<span class="keyword">if</span> (clone_flags &amp; CLONE_VM) &#123;</span><br><span class="line">        <span class="comment">// 增加父进程虚拟地址空间的引用计数</span></span><br><span class="line">		mmget(oldmm);</span><br><span class="line">        <span class="comment">// 直接将父进程的虚拟内存空间赋值给子进程（线程）</span></span><br><span class="line">        <span class="comment">// 线程共享其所属进程的虚拟内存空间</span></span><br><span class="line">		mm = oldmm;</span><br><span class="line">		<span class="keyword">goto</span> good_mm;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	retval = -ENOMEM;</span><br><span class="line">    <span class="comment">// 如果是 fork 系统调用创建出的子进程，则将父进程的虚拟内存空间以及相关页表拷贝到子进程中的 mm_struct 结构中。</span></span><br><span class="line">	mm = dup_mm(tsk);</span><br><span class="line">	<span class="keyword">if</span> (!mm)</span><br><span class="line">		<span class="keyword">goto</span> fail_nomem;</span><br><span class="line"></span><br><span class="line">good_mm:</span><br><span class="line">    <span class="comment">// 将拷贝出来的父进程虚拟内存空间 mm_struct 赋值给子进程</span></span><br><span class="line">	tsk-&gt;mm = mm;</span><br><span class="line">	tsk-&gt;active_mm = mm;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/05/d8db15e830dd.html" data-id="clhh52s93001q4sai7atc2q7h" data-title="fork" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-os/ipc" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/05/edd4678f105a.html" class="article-date">
+  <time class="dt-published" datetime="2023-05-08T02:33:55.000Z" itemprop="datePublished">2023-05-08</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/note/">note</a>►<a class="article-category-link" href="/categories/note/os/">os</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/05/edd4678f105a.html">ipc</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>进程有不同的用户地址空间，所以进程通信需要<strong>通过内核</strong></p>
+<ol>
+<li><p>管道 ： 只能单向通信，只能用于具有亲缘关系的进程间通信</p>
+</li>
+<li><p>命名管道fifo ： 一种文件类型  mkfifo + open + read 非线性连接  没关系的进程间通信<br>​					有PIPE_BUF常量，表示可被原子写到FIFO的最大数据量</p>
+</li>
+<li><p>信号 ：  信号是进程间通信机制中<strong>唯一的异步通信机制</strong><br>​	用户进程对信号的处理方式 ： 默认方式，捕捉信号，忽略。</p>
+</li>
+<li><p>消息队列 ：唯一的消息队列标识符 ，可以实现消息的随机查询 msgget + msgsnd + msgctl +msgrcv   消息队列是保存在内核中的消息链表   消息队列通信过程中，<strong>存在用户态与内核态之间的数据拷贝开销</strong></p>
+</li>
+<li><p>共享内存：进程间共享数据<strong>最快，效率最高</strong>的方式 shmget + shmat + shmdt + shmctl</p>
+</li>
+<li><p>信号量：保护共享资源 </p>
+</li>
+<li><p><strong>socket</strong></p>
+</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/05/edd4678f105a.html" data-id="clhh52s96001s4sai2t7lgknm" data-title="ipc" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-os/mmap" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2023/05/be4aef5d762c.html" class="article-date">
@@ -97,15 +232,13 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <hr>
-<h2 id="title-mmapdate-2023-x2F-05-x2F-08-10-33-55categories-note-os"><a href="#title-mmapdate-2023-x2F-05-x2F-08-10-33-55categories-note-os" class="headerlink" title="title: mmapdate: 2023&#x2F;05&#x2F;08 10:33:55categories:  - note  - os "></a>title: mmap<br>date: 2023&#x2F;05&#x2F;08 10:33:55categories:<br>  - note<br>  - os </h2><hr>
-<h2 id="title-mmapcategories-note-os"><a href="#title-mmapcategories-note-os" class="headerlink" title="title: mmapcategories:  - note  - os "></a>title: mmap<br>categories:<br>  - note<br>  - os </h2><p><strong>内存映射文件</strong>的机制，通过将文件的一部分或全部映射到进程的虚拟内存中，使得该文件的内容可以像普通内存一样被访问，从而提高了文件读写的效率。<br>加载<strong>动态链接库</strong></p>
+        <p><strong>内存映射文件</strong>的机制，通过将文件的一部分或全部映射到进程的虚拟内存中，使得该文件的内容可以像普通内存一样被访问，从而提高了文件读写的效率。<br>加载<strong>动态链接库</strong></p>
 <p>实现进程间<strong>共享内存</strong></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/05/be4aef5d762c.html" data-id="clhh4tq9y001qwaaifsb09dlh" data-title="mmap" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2023/05/be4aef5d762c.html" data-id="clhh52s97001v4saib64xdye6" data-title="mmap" class="article-share-link">Share</a>
       
       
       
@@ -143,15 +276,13 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <hr>
-<h2 id="title-tmpdate-2023-x2F-05-x2F-08-10-33-55categories-note-os"><a href="#title-tmpdate-2023-x2F-05-x2F-08-10-33-55categories-note-os" class="headerlink" title="title: tmpdate: 2023&#x2F;05&#x2F;08 10:33:55categories:  - note  - os "></a>title: tmp<br>date: 2023&#x2F;05&#x2F;08 10:33:55categories:<br>  - note<br>  - os </h2><hr>
-<h2 id="title-tmpcategories-note-os"><a href="#title-tmpcategories-note-os" class="headerlink" title="title: tmpcategories:  - note  - os "></a>title: tmp<br>categories:<br>  - note<br>  - os </h2><p>如果一个多线程程序的某个线程调用了fork 函数，那么新创建的子进程是否将自动创建和父进程相同数量的线程 呢？答案是“否”，正如我们期望的那样。子进程只拥有一个执行线程，它是调用fork的那个线程的完整复制。并且子进程将自动<strong>继承父进程中互斥锁（条件变量与之类似）的状态</strong>。也就是说，父进程中已 经被加锁的互斥锁在子进程中也是被锁住的。这就引起了一个问题： 子进程可能不清楚从父进程继承而来的互斥锁的具体状态（是加锁状态还是解锁状态）。这个互斥锁可能被加锁了，但并不是由调用fork 函数的那个线程锁住的，而是由其他线程锁住的。如果是这种情况， 则子进程若再次对该互斥锁执行加锁操作就会导致死锁 &#x3D;&#x3D; &gt; pthread_atfork</p>
+        <p>如果一个多线程程序的某个线程调用了fork 函数，那么新创建的子进程是否将自动创建和父进程相同数量的线程 呢？答案是“否”，正如我们期望的那样。子进程只拥有一个执行线程，它是调用fork的那个线程的完整复制。并且子进程将自动<strong>继承父进程中互斥锁（条件变量与之类似）的状态</strong>。也就是说，父进程中已 经被加锁的互斥锁在子进程中也是被锁住的。这就引起了一个问题： 子进程可能不清楚从父进程继承而来的互斥锁的具体状态（是加锁状态还是解锁状态）。这个互斥锁可能被加锁了，但并不是由调用fork 函数的那个线程锁住的，而是由其他线程锁住的。如果是这种情况， 则子进程若再次对该互斥锁执行加锁操作就会导致死锁 &#x3D;&#x3D; &gt; pthread_atfork</p>
 <p><img src="/../images/os/tmp/image-20230502174856759.png"></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/05/9d618e4c6d7c.html" data-id="clhh4tqa1001twaaigjbo0le5" data-title="tmp" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2023/05/9d618e4c6d7c.html" data-id="clhh52s9a001x4sai97b62ina" data-title="tmp" class="article-share-link">Share</a>
       
       
       
@@ -189,9 +320,7 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <hr>
-<h2 id="title-waitdate-2023-x2F-05-x2F-08-10-33-55categories-note-os"><a href="#title-waitdate-2023-x2F-05-x2F-08-10-33-55categories-note-os" class="headerlink" title="title: waitdate: 2023&#x2F;05&#x2F;08 10:33:55categories:  - note  - os "></a>title: wait<br>date: 2023&#x2F;05&#x2F;08 10:33:55categories:<br>  - note<br>  - os </h2><hr>
-<h2 id="title-waitcategories-note-os"><a href="#title-waitcategories-note-os" class="headerlink" title="title: waitcategories:  - note  - os "></a>title: wait<br>categories:<br>  - note<br>  - os </h2><p>进程不可运行并处于EXIT_ZOMBIE状态，占有的所有内存就是<strong>内核栈、thread_info 、task_struct</strong>结构</p>
+        <p>进程不可运行并处于EXIT_ZOMBIE状态，占有的所有内存就是<strong>内核栈、thread_info 、task_struct</strong>结构</p>
 <p>进程存在的唯一目的是：<strong>向他的父进程提供信息</strong>。</p>
 <h2 id="僵尸进程"><a href="#僵尸进程" class="headerlink" title="僵尸进程"></a>僵尸进程</h2><p>即子进程先于父进程退出后，子进程的PCB需要其父进程释放，但是父进程并没有释放子进程的PCB，这样的子进程就称为僵尸进程，僵尸进程实际上是一个已经死掉的进程。</p>
 <p>仅仅在进程列表中保留一个位置，记载该进程的退出状态等信息供其他进程收集，除此之外，僵尸进程不再占有任何内存空间。</p>
@@ -202,7 +331,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/05/f1b77c412ffc.html" data-id="clhh4tqa2001vwaai6xfm2s1m" data-title="wait" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2023/05/f1b77c412ffc.html" data-id="clhh52s9b00204saiheuycu5l" data-title="wait" class="article-share-link">Share</a>
       
       
       
@@ -240,9 +369,7 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <hr>
-<h2 id="title-中断date-2023-x2F-05-x2F-08-10-33-55categories-note-os"><a href="#title-中断date-2023-x2F-05-x2F-08-10-33-55categories-note-os" class="headerlink" title="title: 中断date: 2023&#x2F;05&#x2F;08 10:33:55categories:  - note  - os "></a>title: 中断<br>date: 2023&#x2F;05&#x2F;08 10:33:55categories:<br>  - note<br>  - os </h2><hr>
-<h2 id="title-中断categories-note-os"><a href="#title-中断categories-note-os" class="headerlink" title="title: 中断categories:  - note  - os "></a>title: 中断<br>categories:<br>  - note<br>  - os </h2><h2 id="硬件中断和软件中断（Software-Interrupt）"><a href="#硬件中断和软件中断（Software-Interrupt）" class="headerlink" title="硬件中断和软件中断（Software Interrupt）"></a>硬件中断和软件中断（Software Interrupt）</h2><h3 id="硬件中断"><a href="#硬件中断" class="headerlink" title="硬件中断"></a>硬件中断</h3><p>硬件中断是由<em>硬件设备</em>产生的中断信号，例如键盘输入、鼠标移动、网络数据包到达等。当硬件设备产生中断信号时，CPU会立即停止当前的工作，转而执行中断处理程序。中断处理程序通常是由操作系统内核提供的，它可以对中断进行处理，例如读取键盘输入、发送网络数据包等。硬件中断是一种异步的事件，它可以在任何时候发生，因此操作系统必须能够及时响应中断请求，以保证系统的性能和可靠性。</p>
+        <h2 id="硬件中断和软件中断（Software-Interrupt）"><a href="#硬件中断和软件中断（Software-Interrupt）" class="headerlink" title="硬件中断和软件中断（Software Interrupt）"></a>硬件中断和软件中断（Software Interrupt）</h2><h3 id="硬件中断"><a href="#硬件中断" class="headerlink" title="硬件中断"></a>硬件中断</h3><p>硬件中断是由<em>硬件设备</em>产生的中断信号，例如键盘输入、鼠标移动、网络数据包到达等。当硬件设备产生中断信号时，CPU会立即停止当前的工作，转而执行中断处理程序。中断处理程序通常是由操作系统内核提供的，它可以对中断进行处理，例如读取键盘输入、发送网络数据包等。硬件中断是一种异步的事件，它可以在任何时候发生，因此操作系统必须能够及时响应中断请求，以保证系统的性能和可靠性。</p>
 <h3 id="软件中断"><a href="#软件中断" class="headerlink" title="软件中断"></a>软件中断</h3><p>软件中断是由软件产生的中断信号，例如<em>系统调用、信号</em>等。当软件产生中断信号时，CPU会立即停止当前的工作，转而执行中断处理程序。软件中断通常是由用户进程发起的，它可以用于进程之间的同步和通信。软件中断是一种同步的事件，它只有在特定的条件下才会发生，因此操作系统可以更加灵活地处理软件中断请求。<strong>int 0x80 &#x2F;  ecall</strong></p>
 <h2 id="中断的上下部"><a href="#中断的上下部" class="headerlink" title="中断的上下部"></a>中断的上下部</h2><p>希望尽量减少中断处理程序中的工作量，因为其<em>运行时会屏蔽中断</em></p>
 <p>中断+其他程序<em>异步执行</em><br>下半部分：执行与中断处理密切相关，但中断处理程序本身不执行的工作</p>
@@ -254,7 +381,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/05/b6027bb02032.html" data-id="clhh4tqa5001ywaaidvet2r2h" data-title="中断" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2023/05/b6027bb02032.html" data-id="clhh52s9c00224sai14368urj" data-title="中断" class="article-share-link">Share</a>
       
       
       
@@ -292,9 +419,7 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <hr>
-<h2 id="title-信号date-2023-x2F-05-x2F-08-10-33-55categories-note-os"><a href="#title-信号date-2023-x2F-05-x2F-08-10-33-55categories-note-os" class="headerlink" title="title: 信号date: 2023&#x2F;05&#x2F;08 10:33:55categories:  - note  - os "></a>title: 信号<br>date: 2023&#x2F;05&#x2F;08 10:33:55categories:<br>  - note<br>  - os </h2><hr>
-<h2 id="title-信号categories-note-os"><a href="#title-信号categories-note-os" class="headerlink" title="title: 信号categories:  - note  - os "></a>title: 信号<br>categories:<br>  - note<br>  - os </h2><p>信号是软件中断</p>
+        <p>信号是软件中断</p>
 <p>信号提供了一种异步处理事件的方法，产生信号的进程对于时间来说是随机的</p>
 <p>早期不可靠的信号 ： 在进程不希望某种信号发生时，他不能关闭信号，只能忽略</p>
 <h2 id="信号处理"><a href="#信号处理" class="headerlink" title="信号处理"></a>信号处理</h2><h3 id="忽略此信号：-SIG-IGN"><a href="#忽略此信号：-SIG-IGN" class="headerlink" title="忽略此信号： SIG_IGN"></a>忽略此信号： SIG_IGN</h3><h3 id="捕捉信号：-注册-x2F-调用用户函数"><a href="#捕捉信号：-注册-x2F-调用用户函数" class="headerlink" title="捕捉信号： 注册&#x2F;调用用户函数"></a>捕捉信号： 注册&#x2F;调用用户函数</h3><h3 id="执行系统默认动作：-SIG-DFL"><a href="#执行系统默认动作：-SIG-DFL" class="headerlink" title="执行系统默认动作： SIG_DFL"></a>执行系统默认动作： SIG_DFL</h3><h3 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h3><p>不能忽略&#x2F;捕获 SIGKILL 和 SIGSTOP ，它们向内核和操作系统提供使进程终止和停止的可靠方法</p>
@@ -308,7 +433,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/05/46d8db601c78.html" data-id="clhh4tqa50020waai3tg4fiaf" data-title="信号" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2023/05/46d8db601c78.html" data-id="clhh52s9d00254sai2gni6tt5" data-title="信号" class="article-share-link">Share</a>
       
       
       
@@ -346,9 +471,7 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <hr>
-<h2 id="title-动态链接date-2023-x2F-05-x2F-08-10-33-55categories-note-os"><a href="#title-动态链接date-2023-x2F-05-x2F-08-10-33-55categories-note-os" class="headerlink" title="title: 动态链接date: 2023&#x2F;05&#x2F;08 10:33:55categories:  - note  - os "></a>title: 动态链接<br>date: 2023&#x2F;05&#x2F;08 10:33:55categories:<br>  - note<br>  - os </h2><hr>
-<h2 id="title-动态链接categories-note-os"><a href="#title-动态链接categories-note-os" class="headerlink" title="title: 动态链接categories:  - note  - os "></a>title: 动态链接<br>categories:<br>  - note<br>  - os </h2><p>用动态链接方法将程序与共享库函数链接：减少可执行文件的长度、库函数的新版本替代老版本无需对该库的程序重新链接</p>
+        <p>用动态链接方法将程序与共享库函数链接：减少可执行文件的长度、库函数的新版本替代老版本无需对该库的程序重新链接</p>
 <p>装载时重定位：模块装载地址确定，程序对绝对地址引用重定位。但，动态链接模块lib2.so被装载映射后，指令部分是共享的，修改之后无法共享，因为在不同的进程中动态链接模块lib1.so加载地址不同。</p>
 <p>地址无关代码：<br>​	模块内部调用&#x2F;数据：不用重定位<br>​	模块数据间：在数据段（数据段不共享）中建立全局偏移表<em>GOT</em>（指向变量的指针数组），GOT在模块装载时进行修改（GOT与当前代码段的偏移是固定的）</p>
 <p>延迟绑定：第一次用的时候才进行绑定</p>
@@ -357,7 +480,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/05/57066fae37e1.html" data-id="clhh4tqa60023waaifpa93ig0" data-title="动态链接" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2023/05/57066fae37e1.html" data-id="clhh52s9e00274sai080z4jai" data-title="动态链接" class="article-share-link">Share</a>
       
       
       
@@ -395,9 +518,7 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <hr>
-<h2 id="title-堆date-2023-x2F-05-x2F-08-10-33-55categories-note-os"><a href="#title-堆date-2023-x2F-05-x2F-08-10-33-55categories-note-os" class="headerlink" title="title: 堆date: 2023&#x2F;05&#x2F;08 10:33:55categories:  - note  - os "></a>title: 堆<br>date: 2023&#x2F;05&#x2F;08 10:33:55categories:<br>  - note<br>  - os </h2><hr>
-<h2 id="title-堆categories-note-os"><a href="#title-堆categories-note-os" class="headerlink" title="title: 堆categories:  - note  - os "></a>title: 堆<br>categories:<br>  - note<br>  - os </h2><h2 id="malloc-分配虚拟内存-，真正用的时候会发生缺页中断"><a href="#malloc-分配虚拟内存-，真正用的时候会发生缺页中断" class="headerlink" title="malloc : 分配虚拟内存 ，真正用的时候会发生缺页中断"></a>malloc : 分配虚拟内存 ，真正用的时候会发生缺页中断</h2><p>大多数实现所分配的存储空间要稍大一些，额外的空间用来记录管理信息</p>
+        <h2 id="malloc-分配虚拟内存-，真正用的时候会发生缺页中断"><a href="#malloc-分配虚拟内存-，真正用的时候会发生缺页中断" class="headerlink" title="malloc : 分配虚拟内存 ，真正用的时候会发生缺页中断"></a>malloc : 分配虚拟内存 ，真正用的时候会发生缺页中断</h2><p>大多数实现所分配的存储空间要稍大一些，额外的空间用来记录管理信息</p>
 <h3 id="申请空间-lt-128k"><a href="#申请空间-lt-128k" class="headerlink" title="申请空间 &lt; 128k"></a>申请空间 &lt; 128k</h3><p>sbrk 系统调用：扩充、减少进程的堆</p>
 <p>大多数malloc free 的实现都不减小进程的存储空间，将释放的空间<em>保持在malloc 池中</em>而不返回给内核</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line"><span class="comment">//cat /proc/pid/maps</span></span><br><span class="line"><span class="comment">//555cbac37000-555cbac58000 rw-p 00000000 00:00 0   [heap] </span></span><br><span class="line">    <span class="type">int</span> x; cin &gt;&gt; x;<span class="comment">//50 </span></span><br><span class="line">    <span class="function">vector&lt;<span class="type">void</span>*&gt; <span class="title">v</span><span class="params">(x*<span class="number">1e5</span>)</span></span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">long</span> <span class="type">long</span> i = <span class="number">1</span>;i&lt;=<span class="number">1ll</span>*x*<span class="number">1e5</span> ;i++)&#123;</span><br><span class="line">        v[i] = <span class="built_in">malloc</span>(<span class="number">10</span>);</span><br><span class="line">    &#125;</span><br><span class="line"><span class="comment">//555cbac37000-555cc44f8000 rw-p 00000000 00:00 0   [heap]</span></span><br><span class="line">    <span class="type">int</span> y;cin &gt;&gt; y ;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">long</span> <span class="type">long</span> i = <span class="number">1</span>;i&lt;=<span class="number">1ll</span>*x*<span class="number">1e5</span> ;i++)&#123;</span><br><span class="line">        <span class="comment">// malloc(10);</span></span><br><span class="line">        <span class="built_in">free</span>(v[i]);</span><br><span class="line">    &#125;</span><br><span class="line"><span class="comment">//555cbac37000-555cc44f8000 rw-p 00000000 00:00 0   [heap]</span></span><br><span class="line">    cin &gt;&gt; y;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">long</span> <span class="type">long</span> i = <span class="number">1</span>;i&lt;=<span class="number">1ll</span>*x*<span class="number">1e5</span> ;i++)&#123;</span><br><span class="line">        v[i] = <span class="built_in">malloc</span>(<span class="number">10</span>);</span><br><span class="line">    &#125;</span><br><span class="line"><span class="comment">//555cbac37000-555cc44f8000 rw-p 00000000 00:00 0   [heap]    </span></span><br><span class="line">    cin &gt;&gt; y;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -410,7 +531,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/05/9ccb6b2a0c6b.html" data-id="clhh4tqaa0025waaicnw2aq37" data-title="堆" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2023/05/9ccb6b2a0c6b.html" data-id="clhh52s9f002a4saibqjp49bp" data-title="堆" class="article-share-link">Share</a>
       
       
       
@@ -422,9 +543,9 @@
 
 
   
-    <article id="post-os/栈" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-os/收发网络包" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2023/05/b83b23a3d428.html" class="article-date">
+    <a href="/2023/05/6d7e31aae85a.html" class="article-date">
   <time class="dt-published" datetime="2023-05-08T02:33:55.000Z" itemprop="datePublished">2023-05-08</time>
 </a>
     
@@ -440,7 +561,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2023/05/b83b23a3d428.html">栈</a>
+      <a class="p-name article-title" href="/2023/05/6d7e31aae85a.html">收发网络包</a>
     </h1>
   
 
@@ -448,169 +569,34 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <hr>
-<h2 id="title-栈date-2023-x2F-05-x2F-08-10-33-55categories-note-os"><a href="#title-栈date-2023-x2F-05-x2F-08-10-33-55categories-note-os" class="headerlink" title="title: 栈date: 2023&#x2F;05&#x2F;08 10:33:55categories:  - note  - os "></a>title: 栈<br>date: 2023&#x2F;05&#x2F;08 10:33:55categories:<br>  - note<br>  - os </h2><hr>
-<h2 id="title-栈categories-note-os"><a href="#title-栈categories-note-os" class="headerlink" title="title: 栈categories:  - note  - os "></a>title: 栈<br>categories:<br>  - note<br>  - os </h2><h2 id="调用惯例"><a href="#调用惯例" class="headerlink" title="调用惯例"></a>调用惯例</h2><ol>
-<li>函数参数的传递顺序和方式</li>
-<li>栈的维护方式：栈中的参数弹出</li>
-<li>名字修饰的策略</li>
-</ol>
-<h2 id="函数调用过程"><a href="#函数调用过程" class="headerlink" title="函数调用过程"></a>函数调用过程</h2><ol>
-<li>参数压栈</li>
-</ol>
-<p>call : </p>
-<ol start="2">
-<li>当前地址的下一条指令地址压栈（返回地址）</li>
-<li>跳转到函数体执行，函数体开头如下：</li>
-<li>push ebp ( old ebp )</li>
-<li>mov ebp.esp ( esp &#x3D; ebp)</li>
-<li>保存寄存器</li>
-</ol>
-<h2 id="栈的大小"><a href="#栈的大小" class="headerlink" title="栈的大小"></a>栈的大小</h2><p>栈不会自动扩容 </p>
-<p>ulimit -a 查看栈的大小</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">dfs</span><span class="params">(<span class="type">int</span> x)</span></span>&#123;</span><br><span class="line">        <span class="type">int</span> a[<span class="number">10000</span>];</span><br><span class="line">        <span class="keyword">if</span>(x == <span class="number">0</span>) <span class="keyword">return</span> ;</span><br><span class="line">        cout&lt;&lt;x &lt;&lt;<span class="string">&quot; &quot;</span>;</span><br><span class="line">        <span class="built_in">dfs</span>(x<span class="number">-1</span>);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="type">int</span> x;cin &gt;&gt; x;<span class="comment">// 209</span></span><br><span class="line">        <span class="built_in">dfs</span>(x);</span><br><span class="line">        cout&lt;&lt;<span class="string">&quot;end&quot;</span>&lt;&lt;endl;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="type">void</span> * p = <span class="built_in">alloca</span>( <span class="number">1024</span> * <span class="number">8</span>*<span class="number">104</span> );<span class="comment">//在当前函数的栈帧上分配空间、而不是在堆中</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-<h2 id="setjmp-longjmp"><a href="#setjmp-longjmp" class="headerlink" title="setjmp longjmp"></a>setjmp longjmp</h2><p>goto语句不能跨越函数</p>
-<p>可以在栈上跳过若干调用帧，返回到当前函数<em>调用路径上的某个函数</em>中</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;setjmp.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line">jmp_buf jmpbuffer;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">func2</span><span class="params">()</span></span>&#123;</span><br><span class="line">    cout&lt;&lt;<span class="string">&quot;start func2\n&quot;</span>;</span><br><span class="line">    <span class="built_in">longjmp</span>(jmpbuffer, <span class="number">2</span>);</span><br><span class="line">    cout&lt;&lt;<span class="string">&quot;end func2\n&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">func1</span><span class="params">()</span></span>&#123;</span><br><span class="line">    cout&lt;&lt;<span class="string">&quot;start func1\n&quot;</span>;</span><br><span class="line">    <span class="built_in">func2</span>();</span><br><span class="line">    cout&lt;&lt;<span class="string">&quot;end func1\n&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="type">int</span> val = <span class="built_in">setjmp</span>(jmpbuffer);<span class="comment">//编译优化后，会对自动变量有影响</span></span><br><span class="line">    cout&lt;&lt;<span class="string">&quot;val = &quot;</span>&lt;&lt;val&lt;&lt; endl;</span><br><span class="line">    <span class="keyword">if</span> ( val == <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">func1</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    cout&lt;&lt;<span class="string">&quot;main end\n&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2023/05/b83b23a3d428.html" data-id="clhh4tqab0028waai9gip1l6r" data-title="栈" class="article-share-link">Share</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-os/系统调用" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2023/05/0d2cb6255240.html" class="article-date">
-  <time class="dt-published" datetime="2023-05-08T02:33:55.000Z" itemprop="datePublished">2023-05-08</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/note/">note</a>►<a class="article-category-link" href="/categories/note/os/">os</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2023/05/0d2cb6255240.html">系统调用</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <hr>
-<h2 id="title-系统调用date-2023-x2F-05-x2F-08-10-33-55categories-note-os"><a href="#title-系统调用date-2023-x2F-05-x2F-08-10-33-55categories-note-os" class="headerlink" title="title: 系统调用date: 2023&#x2F;05&#x2F;08 10:33:55categories:  - note  - os "></a>title: 系统调用<br>date: 2023&#x2F;05&#x2F;08 10:33:55categories:<br>  - note<br>  - os </h2><hr>
-<h2 id="title-系统调用categories-note-os"><a href="#title-系统调用categories-note-os" class="headerlink" title="title: 系统调用categories:  - note  - os "></a>title: 系统调用<br>categories:<br>  - note<br>  - os </h2><h2 id="系统调用的过程"><a href="#系统调用的过程" class="headerlink" title="系统调用的过程"></a>系统调用的过程</h2><p>用户态： printf() 标准库函数 </p>
-<p>用户态：write() 封装函数 -&gt; 设置寄存器的值 -&gt; INT $0x80</p>
-<p>内核态： system_call() 系统调用处理函数，根据寄存器中的系统调用号进行跳转</p>
-<p>内核态：sys_write() 系统调用服务例程</p>
-<h2 id="标准io库函数与系统调用封装函数"><a href="#标准io库函数与系统调用封装函数" class="headerlink" title="标准io库函数与系统调用封装函数"></a>标准io库函数与系统调用封装函数</h2><h3 id="标准io库函数-fopen-fread-printf-scanf"><a href="#标准io库函数-fopen-fread-printf-scanf" class="headerlink" title="标准io库函数: fopen(), fread() ,  printf() , scanf()"></a>标准io库函数: fopen(), fread() ,  printf() , scanf()</h3><ol>
-<li><p>具有更好的<em>移植性</em></p>
-</li>
-<li><p>使用在内存中的<em>缓冲区</em>，使得系统调用和io次数减少 </p>
-</li>
-<li><p>c语言标准库的不足 ：所有IO操作都是<em>同步的</em>；不提供读取文件元数据（文件的属性信息）的函数；进行网络编程容易造成缓冲区溢出；<em>不对文件提供加锁、解锁;</em> 并没有覆盖所有底层操作系统提供的功能。</p>
-</li>
-<li><p>使用C标准库进行网络编程容易造成<em>缓冲区溢出</em>的原因是因为C标准库中的函数没有对缓冲区的大小进行检查，而且C标准库中的函数通常是使用缓冲区的长度作为参数，而不是缓冲区的指针。这意味着如果缓冲区的长度小于实际数据的长度，那么数据将会溢出到缓冲区之外，从而导致缓冲区溢出。为了避免这种情况，应该使用更安全的函数，如使用C++标准库或使用第三方库，如Boost或Qt。如果必须使用C标准库，应该使用带有缓冲区大小参数的函数，如fgets和snprintf，以确保缓冲区不会溢出。</p>
-</li>
-</ol>
-<h3 id="系统调用封装函数：open-read-write-stat-close"><a href="#系统调用封装函数：open-read-write-stat-close" class="headerlink" title="系统调用封装函数：open() ,read() ,write() stat(), close()"></a>系统调用封装函数：open() ,read() ,write() stat(), close()</h3><p>对文件的标识是<em>文件描述符fd</em>,而c标准库函数中对文件的标识是指向FILE结构的指针的fd</p>
-<p>​    </p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2023/05/0d2cb6255240.html" data-id="clhh4tqac002awaai8d4fduax" data-title="系统调用" class="article-share-link">Share</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-os/虚拟内存" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2023/05/1cbc6d25e5a7.html" class="article-date">
-  <time class="dt-published" datetime="2023-05-08T02:33:55.000Z" itemprop="datePublished">2023-05-08</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/note/">note</a>►<a class="article-category-link" href="/categories/note/os/">os</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2023/05/1cbc6d25e5a7.html">虚拟内存</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <hr>
-<h2 id="title-虚拟内存date-2023-x2F-05-x2F-08-10-33-55categories-note-os"><a href="#title-虚拟内存date-2023-x2F-05-x2F-08-10-33-55categories-note-os" class="headerlink" title="title: 虚拟内存date: 2023&#x2F;05&#x2F;08 10:33:55categories:  - note  - os "></a>title: 虚拟内存<br>date: 2023&#x2F;05&#x2F;08 10:33:55categories:<br>  - note<br>  - os </h2><hr>
-<h2 id="title-虚拟内存categories-note-os"><a href="#title-虚拟内存categories-note-os" class="headerlink" title="title: 虚拟内存categories:  - note  - os "></a>title: 虚拟内存<br>categories:<br>  - note<br>  - os </h2><p>操作系统通过内存管理单元（MMU）将物理内存划分为若干个大小相等的<strong>页框</strong>，每个页框的大小通常为4KB或者2MB。操作系统通过页表将虚拟地址映射到物理地址，从而实现内存的分配和管理。</p>
-<p>当进程需要分配内存时，操作系统会从空闲的页框中选择一个或多个页框分配给该进程，同时更新<em>页表</em>中的映射关系。内存分配的具体实现方式包括伙伴系统、slab分配器等。内核空间的内存分配通常使用伙伴系统，用户空间的内存分配通常使用slab分配器。</p>
-<h2 id="内存布局"><a href="#内存布局" class="headerlink" title="内存布局"></a>内存布局</h2><p>内核<br>文件映射&#x2F;动态链接库&#x2F;匿名映射<br>堆<br>.data .bss 数据段<br>.init .rodata 代码段</p>
-<h2 id="缺页中断"><a href="#缺页中断" class="headerlink" title="缺页中断"></a>缺页中断</h2><ol>
-<li><p>最佳页面置换算法基本思路是，<strong>置换在「未来」最长时间不访问的页面</strong></p>
-</li>
-<li><p>先进先出置换算法（<em>FIFO</em>）</p>
-</li>
-<li><p>最近最久未使用的置换算法（<em>LRU</em>）</p>
-</li>
-<li><p>最不常用置换算法（<em>LFU</em>）</p>
-</li>
-<li><p>时钟页面置换算法（<em>Lock</em>） : 把所有的页面都保存在一个类似钟面的「环形链表」中，一个表针指向最老的页面 ; 如果它的访问位位是 0 就淘汰该页面，并把新的页面插入这个位置，然后把表针前移一个位置；如果访问位是 1 就清除访问位，并把表针前移一个位置，重复这个过程直到找到了一个访问位为 0 的页面为止；</p>
-</li>
-</ol>
-<h2 id="内存不足"><a href="#内存不足" class="headerlink" title="内存不足"></a>内存不足</h2><p>缺页中断  &#x3D;&gt;  找空闲的物理内存 &#x3D;&gt;  <em>没有</em> &#x3D;&gt; 回收内存</p>
+        <h1 id="接收"><a href="#接收" class="headerlink" title="接收"></a>接收</h1><p>为了解决频繁中断带来的性能开销，采用中断和轮询的方式来接收网络包，它的核心概念就是<strong>不采用中断的方式读取数据</strong>，而是首先采用中断唤醒数据接收的服务程序，然后 <code>poll</code> 的方法来轮询数据。</p>
+<p>当有网络包到达时，会通过 DMA 技术，将网络包写入到指定的内存地址</p>
+<p>网卡向 CPU 发起硬件中断，当 CPU 收到硬件中断请求后，根据中断表，调用已经注册的中断处理函数。</p>
+<p>暂时屏蔽中断</p>
+<p>软中断：  线程会从 Ring Buffer 中获取一个数据帧，用 sk_buff 表示，从而可以作为一个网络包交给网络协议栈进行逐层处理。</p>
+<p>先进入到网络接口层，在这一层会检查报文的合法性</p>
+<p>去掉帧头和帧尾</p>
+<p>取出 IP 包</p>
+<p>传输层取出 TCP 头或 UDP 头</p>
+<p>找出对应的 Socket，并把数据放到 Socket 的接收缓冲区。</p>
+<p><img src="/../images/os/%E6%94%B6%E5%8F%91%E7%BD%91%E7%BB%9C%E5%8C%85/image-20230506154800893.png"></p>
 <ol>
-<li><p>后台内存回收 异步 </p>
-</li>
-<li><p>直接内存回收 <em>同步</em> 会阻塞进程的执行</p>
-</li>
-<li><p><strong>OOM</strong> 选择一个占用物理内存较高的进程，然后将其杀死，以便释放内存资源</p>
-</li>
+<li>NIC（网卡） 接收到数据，通过 DMA 方式写入内存(Ring Buffer 和 sk_buff)。</li>
+<li>NIC 发出中断请求（IRQ），告诉内核有新的数据过来了。</li>
+<li>Linux 内核响应中断，系统切换为内核态，处理 Interrupt Handler，从RingBuffer 拿出一个 Packet， 并处理协议栈，填充 Socket 并交给用户进程。</li>
+<li>系统切换为用户态，用户进程处理数据内容。</li>
 </ol>
-<p>哪些内存可以被回收</p>
-<p>基于LRU&#x2F;2算法<br>    - 文件页：回写<br>    - 匿名页：swap()机制</p>
-<p><strong>脏页回写的情况：空闲内存不足，驻留时间长，用户sync&#x2F;fsnc系统调用</strong></p>
+<h1 id="发送"><a href="#发送" class="headerlink" title="发送"></a>发送</h1><p><strong>将用户待发送的数据拷贝到 sk_buff 内存，并将其加入到发送缓冲区</strong>。</p>
+<p>TCP 协议是支持丢失重传的，在收到对方的 ACK 之前，这个 sk_buff 不能被删除。所以内核的做法就是每次调用网卡发送的时候，实际上传递出去的是 sk_buff 的一个拷贝，等收到 ACK 再真正删除。</p>
+<p>对 sk_buff 填充 TCP 头（调整 sk_buff 中 <code>data</code> 的指针）</p>
+<p>交给网络层</p>
+<p>网络接口层会通过 ARP 协议获得下一跳的 MAC 地址，然后对 sk_buff 填充帧头和帧尾，接着将 sk_buff 放到网卡的发送队列中</p>
+<p>会触发「软中断」告诉网卡驱动程序，这里有新的网络包需要发送，驱动程序会从发送队列中读取 sk_buff，将这个 sk_buff 挂到 RingBuffer 中，接着将 sk_buff 数据映射到网卡可访问的内存 DMA 区域，最后触发真实的发送。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/05/1cbc6d25e5a7.html" data-id="clhh4tqad002dwaai8rec4buj" data-title="虚拟内存" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2023/05/6d7e31aae85a.html" data-id="clhh52s9f002c4sai5lqsenz0" data-title="收发网络包" class="article-share-link">Share</a>
       
       
       
@@ -626,7 +612,7 @@
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/3/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/5/">Next &raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/3/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/5/">Next &raquo;</a>
   </nav>
 
 </section>
@@ -637,7 +623,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/note/">note</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/note/backup/">backup</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/">cpp</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/c-11/">c++11</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/class/">class</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/stl/">stl</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/template/">template</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/waining/">waining</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/%E8%AF%AD%E8%A8%80%E7%9B%B8%E5%85%B3/">语言相关</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/go/">go</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/linux/">linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/mysql/">mysql</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/os/">os</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/redis/">redis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/">计网</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E4%BC%A0%E8%BE%93%E5%B1%82/">传输层</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E4%BC%A0%E8%BE%93%E5%B1%82/TCP/">TCP</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E5%BA%94%E7%94%A8%E5%B1%82/">应用层</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E7%BD%91%E7%BB%9C%E5%B1%82/">网络层</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/note/">note</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/note/backup/">backup</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/">cpp</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/c-11/">c++11</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/class/">class</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/stl/">stl</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/template/">template</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/thread/">thread</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/waining/">waining</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/%E8%AF%AD%E8%A8%80%E7%9B%B8%E5%85%B3/">语言相关</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/git/">git</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/go/">go</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/linux/">linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/mysql/">mysql</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/os/">os</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/redis/">redis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E5%88%86%E5%B8%83%E5%BC%8F/">分布式</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/">计网</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E4%BC%A0%E8%BE%93%E5%B1%82/">传输层</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E4%BC%A0%E8%BE%93%E5%B1%82/TCP/">TCP</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E5%BA%94%E7%94%A8%E5%B1%82/">应用层</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E7%BD%91%E7%BB%9C%E5%B1%82/">网络层</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul></li></ul>
     </div>
   </div>
 
@@ -669,6 +655,10 @@
           </li>
         
           <li>
+            <a href="/2023/05/b75e23be19eb.html">tmp</a>
+          </li>
+        
+          <li>
             <a href="/2023/05/57f7189c85b4.html">Generics</a>
           </li>
         
@@ -678,10 +668,6 @@
         
           <li>
             <a href="/2023/05/fa2a1258122b.html">interface</a>
-          </li>
-        
-          <li>
-            <a href="/2023/05/18aa578c0caa.html">methods</a>
           </li>
         
       </ul>
