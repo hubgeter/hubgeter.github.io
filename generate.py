@@ -1,8 +1,10 @@
 import os
+time = "2023/05/08 10:33:55"
 file_dir = "./_posts/"
 def modify(path,filename):
     data = "---\n"
     data += "title: " + os.path.splitext(filename)[0] +"\n"
+    data += "date: "+ time
 
     tmp = path 
     li = tmp.split("/")
