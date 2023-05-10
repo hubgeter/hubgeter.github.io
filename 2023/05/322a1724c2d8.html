@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Category: note | daidai</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="title: 锁date: 2023&#x2F;05&#x2F;08 10:33:55categories:  - note  - os  title: 锁categories:  - note  - os 自旋锁自旋锁则是一种忙等锁，它会在等待锁的过程中不断自旋，检查锁是否已经被释放。如果锁已经被释放，自旋锁会立即占用该锁并继续执行。如果锁仍然被占用，自旋锁会一直自旋，直到获取到锁为止。 自旋">
+<meta property="og:type" content="article">
+<meta property="og:title" content="锁">
+<meta property="og:url" content="http://example.com/2023/05/322a1724c2d8.html">
+<meta property="og:site_name" content="daidai">
+<meta property="og:description" content="title: 锁date: 2023&#x2F;05&#x2F;08 10:33:55categories:  - note  - os  title: 锁categories:  - note  - os 自旋锁自旋锁则是一种忙等锁，它会在等待锁的过程中不断自旋，检查锁是否已经被释放。如果锁已经被释放，自旋锁会立即占用该锁并继续执行。如果锁仍然被占用，自旋锁会一直自旋，直到获取到锁为止。 自旋">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-05-08T02:33:55.000Z">
+<meta property="article:modified_time" content="2023-05-10T03:19:27.049Z">
+<meta property="article:author" content="daidai">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="daidai" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">daidai</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-os/锁" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/05/322a1724c2d8.html" class="article-date">
+  <time class="dt-published" datetime="2023-05-08T02:33:55.000Z" itemprop="datePublished">2023-05-08</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/note/">note</a>►<a class="article-category-link" href="/categories/note/os/">os</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      锁
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <hr>
+<h2 id="title-锁date-2023-x2F-05-x2F-08-10-33-55categories-note-os"><a href="#title-锁date-2023-x2F-05-x2F-08-10-33-55categories-note-os" class="headerlink" title="title: 锁date: 2023&#x2F;05&#x2F;08 10:33:55categories:  - note  - os "></a>title: 锁<br>date: 2023&#x2F;05&#x2F;08 10:33:55categories:<br>  - note<br>  - os </h2><hr>
+<h2 id="title-锁categories-note-os"><a href="#title-锁categories-note-os" class="headerlink" title="title: 锁categories:  - note  - os "></a>title: 锁<br>categories:<br>  - note<br>  - os </h2><h3 id="自旋锁"><a href="#自旋锁" class="headerlink" title="自旋锁"></a>自旋锁</h3><p>自旋锁则是一种忙等锁，它会在等待锁的过程中不断自旋，检查锁是否已经被释放。如果锁已经被释放，自旋锁会立即占用该锁并继续执行。如果锁仍然被占用，自旋锁会一直自旋，直到获取到锁为止。</p>
+<p>自旋锁适用于共<em>享资源的竞争不激烈</em>的情况，因为它<strong>不会引起线程的上下文切换</strong>，从而提高了效率。但是如果共享资源的竞争激烈，自旋锁会导致大量的浪费时间在自旋上，降低系统的性能。</p>
+<p>如果长时间上锁的话，自旋锁会非常耗费性能，它阻止了其他线程的运行和调度。线程持有锁的时间越长，则持有该锁的线程将被 OS(Operating System) 调度程序中断的风险越大。如果发生中断情况，那么其他线程将保持旋转状态(反复尝试获取锁)，而持有该锁的线程并不释放锁，这样导致的是结果是无限期推迟，直到持有锁的线程可以完成并释放它为止。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">SpinLock</span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">lock</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">while</span> (flag.<span class="built_in">test_and_set</span>())&#123;&#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">unlock</span><span class="params">()</span></span>&#123;</span><br><span class="line">        flag.<span class="built_in">clear</span>();</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    atomic_flag flag;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+<h3 id="互斥锁-条件变量"><a href="#互斥锁-条件变量" class="headerlink" title="互斥锁+条件变量"></a>互斥锁+条件变量</h3><h3 id="乐观锁"><a href="#乐观锁" class="headerlink" title="乐观锁"></a>乐观锁</h3><p>乐观锁的实现原理通常使用<strong>版本号或时间戳</strong>。在访问共享资源之前，每个线程都会从共享资源中读取一个版本号或时间戳，并在修改共享资源时使用它。当线程完成修改并准备释放共享资源时，它会将版本号或时间戳递增，并将其写回共享资源。如果在此过程中，另一个线程同时修改了该共享资源，那么在写回版本号或时间戳时，该线程将会检测到冲突，并且需要执行一些特殊的处理，例如重试操作或回滚操作。</p>
+<p>乐观锁的实现原理相对于互斥锁来说更加轻量级，因为它不需要显式地阻塞线程。然而，在高并发的情况下，乐观锁可能会频繁地出现冲突，从而导致性能下降。因此，在使用乐观锁时，需要对共享资源的访问进行合理的控制和调度，以避免冲突和性能问题。</p>
+<p>ABA 问题:一个变量第一次读取的值是 A，准备好需要对 A 进行写操作的时候，发现值还是 A，那么这种情况下，能认为 A 的值没有被改变过吗？+ version </p>
+<h2 id="死锁"><a href="#死锁" class="headerlink" title="死锁"></a>死锁</h2><p>死锁预防：只要一个不成立，就能预防死锁</p>
+<ul>
+<li>互斥条件：一个资源一次只能被一个进程使用</li>
+<li>持有并等待：一个进程因请求资源而阻塞时，对已获得资源保持不放</li>
+<li>无抢占：进程获得的资源，在未完全使用完之前，不能强行剥夺</li>
+<li>循环等待条件：若干进程之间形成一种头尾相接的环形等待资源关系</li>
+</ul>
+<p>死锁避免 ： 银行家算法</p>
+<p>资源有序分配法来破坏环路等待条件</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/05/322a1724c2d8.html" data-id="clhh4tqah002iwaaif33bff2d" data-title="锁" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2023/05/585bc6373ead.html" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          进程 线程
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2023/05/6d8e5667ab76.html" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">预读、缓存</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/note/">note</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/note/backup/">backup</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/">cpp</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/c-11/">c++11</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/class/">class</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/stl/">stl</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/template/">template</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/waining/">waining</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/%E8%AF%AD%E8%A8%80%E7%9B%B8%E5%85%B3/">语言相关</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/go/">go</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/linux/">linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/mysql/">mysql</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/os/">os</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/redis/">redis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/">计网</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E4%BC%A0%E8%BE%93%E5%B1%82/">传输层</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E4%BC%A0%E8%BE%93%E5%B1%82/TCP/">TCP</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E5%BA%94%E7%94%A8%E5%B1%82/">应用层</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E7%BD%91%E7%BB%9C%E5%B1%82/">网络层</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/05/">May 2023</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/05/a2320691ce09.html">token</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/57f7189c85b4.html">Generics</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/20146d42898b.html">channel</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/fa2a1258122b.html">interface</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/18aa578c0caa.html">methods</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 daidai<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

@@ -4,7 +4,7 @@ file_dir = "./_posts/"
 def modify(path,filename):
     data = "---\n"
     data += "title: " + os.path.splitext(filename)[0] +"\n"
-    data += "date: "+ time
+    data += "date: "+ time +"\n"
 
     tmp = path 
     li = tmp.split("/")

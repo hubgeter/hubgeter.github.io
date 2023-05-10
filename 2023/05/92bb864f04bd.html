@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Category: note | daidai</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="title: 语句的执行date: 2023&#x2F;05&#x2F;08 10:33:55categories:  - note  - mysql  title: 语句的执行categories:  - note  - mysql 不同的存储引擎共用一个Server 层 连接连接器负责跟客户端建立连接、获取权限、维持和管理连接。 123mysql -h$ip -P$port -u$user">
+<meta property="og:type" content="article">
+<meta property="og:title" content="语句的执行">
+<meta property="og:url" content="http://example.com/2023/05/92bb864f04bd.html">
+<meta property="og:site_name" content="daidai">
+<meta property="og:description" content="title: 语句的执行date: 2023&#x2F;05&#x2F;08 10:33:55categories:  - note  - mysql  title: 语句的执行categories:  - note  - mysql 不同的存储引擎共用一个Server 层 连接连接器负责跟客户端建立连接、获取权限、维持和管理连接。 123mysql -h$ip -P$port -u$user">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/images/mysql/%E8%AF%AD%E5%8F%A5%E7%9A%84%E6%89%A7%E8%A1%8C/image-20230415104706246.png">
+<meta property="article:published_time" content="2023-05-08T02:33:55.000Z">
+<meta property="article:modified_time" content="2023-05-10T03:19:27.053Z">
+<meta property="article:author" content="daidai">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/mysql/%E8%AF%AD%E5%8F%A5%E7%9A%84%E6%89%A7%E8%A1%8C/image-20230415104706246.png">
+  
+    <link rel="alternate" href="/atom.xml" title="daidai" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">daidai</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-mysql/语句的执行" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/05/92bb864f04bd.html" class="article-date">
+  <time class="dt-published" datetime="2023-05-08T02:33:55.000Z" itemprop="datePublished">2023-05-08</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/note/">note</a>►<a class="article-category-link" href="/categories/note/mysql/">mysql</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      语句的执行
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <hr>
+<h2 id="title-语句的执行date-2023-x2F-05-x2F-08-10-33-55categories-note-mysql"><a href="#title-语句的执行date-2023-x2F-05-x2F-08-10-33-55categories-note-mysql" class="headerlink" title="title: 语句的执行date: 2023&#x2F;05&#x2F;08 10:33:55categories:  - note  - mysql "></a>title: 语句的执行<br>date: 2023&#x2F;05&#x2F;08 10:33:55categories:<br>  - note<br>  - mysql </h2><hr>
+<h2 id="title-语句的执行categories-note-mysql"><a href="#title-语句的执行categories-note-mysql" class="headerlink" title="title: 语句的执行categories:  - note  - mysql "></a>title: 语句的执行<br>categories:<br>  - note<br>  - mysql </h2><p>不同的存储引擎共用一个Server 层<br><img src="/../images/mysql/%E8%AF%AD%E5%8F%A5%E7%9A%84%E6%89%A7%E8%A1%8C/image-20230415104706246.png"></p>
+<h1 id="连接"><a href="#连接" class="headerlink" title="连接"></a>连接</h1><p>连接器负责跟客户端建立连接、获取权限、维持和管理连接。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mysql -h$ip -P$port -u$user -p</span><br><span class="line"></span><br><span class="line">show processlist;#查看连接</span><br></pre></td></tr></table></figure>
+
+<p>长连接： 连接成功后，如果客户端持续有请求，则一直使用同一个连接<br>短连接：每次执行完很少的几次查询就断开连接，下次查询再重新建立一个。</p>
+<blockquote>
+<p><strong>但是全部使用长连接后，你可能会发现，有些时候 MySQL 占用内存涨得特别快，这是因为 MySQL 在执行过程中临时使用的内存是管理在连接对象里面的。这些资源会在连接断开的时候才释放。所以如果长连接累积下来，可能导致内存占用太大，被系统强行杀掉（OOM），从现象看就是 MySQL 异常重启了。</strong><br><strong>解决:<br>    - 定期断开长连接；<br>    - mysql_reset_connection 重新初始化连接资源</strong></p>
+</blockquote>
+<h1 id="查询缓存"><a href="#查询缓存" class="headerlink" title="查询缓存"></a>查询缓存</h1><p>查询缓存的失效非常频繁，只要有对一个表的更新，这个表上所有的查询缓存都会被清空。<br>除非你的业务就是有一张<em>静态表</em>，很长时间才会更新一次。比如，一个系统配置表，那这张表上的查询才适合使用查询缓存。</p>
+<h1 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h1><ol>
+<li>词法分析：MySQL 从你输入的”select”这个关键字识别出来，这是一个查询语句。它也要把字符串“T”识别成“表名 T”，把字符串“ID”识别成“列 ID”。</li>
+<li>语法分析</li>
+</ol>
+<h1 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h1><p>优化器是在表里面有多个索引的时候，决定使用哪个索引；或者在一个语句有多表关联（join）的时候，决定各个表的连接顺序。</p>
+<h1 id="执行慢-："><a href="#执行慢-：" class="headerlink" title="执行慢 ："></a>执行慢 ：</h1><p>等MDL锁 metadate lock </p>
+<p>等flush</p>
+<p>等行锁</p>
+<h1 id="查询慢-："><a href="#查询慢-：" class="headerlink" title="查询慢 ："></a>查询慢 ：</h1><p>慢查询日志 set long_query_time &#x3D; 0;</p>
+<p>undo 链太长
+    </p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/05/92bb864f04bd.html" data-id="clhh4tq9p001gwaaigcseh75y" data-title="语句的执行" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2023/05/ff0230f7d61d.html" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          索引
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2023/05/edacd40b856a.html" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">锁</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/note/">note</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/note/backup/">backup</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/">cpp</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/c-11/">c++11</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/class/">class</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/stl/">stl</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/template/">template</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/waining/">waining</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/%E8%AF%AD%E8%A8%80%E7%9B%B8%E5%85%B3/">语言相关</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/go/">go</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/linux/">linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/mysql/">mysql</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/os/">os</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/redis/">redis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/">计网</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E4%BC%A0%E8%BE%93%E5%B1%82/">传输层</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E4%BC%A0%E8%BE%93%E5%B1%82/TCP/">TCP</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E5%BA%94%E7%94%A8%E5%B1%82/">应用层</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E7%BD%91%E7%BB%9C%E5%B1%82/">网络层</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/05/">May 2023</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/05/a2320691ce09.html">token</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/57f7189c85b4.html">Generics</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/20146d42898b.html">channel</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/fa2a1258122b.html">interface</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/18aa578c0caa.html">methods</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 daidai<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

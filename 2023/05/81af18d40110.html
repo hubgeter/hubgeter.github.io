@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Category: note | daidai</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="title: btreedate: 2023&#x2F;05&#x2F;08 10:33:55categories:  - note  - 数据结构与算法  title: btreecategories:  - note  - 数据结构与算法 多叉树 使得节点数量变少，查找过程中访问的节点的数量变少 &#x3D;&gt; 可以用来减少对磁盘的 IO操作 多叉树与B树    1. 多叉树没有约束平">
+<meta property="og:type" content="article">
+<meta property="og:title" content="btree">
+<meta property="og:url" content="http://example.com/2023/05/81af18d40110.html">
+<meta property="og:site_name" content="daidai">
+<meta property="og:description" content="title: btreedate: 2023&#x2F;05&#x2F;08 10:33:55categories:  - note  - 数据结构与算法  title: btreecategories:  - note  - 数据结构与算法 多叉树 使得节点数量变少，查找过程中访问的节点的数量变少 &#x3D;&gt; 可以用来减少对磁盘的 IO操作 多叉树与B树    1. 多叉树没有约束平">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-05-08T02:33:55.000Z">
+<meta property="article:modified_time" content="2023-05-10T03:19:27.053Z">
+<meta property="article:author" content="daidai">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="daidai" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">daidai</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-数据结构与算法/btree" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/05/81af18d40110.html" class="article-date">
+  <time class="dt-published" datetime="2023-05-08T02:33:55.000Z" itemprop="datePublished">2023-05-08</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/note/">note</a>►<a class="article-category-link" href="/categories/note/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      btree
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <hr>
+<h2 id="title-btreedate-2023-x2F-05-x2F-08-10-33-55categories-note-数据结构与算法"><a href="#title-btreedate-2023-x2F-05-x2F-08-10-33-55categories-note-数据结构与算法" class="headerlink" title="title: btreedate: 2023&#x2F;05&#x2F;08 10:33:55categories:  - note  - 数据结构与算法 "></a>title: btree<br>date: 2023&#x2F;05&#x2F;08 10:33:55categories:<br>  - note<br>  - 数据结构与算法 </h2><hr>
+<h2 id="title-btreecategories-note-数据结构与算法"><a href="#title-btreecategories-note-数据结构与算法" class="headerlink" title="title: btreecategories:  - note  - 数据结构与算法 "></a>title: btree<br>categories:<br>  - note<br>  - 数据结构与算法 </h2><p>多叉树 使得节点数量变少，查找过程中访问的节点的数量变少 &#x3D;&gt; 可以用来减少对磁盘的 IO操作</p>
+<p>多叉树与B树<br>    1. 多叉树没有约束平衡<br>    2. 没有约束每个节点子树的数量<br>    3. 数据是有规律的</p>
+<p>一颗m阶Btree，<br>    1. 每个节点至多拥有m棵子树<br>    2. 根节点至少拥有两棵子树<br>    3. 除了根节点以外，其余每个分支结点至少拥有m&#x2F;2棵子树<br>    4. 所有叶子节点在同一层<br>    5. 有k棵子树的分支节点则存在k-1个关键字，按递增顺序进行排序，关键字数量满足ceil(m&#x2F;2)-1&lt;&#x3D; k-1 &lt;&#x3D; m-1</p>
+<p>操作 ：<br>    插入：分裂<br>        1. 找到对应的叶子结点，并且未满，则直接插入<br>        2. 找内部&#x2F;叶子节点已满，内部&#x2F;叶子结点分裂，上浮一个key<br>    删除： 合并<br>        1. 判断相邻子树都是m&#x2F;2-1 : 父节点对应的key下沉进行合并<br>        2. 左&#x2F;右子树大于m&#x2F;2-1 : 借节点</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//btree</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;functional&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="comment">//b树不需要旋转</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="type">int</span> KEY_TYPE;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> <span class="title class_">_btree_node</span> &#123;</span><br><span class="line">    <span class="type">int</span> num;<span class="comment">//存了几个key</span></span><br><span class="line">    KEY_TYPE * keys;<span class="comment">//存放关键字</span></span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">_btree_node</span>** children;<span class="comment">//指针数组</span></span><br><span class="line">    <span class="type">int</span> leaf;<span class="comment">//是否为叶子节点</span></span><br><span class="line">&#125;btree_node;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">btree</span>&#123;</span><br><span class="line">    btree_node * root;</span><br><span class="line">    <span class="type">int</span> t;<span class="comment">//(除了根节点)每个节点包含的关键字数量 t-1 &lt;= num &lt;= 2t-1</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="function">btree_node* <span class="title">btree_create_node</span><span class="params">(<span class="type">int</span> t,<span class="type">int</span> leaf)</span> </span>&#123; <span class="comment">//创建节点 (是不是叶子节点)</span></span><br><span class="line">    btree_node * node = <span class="literal">nullptr</span>;</span><br><span class="line">    <span class="keyword">try</span>&#123;</span><br><span class="line">        node = <span class="keyword">new</span> btree_node;</span><br><span class="line">    &#125; <span class="built_in">catch</span> (...) &#123;</span><br><span class="line">        <span class="built_in">exit</span>(<span class="number">-1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    node-&gt;num = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span>&#123;</span><br><span class="line">        node-&gt;keys = <span class="keyword">new</span> KEY_TYPE[<span class="number">2</span>*t<span class="number">-1</span>];</span><br><span class="line">    &#125;<span class="built_in">catch</span>(...)&#123;</span><br><span class="line">        <span class="built_in">exit</span>(<span class="number">-1</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span>&#123;</span><br><span class="line">        node-&gt;children = <span class="keyword">new</span> btree_node* [<span class="number">2</span>*t];</span><br><span class="line">    &#125;<span class="built_in">catch</span>(...)&#123;</span><br><span class="line">        <span class="built_in">exit</span>(<span class="number">-1</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>;i&lt;<span class="number">2</span>*t;i++)</span><br><span class="line">        node-&gt;children[i] = <span class="literal">nullptr</span>;</span><br><span class="line">    node-&gt;leaf = leaf;</span><br><span class="line">    <span class="keyword">return</span> node;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//void btree_create(btree * T , int t) &#123;</span></span><br><span class="line"><span class="comment">//    btree_node* x= btree_create_node(t,1);</span></span><br><span class="line"><span class="comment">//    T-&gt;root = x;T-&gt;t = t;</span></span><br><span class="line"><span class="comment">//    T-&gt;root-&gt;num = 0;</span></span><br><span class="line"><span class="comment">//&#125;</span></span><br><span class="line"><span class="comment">//插入 -&gt; 分裂</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">btree_split_node</span><span class="params">(btree*T,btree_node* x,<span class="type">int</span> i)</span> </span>&#123; <span class="comment">//分裂x节点的第i个孩子</span></span><br><span class="line">    btree_node* y = x-&gt;children[i];<span class="comment">//要被分裂的节点</span></span><br><span class="line">    btree_node* z = <span class="built_in">btree_create_node</span>(T-&gt;t, y-&gt;leaf); <span class="comment">// z 新节点/节点x新的孩子</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> j =<span class="number">0</span>;j&lt;T-&gt;t<span class="number">-1</span>;j++)</span><br><span class="line">        z-&gt;keys[j] = y-&gt;keys[j+T-&gt;t];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (y-&gt;leaf == <span class="number">0</span> ) <span class="comment">// y 不是叶子节点</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j = <span class="number">0</span>;j&lt;T-&gt;t;j++)</span><br><span class="line">            z-&gt;children[j] = y-&gt;children[j+T-&gt;t];</span><br><span class="line"></span><br><span class="line">    <span class="comment">//x添加新节点z以及新的关键字</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> j = x-&gt;num;j&gt;=i+<span class="number">1</span>;j--)</span><br><span class="line">        x-&gt;children[j+<span class="number">1</span>] = x-&gt;children[j];</span><br><span class="line">    x-&gt;children[i+<span class="number">1</span>] = z;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> j = x-&gt;num<span class="number">-1</span>;j&gt;=i;j--)</span><br><span class="line">        x-&gt;keys[j+<span class="number">1</span>] = x-&gt;keys[j];</span><br><span class="line">    x-&gt;keys[i] = y-&gt;keys[T-&gt;t<span class="number">-1</span>];</span><br><span class="line"></span><br><span class="line">    z-&gt;num = T-&gt;t<span class="number">-1</span>;</span><br><span class="line">    y-&gt;num = T-&gt;t<span class="number">-1</span>;</span><br><span class="line">    x-&gt;num+=<span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">btree_insert_nonfull</span><span class="params">(btree* T,_btree_node* x,KEY_TYPE key)</span> </span>&#123;<span class="comment">//插入数据到非满的节点</span></span><br><span class="line">    <span class="type">int</span> i = x-&gt;num - <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (x-&gt;leaf) &#123; <span class="comment">//插入到叶子节点</span></span><br><span class="line">        <span class="keyword">while</span> (i &gt;= <span class="number">0</span> &amp;&amp; key &lt;  x -&gt; keys[i] )&#123;</span><br><span class="line">            x-&gt;keys[i+<span class="number">1</span>] = x-&gt;keys[i];</span><br><span class="line">            i--;</span><br><span class="line">        &#125;</span><br><span class="line">        x-&gt;keys[i+<span class="number">1</span>] = key;</span><br><span class="line">        x-&gt;num += <span class="number">1</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">while</span>(i &gt;= <span class="number">0</span> &amp;&amp;  key &lt; x-&gt;keys[i] ) i--;</span><br><span class="line">        <span class="keyword">if</span> (x-&gt;children[i+<span class="number">1</span>] -&gt; num == <span class="number">2</span>*T-&gt;t - <span class="number">1</span>) &#123; <span class="comment">//节点是满的 =&gt; 分裂</span></span><br><span class="line">            <span class="built_in">btree_split_node</span>(T,x,i+<span class="number">1</span>);</span><br><span class="line">            <span class="keyword">if</span> (key &gt;= x-&gt; keys[i+<span class="number">1</span>]) i++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">btree_insert_nonfull</span>(T, x-&gt;children[i+<span class="number">1</span>],key);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">btree_insert</span><span class="params">(btree * T, KEY_TYPE key)</span> </span>&#123;</span><br><span class="line">    _btree_node* root = T-&gt;root;</span><br><span class="line">    <span class="keyword">if</span> (root-&gt;num == <span class="number">2</span>*T-&gt;t<span class="number">-1</span>) &#123; <span class="comment">//根节点是满的，分裂根节点</span></span><br><span class="line">        btree_node* node = <span class="built_in">btree_create_node</span>(T-&gt;t,<span class="number">0</span>);</span><br><span class="line">        T-&gt;root = node;</span><br><span class="line">        node-&gt;children[<span class="number">0</span>] = root;</span><br><span class="line">        <span class="built_in">btree_split_node</span>(T, node,<span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line"><span class="comment">//(FIXed)  root -&gt; T-&gt;root</span></span><br><span class="line">    <span class="built_in">btree_insert_nonfull</span>(T, T -&gt; root, key);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function">btree * <span class="title">btree_create</span><span class="params">(<span class="type">int</span> t)</span> </span>&#123;</span><br><span class="line">    btree *T = <span class="literal">nullptr</span>;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        T = <span class="keyword">new</span> btree;</span><br><span class="line">    &#125;<span class="built_in">catch</span> (...)&#123;</span><br><span class="line">        <span class="built_in">exit</span>(<span class="number">-1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    btree_node* x= <span class="built_in">btree_create_node</span>(t,<span class="number">1</span>);</span><br><span class="line">    T-&gt;root = x;T-&gt;t = t;</span><br><span class="line">    T-&gt;root-&gt;num = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">return</span> T;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//删除 -&gt; 合并</span></span><br><span class="line"><span class="comment">//直接在叶子节点处删除</span></span><br><span class="line"><span class="comment">//向兄弟节点借节点</span></span><br><span class="line"><span class="comment">//父节点下沉，节点与兄弟节点进行合并</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">srand</span>(<span class="built_in">time</span>(<span class="literal">NULL</span>));</span><br><span class="line">    <span class="type">int</span> n = <span class="number">2e7</span>,mod = <span class="number">1e7</span>;</span><br><span class="line">    btree *bt  = <span class="built_in">btree_create</span>(<span class="number">1024</span>);</span><br><span class="line"></span><br><span class="line">    vector&lt;<span class="type">int</span>&gt; origin;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n ; i++) &#123;</span><br><span class="line">        <span class="type">int</span> num = <span class="built_in">rand</span>() % mod;</span><br><span class="line">        origin.<span class="built_in">push_back</span>(num);</span><br><span class="line">        <span class="built_in">btree_insert</span>(bt, num);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    vector&lt;<span class="type">int</span>&gt; v;</span><br><span class="line">    function&lt;<span class="type">void</span>(btree_node *)&gt;</span><br><span class="line">    dfs = [&amp;v, &amp;dfs](btree_node *root) &#123;</span><br><span class="line">        <span class="keyword">if</span> (root == <span class="literal">nullptr</span>) <span class="keyword">return</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; root-&gt;num; i++) &#123;</span><br><span class="line">            <span class="built_in">dfs</span>(root-&gt;children[i]);</span><br><span class="line">            v.<span class="built_in">push_back</span>(root-&gt;keys[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">dfs</span>(root-&gt;children[root-&gt;num]);</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="built_in">dfs</span>(bt-&gt;root);</span><br><span class="line"></span><br><span class="line">    cout&lt;&lt;<span class="string">&quot;v.size() = &quot;</span>&lt;&lt;v.<span class="built_in">size</span>()&lt;&lt;endl;</span><br><span class="line">    cout&lt;&lt;<span class="string">&quot;sorted : &quot;</span>&lt;&lt;(<span class="built_in">is_sorted</span>(v.<span class="built_in">begin</span>(),v.<span class="built_in">end</span>())?<span class="string">&quot;YES&quot;</span>:<span class="string">&quot;NO&quot;</span>)&lt;&lt;endl;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">sort</span>(origin.<span class="built_in">begin</span>(), origin.<span class="built_in">end</span>());</span><br><span class="line">    cout&lt;&lt;<span class="string">&quot;origin == v : &quot;</span>&lt;&lt;(origin==v?<span class="string">&quot;YES&quot;</span>:<span class="string">&quot;NO&quot;</span>)&lt;&lt;endl;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    origin.<span class="built_in">erase</span>(<span class="built_in">unique</span>(origin.<span class="built_in">begin</span>(), origin.<span class="built_in">end</span>()), origin.<span class="built_in">end</span>());</span><br><span class="line">    v.<span class="built_in">erase</span>(<span class="built_in">unique</span>(v.<span class="built_in">begin</span>(), v.<span class="built_in">end</span>()), v.<span class="built_in">end</span>());</span><br><span class="line">    cout&lt;&lt;<span class="string">&quot;unique origin.size() = &quot;</span>&lt;&lt;origin.<span class="built_in">size</span>() &lt;&lt; <span class="string">&quot;\n&quot;</span> &lt;&lt; <span class="string">&quot;unqiue v.size() :&quot;</span>&lt;&lt; v.<span class="built_in">size</span>() &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">    cout&lt;&lt;<span class="string">&quot;unique origin == unique v : &quot;</span>&lt;&lt;(origin == v?<span class="string">&quot;YES&quot;</span>:<span class="string">&quot;NO&quot;</span>)&lt;&lt;endl;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>btree 线程安全 ：<br>    1. 锁root<br>     2. 锁子树 ,给父节点加意向锁</p>
+<p>btree 与 b+tree：<br>    b+ tree 所有数据存储到叶子节点<br>    b+tree 所有的叶子节点通过链给链起来</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/05/81af18d40110.html" data-id="clhh4tqax003jwaaidn9u2i31" data-title="btree" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2023/05/7d8219a4efa4.html" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          bloom filter
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2023/05/92f4d3e8dfa5.html" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">hash</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/note/">note</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/note/backup/">backup</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/">cpp</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/c-11/">c++11</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/class/">class</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/stl/">stl</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/template/">template</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/waining/">waining</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/%E8%AF%AD%E8%A8%80%E7%9B%B8%E5%85%B3/">语言相关</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/go/">go</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/linux/">linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/mysql/">mysql</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/os/">os</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/redis/">redis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/">计网</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E4%BC%A0%E8%BE%93%E5%B1%82/">传输层</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E4%BC%A0%E8%BE%93%E5%B1%82/TCP/">TCP</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E5%BA%94%E7%94%A8%E5%B1%82/">应用层</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E7%BD%91%E7%BB%9C%E5%B1%82/">网络层</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/05/">May 2023</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/05/a2320691ce09.html">token</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/57f7189c85b4.html">Generics</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/20146d42898b.html">channel</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/fa2a1258122b.html">interface</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/18aa578c0caa.html">methods</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 daidai<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

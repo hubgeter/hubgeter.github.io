@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Category: note | daidai</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="title: 事务date: 2023&#x2F;05&#x2F;08 10:33:55categories:  - note  - mysql  title: 事务categories:  - note  - mysql set autocommit&#x3D;0，这个命令会将这个线程的自动提交关掉begin&#x2F;start transaction   commit&#x2F;rollb">
+<meta property="og:type" content="article">
+<meta property="og:title" content="事务">
+<meta property="og:url" content="http://example.com/2023/05/4e7d087f487d.html">
+<meta property="og:site_name" content="daidai">
+<meta property="og:description" content="title: 事务date: 2023&#x2F;05&#x2F;08 10:33:55categories:  - note  - mysql  title: 事务categories:  - note  - mysql set autocommit&#x3D;0，这个命令会将这个线程的自动提交关掉begin&#x2F;start transaction   commit&#x2F;rollb">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-05-08T02:33:55.000Z">
+<meta property="article:modified_time" content="2023-05-10T03:19:27.053Z">
+<meta property="article:author" content="daidai">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="daidai" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">daidai</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-mysql/事务" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/05/4e7d087f487d.html" class="article-date">
+  <time class="dt-published" datetime="2023-05-08T02:33:55.000Z" itemprop="datePublished">2023-05-08</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/note/">note</a>►<a class="article-category-link" href="/categories/note/mysql/">mysql</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      事务
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <hr>
+<h2 id="title-事务date-2023-x2F-05-x2F-08-10-33-55categories-note-mysql"><a href="#title-事务date-2023-x2F-05-x2F-08-10-33-55categories-note-mysql" class="headerlink" title="title: 事务date: 2023&#x2F;05&#x2F;08 10:33:55categories:  - note  - mysql "></a>title: 事务<br>date: 2023&#x2F;05&#x2F;08 10:33:55categories:<br>  - note<br>  - mysql </h2><hr>
+<h2 id="title-事务categories-note-mysql"><a href="#title-事务categories-note-mysql" class="headerlink" title="title: 事务categories:  - note  - mysql "></a>title: 事务<br>categories:<br>  - note<br>  - mysql </h2><p>set autocommit&#x3D;0，这个命令会将这个线程的自动提交关掉<br>begin&#x2F;start transaction   commit&#x2F;rollback<br>start transaction with  consistent snapshot;  启动一致性读 新建视图<br>commit work and chain;用于开启一个链式事务，即提交的同时开始一个新的事务</p>
+<h2 id="ACID-特性"><a href="#ACID-特性" class="headerlink" title="ACID 特性"></a>ACID 特性</h2><p>原子性：undo log<br>隔离性：mvcc + 锁<br>持久性：redo log<br>一致性(是指事务操作前和操作后，数据满足完整性约束)：原子性+隔离性+持久性</p>
+<h2 id="隔离级别"><a href="#隔离级别" class="headerlink" title="隔离级别"></a>隔离级别</h2><p>脏读（dirty read）、不可重复读（non-repeatable read）、幻读（phantom read）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show variables like &#x27;transaction_isolation&#x27;;</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>读未提交：一个事务还没提交时，它做的变更就能被别的事务看到。</li>
+<li>读提交：一个事务提交之后，它做的变更才会被其他事务看到。</li>
+<li>可重复读：一个事务执行过程中看到的数据，总是跟这个事务在启动时看到的数据是一致的。当然在可重复读隔离级别下，未提交变更对其他事务也是不可见的。</li>
+<li>串行化，顾名思义是对于同一行记录，“写”会加“写锁”，“读”会加“读锁”。当出现读写锁冲突的时候，后访问的事务必须等前一个事务执行完成，才能继续执行。</li>
+</ol>
+<h2 id="MVCC-：undo-log-快照"><a href="#MVCC-：undo-log-快照" class="headerlink" title="MVCC ：undo log + 快照"></a>MVCC ：undo log + 快照</h2><p>每个事务有一个唯一的事务 ID，叫作 transaction id</p>
+<p>视图   当前事务id，当前事务活跃列表，当前事务活跃列表的最小id，系统应分配的下一个的事务id<br>    在可重复读隔离级别下，只需要在事务开始的时候创建一致性视图，之后事务里的其他查询都共用这个一致性视图；<br>    在读提交隔离级别下，每一个语句执行前都会重新算出一个新的视图。</p>
+<blockquote>
+<p>MVCC  <strong>当没有事务再需要用到这些回滚日志undo log 时</strong>，回滚日志会被删除，当系统里没有比这个回滚日志更早的 read-view 的时候。<br><em>长事务</em>意味着系统里面会存在<strong>很老的事务视图</strong>。由于这些事务随时可能访问数据库里面的任何数据，所以这个事务提交之前，数据库里面它可能用到的<em>回滚记录</em>都必须保留，这就会导致大量占用存储空间。</p>
+</blockquote>
+<p>可以在 information_schema 库的 innodb_trx 这个表中查询长事务</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select  * from information_schema.innodb_trx\G;</span><br></pre></td></tr></table></figure>
+
+<p>begin&#x2F;start transaction 命令并不是一个事务的起点，在执行到它们之后的第一个操作 InnoDB 表的语句，事务才真正启动</p>
+<h2 id="当前读"><a href="#当前读" class="headerlink" title="当前读"></a>当前读</h2><p>通过加锁</p>
+<blockquote>
+<p>更新数据都是先读后写的，而这个读，只能<strong>读当前的值</strong>，称为“当前读”（current read）。</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">update </span><br><span class="line">select * from t where id =1 lock in share mode / for update</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#RR  t(id,k);</span><br><span class="line">A : begin;</span><br><span class="line">B : begin;</span><br><span class="line">A : select * from t;</span><br><span class="line">B : update t set k=k+1 where id=1;commit;</span><br><span class="line">A : update t set k=k+1 where id=1;select * from t;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/05/4e7d087f487d.html" data-id="clhh4tq9n001bwaaigu7yhmij" data-title="事务" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2023/05/a1de879e3501.html" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          主从复制
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2023/05/ff0230f7d61d.html" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">索引</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/note/">note</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/note/backup/">backup</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/">cpp</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/c-11/">c++11</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/class/">class</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/stl/">stl</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/template/">template</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/waining/">waining</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/%E8%AF%AD%E8%A8%80%E7%9B%B8%E5%85%B3/">语言相关</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/go/">go</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/linux/">linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/mysql/">mysql</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/os/">os</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/redis/">redis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/">计网</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E4%BC%A0%E8%BE%93%E5%B1%82/">传输层</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E4%BC%A0%E8%BE%93%E5%B1%82/TCP/">TCP</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E5%BA%94%E7%94%A8%E5%B1%82/">应用层</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E7%BD%91%E7%BB%9C%E5%B1%82/">网络层</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/05/">May 2023</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/05/a2320691ce09.html">token</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/57f7189c85b4.html">Generics</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/20146d42898b.html">channel</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/fa2a1258122b.html">interface</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/18aa578c0caa.html">methods</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 daidai<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

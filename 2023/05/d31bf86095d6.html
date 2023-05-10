@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Category: note | daidai</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="title: 数据结构date: 2023&#x2F;05&#x2F;08 10:33:55categories:  - note  - redis  title: 数据结构categories:  - note  - redis SDS用处用来保存数据库中的字符串值 缓冲区：AOF缓冲区&#x2F; 客户端的输入区 与C对比 常数复杂度获得字符串长度  杜绝缓冲区溢出  进行修改时前检查空间是">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据结构">
+<meta property="og:url" content="http://example.com/2023/05/d31bf86095d6.html">
+<meta property="og:site_name" content="daidai">
+<meta property="og:description" content="title: 数据结构date: 2023&#x2F;05&#x2F;08 10:33:55categories:  - note  - redis  title: 数据结构categories:  - note  - redis SDS用处用来保存数据库中的字符串值 缓冲区：AOF缓冲区&#x2F; 客户端的输入区 与C对比 常数复杂度获得字符串长度  杜绝缓冲区溢出  进行修改时前检查空间是">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-05-08T02:33:55.000Z">
+<meta property="article:modified_time" content="2023-05-10T03:19:27.053Z">
+<meta property="article:author" content="daidai">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="daidai" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">daidai</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-redis/数据结构" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/05/d31bf86095d6.html" class="article-date">
+  <time class="dt-published" datetime="2023-05-08T02:33:55.000Z" itemprop="datePublished">2023-05-08</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/note/">note</a>►<a class="article-category-link" href="/categories/note/redis/">redis</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      数据结构
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <hr>
+<h2 id="title-数据结构date-2023-x2F-05-x2F-08-10-33-55categories-note-redis"><a href="#title-数据结构date-2023-x2F-05-x2F-08-10-33-55categories-note-redis" class="headerlink" title="title: 数据结构date: 2023&#x2F;05&#x2F;08 10:33:55categories:  - note  - redis "></a>title: 数据结构<br>date: 2023&#x2F;05&#x2F;08 10:33:55categories:<br>  - note<br>  - redis </h2><hr>
+<h2 id="title-数据结构categories-note-redis"><a href="#title-数据结构categories-note-redis" class="headerlink" title="title: 数据结构categories:  - note  - redis "></a>title: 数据结构<br>categories:<br>  - note<br>  - redis </h2><h2 id="SDS"><a href="#SDS" class="headerlink" title="SDS"></a>SDS</h2><h3 id="用处"><a href="#用处" class="headerlink" title="用处"></a>用处</h3><p>用来保存数据库中的字符串值</p>
+<p>缓冲区：AOF缓冲区&#x2F; 客户端的输入区</p>
+<h3 id="与C对比"><a href="#与C对比" class="headerlink" title="与C对比"></a>与C对比</h3><ol>
+<li><p>常数复杂度获得字符串长度</p>
+</li>
+<li><p>杜绝缓冲区溢出</p>
+<ul>
+<li>进行修改时前检查空间是否满足需求</li>
+</ul>
+</li>
+<li><p>减少修改字符串带来的空间重分配次数</p>
+<ul>
+<li>空间预分配 ：分配额外的未使用空间</li>
+<li>惰性空间释放：不立即使用内存来回收多出来的字节</li>
+</ul>
+</li>
+<li><p>二进制安全</p>
+</li>
+<li><p>兼容部分C字符串</p>
+</li>
+</ol>
+<h2 id="双向链表"><a href="#双向链表" class="headerlink" title="双向链表"></a>双向链表</h2><ol>
+<li>无环</li>
+<li>带表头&#x2F;尾指针</li>
+<li>带链表长度计数器</li>
+<li>多态：<code>void* </code>保存节点值</li>
+</ol>
+<h2 id="字典"><a href="#字典" class="headerlink" title="字典"></a>字典</h2><p>哈希表底层实现，链地址法解决哈希冲突</p>
+<h3 id="rehash"><a href="#rehash" class="headerlink" title="rehash"></a>rehash</h3><p>当<code>ht[0]</code>包含的所有键值键值对都迁移到<code>ht[1]</code>之后释放<code>ht[0]</code>，将<code>ht[1]</code>设置为<code>ht[0]</code>。</p>
+<h3 id="渐进式rehash"><a href="#渐进式rehash" class="headerlink" title="渐进式rehash"></a>渐进式rehash</h3><p>rehash期间，每次对字典增删改查，除了执行对应的操作外，都会rehashindex(初始化为0)索引上的所有键值对顺带将其移到<code>ht[1]</code>，然后rehashindex加一。</p>
+<p>渐进式rehash期间，删除查找更新都会在两个哈希表上进行。</p>
+<h2 id="跳表"><a href="#跳表" class="headerlink" title="跳表"></a>跳表</h2><p>用于实现有序集合键，在集群节点中用作内部数据结构</p>
+<p>每个节点的层高是1~32的随机数</p>
+<p>跨度：用来计算rank</p>
+<h2 id="整数集合"><a href="#整数集合" class="headerlink" title="整数集合"></a>整数集合</h2><p>数组以有序、无重复的方式保存集合元素。</p>
+<p>插入时，新元素的类型比整数集合现有所有元素的类型都长时，整数集合要先进行升级。</p>
+<p>不支持降级操作。</p>
+<h2 id="压缩列表"><a href="#压缩列表" class="headerlink" title="压缩列表"></a>压缩列表</h2><p>每个列表项要么是小整数，要么长度比较短的字符串</p>
+<p>节点的previous_entry_length记录前一个结点的长度：实现从表尾向表头更新数据</p>
+<p>连锁更新：有多个连续的，长度介于250到253字节之间的节点，插入长度大于254字节的新节点时，需要更新新节点后面的previous_entry_length</p>
+<h2 id="对象"><a href="#对象" class="headerlink" title="对象"></a>对象</h2><h3 id="string-键总是string"><a href="#string-键总是string" class="headerlink" title="string(键总是string)"></a>string(键总是string)</h3><ul>
+<li><p>int</p>
+</li>
+<li><p>raw(sds) ：保存的是字符串，且长度大于39字节</p>
+<p>  raw编码调用两次内存分配函数分别来创建redisobject和sdsstr</p>
+</li>
+<li><p>embstr(只读的)：保存短字符串的优化编码</p>
+<p>  embstr 调用一次内存分配函数来创建一块连续的空间，空间中依次包含redisobject和sdsstr</p>
+</li>
+</ul>
+<h3 id="list"><a href="#list" class="headerlink" title="list"></a>list</h3><ul>
+<li><p>linkedlist</p>
+<p>  双端链表</p>
+</li>
+<li><p>ziplist</p>
+<p>  所有字符串长度小于64字节，元素个数小于512</p>
+</li>
+</ul>
+<h3 id="hash"><a href="#hash" class="headerlink" title="hash"></a>hash</h3><ul>
+<li><p>dict</p>
+</li>
+<li><p>ziplist</p>
+<p>  保存了同一个键值对的两个节点紧挨在一起</p>
+<p>  所有字符串长度小于64字节，元素个数小于512</p>
+</li>
+</ul>
+<h3 id="set"><a href="#set" class="headerlink" title="set"></a>set</h3><ul>
+<li><p>intset</p>
+<p>  所有对象都是整数值，元素个数小于512</p>
+</li>
+<li><p>dict</p>
+</li>
+</ul>
+<h3 id="zset"><a href="#zset" class="headerlink" title="zset"></a>zset</h3><p>member去重；sorce排序</p>
+<ul>
+<li><p>skiplist</p>
+<p>  同时包含一个字典和一个跳表，两种数据结构都会通过指针来共享相同元素的成员和分值</p>
+</li>
+<li><p>ziplist</p>
+</li>
+</ul>
+<h3 id="空转时间：lru-对象最后一次被命令访问的时间"><a href="#空转时间：lru-对象最后一次被命令访问的时间" class="headerlink" title="空转时间：lru:对象最后一次被命令访问的时间"></a>空转时间：lru:对象最后一次被命令访问的时间</h3><p>object idletime 命令不会修改对象的lru属性</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/05/d31bf86095d6.html" data-id="clhh4tqau0039waaie3ctdqtm" data-title="数据结构" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2023/05/a003a244ca47.html" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          场景应用
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2023/05/056ab4471757.html" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">缓存</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/note/">note</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/note/backup/">backup</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/">cpp</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/c-11/">c++11</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/class/">class</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/stl/">stl</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/template/">template</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/waining/">waining</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/%E8%AF%AD%E8%A8%80%E7%9B%B8%E5%85%B3/">语言相关</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/go/">go</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/linux/">linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/mysql/">mysql</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/os/">os</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/redis/">redis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/">计网</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E4%BC%A0%E8%BE%93%E5%B1%82/">传输层</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E4%BC%A0%E8%BE%93%E5%B1%82/TCP/">TCP</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E5%BA%94%E7%94%A8%E5%B1%82/">应用层</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E7%BD%91%E7%BB%9C%E5%B1%82/">网络层</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/05/">May 2023</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/05/a2320691ce09.html">token</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/57f7189c85b4.html">Generics</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/20146d42898b.html">channel</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/fa2a1258122b.html">interface</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/18aa578c0caa.html">methods</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 daidai<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Category: note | daidai</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="title: Sentineldate: 2023&#x2F;05&#x2F;08 10:33:55categories:  - note  - redis  title: Sentinelcategories:  - note  - redis 高可用：主从复制(全量数据同步)+ 哨兵读写分离 sentinel的作用是实现主从节点故障转移它会监测主节点是否存活，如果发现主节点挂了，它就会选举一">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Sentinel">
+<meta property="og:url" content="http://example.com/2023/05/772568ff99b3.html">
+<meta property="og:site_name" content="daidai">
+<meta property="og:description" content="title: Sentineldate: 2023&#x2F;05&#x2F;08 10:33:55categories:  - note  - redis  title: Sentinelcategories:  - note  - redis 高可用：主从复制(全量数据同步)+ 哨兵读写分离 sentinel的作用是实现主从节点故障转移它会监测主节点是否存活，如果发现主节点挂了，它就会选举一">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-05-08T02:33:55.000Z">
+<meta property="article:modified_time" content="2023-05-10T03:19:27.053Z">
+<meta property="article:author" content="daidai">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="daidai" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">daidai</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-redis/Sentinel" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/05/772568ff99b3.html" class="article-date">
+  <time class="dt-published" datetime="2023-05-08T02:33:55.000Z" itemprop="datePublished">2023-05-08</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/note/">note</a>►<a class="article-category-link" href="/categories/note/redis/">redis</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      Sentinel
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <hr>
+<h2 id="title-Sentineldate-2023-x2F-05-x2F-08-10-33-55categories-note-redis"><a href="#title-Sentineldate-2023-x2F-05-x2F-08-10-33-55categories-note-redis" class="headerlink" title="title: Sentineldate: 2023&#x2F;05&#x2F;08 10:33:55categories:  - note  - redis "></a>title: Sentinel<br>date: 2023&#x2F;05&#x2F;08 10:33:55categories:<br>  - note<br>  - redis </h2><hr>
+<h2 id="title-Sentinelcategories-note-redis"><a href="#title-Sentinelcategories-note-redis" class="headerlink" title="title: Sentinelcategories:  - note  - redis "></a>title: Sentinel<br>categories:<br>  - note<br>  - redis </h2><p><strong>高可用：主从复制(全量数据同步)+ 哨兵</strong><br><strong>读写分离</strong></p>
+<p>sentinel的作用是实现主从节点故障转移<br>它会监测主节点是否存活，如果发现主节点挂了，它就会选举一个从节点切换为主节点，并且把新主节点的相关信息通知给从节点和客户端。</p>
+<p>sentinel本质上是一个运行在特殊模式下的redis服务器</p>
+<h2 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h2><h3 id="监控"><a href="#监控" class="headerlink" title="监控"></a>监控</h3><p>命令连接 + 订阅连接<br>每10秒一次，通过命令连接发送INFO，获得服务器信息<br>  主 ： 自身信息+ 从节点信息<br>  从 ： 主的IP , 从的优先级、复制偏移量<br>  通过命令连接向主从发送 <code>publish <strong>sentinel</strong>:hello  sentinel </code>+ 主的信息<br>  —&gt; 一个sentinel 发送的会被用于更新其他sentinel 对sentinel 以及被监视服务器的认知</p>
+<p>  sentinel 之间 ：命令连接 (不需要订阅连接：Sentinel 需要通过接收主&#x2F;从发来的频道信息发现未知的新sentinel  )</p>
+<h3 id="检测下线"><a href="#检测下线" class="headerlink" title="检测下线"></a>检测下线</h3><p>每隔一秒给所有主从+sentinel  节点发送PING，当主从节点收到 PING 命令后，会发送一个响应命令给哨兵，这样就可以判断它们是否在正常运行。<br>从节点没有在规定的时间内响应哨兵的 PING 命令，哨兵就会将它们标记为「主观下线」</p>
+<p>客观下线只适用于主节点。<br>可能只是因为主节点的系统压力比较大或者网络发送了拥塞，导致主节点没有在规定时间内响应哨兵的 PING 命令。为了减少误判<br>一个sentinel 主观下线，会向同样检测该主server的其他sentinel 进行询问，得到足够多的已下线判断之后，sentinel 判定为客观下线 –&gt; 故障转移</p>
+<h3 id="选leader"><a href="#选leader" class="headerlink" title="选leader"></a>选leader</h3><p>先选领头sentinel ，由 leader sentinel 进行转移转移</p>
+<p>选领头sentinel :<br>每个发现主服务器客观下线的sentinel 都要求其他sentinel 将自己设置成局部领头sentinel<br>设置局部领头sentinel 原则 ： 先到先得<br>如果某个sentinel 被半数以上的sentinel 设置成局部领头sentinel ，那么 sentinel 将成为领头sentinel  </p>
+<p>一段时间后，没有领头sentinel ，再次选举，直到选出leader sentinel </p>
+<h3 id="故障转移"><a href="#故障转移" class="headerlink" title="故障转移"></a>故障转移</h3><p>选新主server：<br>    根据优先级、复制偏移量、运行ID选新的主节点<br>将从节点指向新主节点<br>  所有的从服务器去复制新的主服务器<br>  通知客户的主节点已更换<br>  通过订阅&#x2F;发布机制<br>  将旧的主节点变为从服务器</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/05/772568ff99b3.html" data-id="clhh4tqap002uwaai5tuu3xat" data-title="Sentinel" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2023/05/2b5515279dfe.html" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          RDB
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2023/05/54e80baa946a.html" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">tmp</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/note/">note</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/note/backup/">backup</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/">cpp</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/c-11/">c++11</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/class/">class</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/stl/">stl</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/template/">template</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/waining/">waining</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/cpp/%E8%AF%AD%E8%A8%80%E7%9B%B8%E5%85%B3/">语言相关</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/go/">go</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/linux/">linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/mysql/">mysql</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/os/">os</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/redis/">redis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/">计网</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E4%BC%A0%E8%BE%93%E5%B1%82/">传输层</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E4%BC%A0%E8%BE%93%E5%B1%82/TCP/">TCP</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E5%BA%94%E7%94%A8%E5%B1%82/">应用层</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%A1%E7%BD%91/%E7%BD%91%E7%BB%9C%E5%B1%82/">网络层</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/note/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/05/">May 2023</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/05/a2320691ce09.html">token</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/57f7189c85b4.html">Generics</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/20146d42898b.html">channel</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/fa2a1258122b.html">interface</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/18aa578c0caa.html">methods</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 daidai<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
